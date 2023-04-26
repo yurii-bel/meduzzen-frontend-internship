@@ -1,4 +1,6 @@
 import React from "react";
+import Footer from "../Footer";
+import Header from "../Header";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -7,11 +9,9 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
-      {/* Insert your header component here */}
-
+      <Header />
       <main>{children}</main>
-
-      {/* Insert your footer component here */}
+      <Footer />
     </div>
   );
 };
