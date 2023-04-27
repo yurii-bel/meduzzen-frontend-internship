@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "../Components/Input";
 
 interface FormData {
   user_password: string;
@@ -39,7 +40,7 @@ const Registration: React.FC = () => {
         <label htmlFor="user_firstname" className="block font-medium mb-1">
           First Name
         </label>
-        <input
+        <Input
           type="text"
           name="user_firstname"
           id="user_firstname"
@@ -52,7 +53,7 @@ const Registration: React.FC = () => {
         <label htmlFor="user_lastname" className="block font-medium mb-1">
           Last Name
         </label>
-        <input
+        <Input
           type="text"
           name="user_lastname"
           id="user_lastname"
@@ -65,7 +66,7 @@ const Registration: React.FC = () => {
         <label htmlFor="user_email" className="block font-medium mb-1">
           Email
         </label>
-        <input
+        <Input
           type="email"
           name="user_email"
           id="user_email"
@@ -78,7 +79,7 @@ const Registration: React.FC = () => {
         <label htmlFor="user_password" className="block font-medium mb-1">
           Password
         </label>
-        <input
+        <Input
           type="password"
           name="user_password"
           id="user_password"
@@ -94,7 +95,7 @@ const Registration: React.FC = () => {
         >
           Repeat Password
         </label>
-        <input
+        <Input
           type="password"
           name="user_password_repeat"
           id="user_password_repeat"
