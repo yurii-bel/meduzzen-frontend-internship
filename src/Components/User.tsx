@@ -1,4 +1,5 @@
 import React from "react";
+import UserLinksItem from "./UserLinksItem";
 
 interface UserProps {
   user: {
@@ -40,11 +41,7 @@ const User: React.FC<UserProps> = ({ user }) => {
           <h3 className="text-lg font-bold">Links:</h3>
           <ul className="list-disc list-inside">
             {user.result.user_links.map((link, index) => (
-              <li key={index}>
-                <a href={link} className="text-blue-500 hover:underline">
-                  {link}
-                </a>
-              </li>
+              <UserLinksItem link={link} key={index} />
             ))}
           </ul>
         </div>

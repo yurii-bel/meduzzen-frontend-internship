@@ -1,5 +1,5 @@
 import { companies } from "../Data/companiesData";
-import Companies from "../Components/Companies";
+import CompanyItem from "../Components/CompanyItem";
 
 const CompaniesList: React.FC = () => {
   return (
@@ -7,7 +7,9 @@ const CompaniesList: React.FC = () => {
       <h1 className="text-3xl font-bold mb-4 ml-10">Companies List</h1>
       <div className="p-4 flex justify-center">
         <ul>
-          <Companies companies={companies} />
+          {companies.map((company) => (
+            <CompanyItem key={company.id} company={company} />
+          ))}
         </ul>
       </div>
     </section>

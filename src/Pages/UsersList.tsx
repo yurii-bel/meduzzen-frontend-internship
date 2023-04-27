@@ -1,10 +1,12 @@
 import { users } from "../Data/usersData";
-import Users from "../Components/Users";
+import User from "../Components/User";
 
 const UsersList = () => {
   return (
     <section className="flex justify-evenly items-center">
-      <Users users={users} />
+      {users.map((user) => (
+        <User user={user} />
+      ))}
     </section>
   );
 };
