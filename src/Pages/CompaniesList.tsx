@@ -1,14 +1,6 @@
 import { companies } from "../Data/companiesData";
 import Companies from "../Components/Companies";
 
-interface Company {
-  id: number;
-  name: string;
-  industry: string;
-  city: string;
-  state: string;
-}
-
 const CompaniesList: React.FC = () => {
   return (
     <section>
