@@ -14,7 +14,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dotenv": "^0.1.3",
+<<<<<<< HEAD
     "react-redux": "^8.0.5",
+=======
+    "react-router-dom": "^6.10.0",
+>>>>>>> f77166f18fcaf152dbf4ed73254cae85400d431f
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "typescript": "^4.9.5",
