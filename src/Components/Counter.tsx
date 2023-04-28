@@ -1,16 +1,38 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers/index";
+import { Dispatch } from "redux";
+
+// Define your action types
+const INCREMENT = "INCREMENT";
+const DECREMENT = "DECREMENT";
+
+// Define your action creator functions
+const increment = (amount: number) => {
+  return {
+    type: INCREMENT,
+    payload: amount,
+  };
+};
+
+const decrement = (amount: number) => {
+  return {
+    type: DECREMENT,
+    payload: amount,
+  };
+};
+
+type Actions = ReturnType<typeof increment> | ReturnType<typeof decrement>;
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.count);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<Actions>>();
 
   const handleIncrement = () => {
-    dispatch({ type: "INCREMENT" });
+    dispatch(increment(1));
   };
 
   const handleDecrement = () => {
-    dispatch({ type: "DECREMENT" });
+    dispatch(decrement(1));
   };
 
   return (
