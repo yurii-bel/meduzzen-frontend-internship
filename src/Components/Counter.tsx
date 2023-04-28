@@ -2,11 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers/index";
 import { Dispatch } from "redux";
 
-// Define your action types
 const INCREMENT = "INCREMENT";
 const DECREMENT = "DECREMENT";
 
-// Define your action creator functions
 const increment = (amount: number) => {
   return {
     type: INCREMENT,
