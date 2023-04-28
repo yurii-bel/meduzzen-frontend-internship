@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers/index";
+import { RootState } from "../Store/index";
 import { Dispatch } from "redux";
 
 const INCREMENT = "INCREMENT";
