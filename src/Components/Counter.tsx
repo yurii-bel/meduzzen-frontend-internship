@@ -1,36 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Store/index";
 import { Dispatch } from "redux";
-
-const INCREMENT = "INCREMENT";
-const DECREMENT = "DECREMENT";
-
-const increment = (amount: number) => {
-  return {
-    type: INCREMENT,
-    payload: amount,
-  };
-};
-
-const decrement = (amount: number) => {
-  return {
-    type: DECREMENT,
-    payload: amount,
-  };
-};
-
-type Actions = ReturnType<typeof increment> | ReturnType<typeof decrement>;
+import { Actions } from "../Store/counterReducer";
+import { increment, decrement } from "../Store/counterReducer"; // import the functions from counterReducer.ts
 
 const Counter = () => {
   const count = useSelector((state: RootState) => state.counter.count);
   const dispatch = useDispatch<Dispatch<Actions>>();
 
   const handleIncrement = () => {
-    dispatch(increment(1));
+    dispatch(increment(1)); // use the imported increment function
   };
 
   const handleDecrement = () => {
-    dispatch(decrement(1));
+    dispatch(decrement(1)); // use the imported decrement function
   };
 
   return (
