@@ -9,6 +9,7 @@ import UsersList from "./Pages/UsersList";
 import UserProfile from "./Pages/UserProfiel";
 import CompaniesList from "./Pages/CompaniesList";
 import CompanyProfile from "./Pages/CompanyProfile";
+import ErrorPage from "./Pages/ErrorPage";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/companies-list" element={<CompaniesList />} />
             <Route path="/company-profile" element={<CompanyProfile />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>
       </div>

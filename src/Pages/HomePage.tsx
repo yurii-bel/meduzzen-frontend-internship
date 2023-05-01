@@ -1,3 +1,5 @@
+import Counter from "../Components/Counter";
+
 interface Props {
   title: string;
 }
@@ -20,6 +22,7 @@ const HomePage: React.FC<Props> = ({ title }) => {
             odio sollicitudin. Morbi non ullamcorper augue. Sed in dui at quam
             volutpat aliquam.
           </p>
+          <Counter />
         </main>
       </header>
     </>
