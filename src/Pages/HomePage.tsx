@@ -1,10 +1,25 @@
+import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
+import api from "../Api/api";
 
 interface Props {
   title: string;
 }
 
 const HomePage: React.FC<Props> = ({ title }) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api
+      .checkStatus()
+      .then((response) => {
+        setProducts(response.data.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
       <header>
@@ -23,6 +38,20 @@ const HomePage: React.FC<Props> = ({ title }) => {
             volutpat aliquam.
           </p>
           <Counter />
+          <div className="flex flex-col mt-2 mb-16 rounded-md bg-gray-800 text-white">
+            <p className="p-4 text-sm italic text-gray-300">
+              Products fetched via <strong>axios</strong> from
+              https://dummyjson.com/products
+            </p>
+            <div className="p-4 mb-4">
+              {products &&
+                products.map((product: any) => (
+                  <div key={product.id}>
+                    <span>{product.title}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
         </main>
       </header>
     </>
