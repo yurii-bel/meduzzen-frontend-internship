@@ -46,7 +46,7 @@ const Registration: React.FC = () => {
           id="user_firstname"
           value={formData.user_firstname}
           onChange={handleChange}
-          className="w-full border border-gray-400 p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
@@ -59,7 +59,7 @@ const Registration: React.FC = () => {
           id="user_lastname"
           value={formData.user_lastname}
           onChange={handleChange}
-          className="w-full border border-gray-400 p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
@@ -72,7 +72,7 @@ const Registration: React.FC = () => {
           id="user_email"
           value={formData.user_email}
           onChange={handleChange}
-          className="w-full border border-gray-400 p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
@@ -85,7 +85,7 @@ const Registration: React.FC = () => {
           id="user_password"
           value={formData.user_password}
           onChange={handleChange}
-          className="w-full border border-gray-400 p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
@@ -101,7 +101,7 @@ const Registration: React.FC = () => {
           id="user_password_repeat"
           value={formData.user_password_repeat}
           onChange={handleChange}
-          className="w-full border border-gray-400 p-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <button type="submit" className="w-full bg-blue-500" />
