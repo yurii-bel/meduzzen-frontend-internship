@@ -7,13 +7,13 @@ export type User = {
 };
 
 export type UserState = {
-  is_superuser: boolean;
+  is_superuser: false;
   user_avatar: string | null;
   user_city: string | null;
-  user_email: string | null;
-  user_firstname: string | null;
-  user_id: number | null;
-  user_lastname: string | null;
+  user_email: string;
+  user_firstname: string;
+  user_id: number;
+  user_lastname: string;
   user_links: string[] | null;
   user_phone: string | null;
   user_status: string | null;
