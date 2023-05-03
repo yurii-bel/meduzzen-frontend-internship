@@ -7,8 +7,13 @@ import api, { apiInstance } from "../Api/api";
 import { setUser } from "../Store/userReducer";
 import { useAuth0 } from "@auth0/auth0-react";
 
+type LoginForm = {
+  email: string;
+  password: string;
+};
+
 interface AuthenticationProps {
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: LoginForm) => void;
 }
 
 const Authentication: React.FC<AuthenticationProps> = () => {
