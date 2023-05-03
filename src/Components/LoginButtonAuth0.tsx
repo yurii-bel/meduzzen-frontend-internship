@@ -4,8 +4,13 @@ const LoginButtonAuth0: React.FC = () => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const handleAuth0Login = async () => {
-    const accessToken = await getAccessTokenSilently();
-    console.log(accessToken);
+    try {
+      const accessToken = await getAccessTokenSilently();
+      console.log(accessToken);
+      localStorage.setItem("accessToken", accessToken);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

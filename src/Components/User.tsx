@@ -1,19 +1,5 @@
 import React from "react";
-import UserLinksItem from "./UserLinksItem";
-
-interface UserProps {
-  user: {
-    user_id: number;
-    user_firstname: string;
-    user_lastname: string;
-    user_avatar: string;
-    user_email: string;
-    user_city: string;
-    user_phone: string;
-    user_status: string;
-    user_links: string[];
-  };
-}
+import { UserProps } from "../Types/types";
 
 const User: React.FC<UserProps> = ({ user }) => {
   return (

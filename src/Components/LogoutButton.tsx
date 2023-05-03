@@ -10,6 +10,7 @@ const LogoutButton: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.setItem("loggedIn", "no");
     dispatch(logout());
     navigate("/");
   };

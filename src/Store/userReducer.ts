@@ -1,15 +1,4 @@
-interface UserState {
-  is_superuser: boolean;
-  user_avatar: string;
-  user_city: string;
-  user_email: string;
-  user_firstname: string;
-  user_id: number;
-  user_lastname: string;
-  user_links: string[];
-  user_phone: string;
-  user_status: string;
-}
+import { UserState } from "../Types/types";
 
 const initialState: UserState = {
   is_superuser: false,

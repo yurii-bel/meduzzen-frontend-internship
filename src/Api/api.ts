@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { User, Company } from "../Types/types";
 
-const apiInstance: AxiosInstance = axios.create({
+export const apiInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
@@ -36,6 +36,22 @@ const login = (email: string, password: string) => {
   });
 };
 
+const signUp = (
+  password: string,
+  password_re: string,
+  email: string,
+  firstname: string,
+  lastname: string
+) => {
+  return apiInstance.post("/user/", {
+    user_password: password,
+    user_password_repeat: password_re,
+    user_email: email,
+    user_firstname: firstname,
+    user_lastname: lastname,
+  });
+};
+
 const authme = () => {
   return apiInstance.get("/auth/me/");
 };
@@ -47,6 +63,7 @@ const api = {
   getCompany,
   getCompanies,
   login,
+  signUp,
   authme,
 };
 

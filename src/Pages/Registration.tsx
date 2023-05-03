@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import api from "../Api/api";
+import Button from "../Components/Core/Button";
 import Input from "../Components/Input";
 
 interface FormData {
@@ -19,22 +21,41 @@ const initialFormData: FormData = {
 
 const Registration: React.FC = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const {
+    user_password,
+    user_password_repeat,
+    user_email,
+    user_firstname,
+    user_lastname,
+  } = formData;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log(formData);
+    api.signUp(
+      user_password,
+      user_password_repeat,
+      user_email,
+      user_firstname,
+      user_lastname
+    );
+    // try {
+    //   const response = await api.login(formData.email, formData.password);
+    //   const token = response.data.result.access_token;
+    //   localStorage.setItem("accessToken", token);
+    //   await setUserData();
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // navigate("/");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto max-w-md bg-white py-6 px-12 rounded-lg shadow-md"
-    >
+    <form className="mx-auto max-w-md bg-white py-6 px-12 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Registration Form</h1>
       <div className="mb-4">
         <label htmlFor="user_firstname" className="block font-medium mb-1">
@@ -104,7 +125,7 @@ const Registration: React.FC = () => {
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
-      <button type="submit" className="w-full bg-blue-500" />
+      <Button label="SignUp" onClick={handleSignUp} />
     </form>
   );
 };

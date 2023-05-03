@@ -11,7 +11,17 @@ interface Props {
 const HomePage: React.FC<Props> = ({ title }) => {
   const [status, setStatus] = useState("");
 
-  const user = useSelector((state: RootState) => state.user);
+  // const user = useSelector((state: RootState) => state.user);
+
+  // const handleClick = () => {
+  //   console.log("REDUX");
+  //   console.log(user);
+  //   const userData = localStorage.getItem("userData");
+  //   if (userData) {
+  //     console.log(JSON.parse(userData));
+  //     console.log("NE REDUX");
+  //   }
+  // };
 
   useEffect(() => {
     api
@@ -41,6 +51,9 @@ const HomePage: React.FC<Props> = ({ title }) => {
             odio sollicitudin. Morbi non ullamcorper augue. Sed in dui at quam
             volutpat aliquam.
           </p>
+          {/* <button className="border-2 border-black p-2" onClick={handleClick}>
+            Get redux state
+          </button> */}
           <Counter />
           <div className="flex flex-col mt-2 mb-16 rounded-md bg-gray-800 text-white">
             <p className="p-4 text-sm italic text-gray-300">

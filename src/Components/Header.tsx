@@ -56,7 +56,7 @@ const Header: React.FC = () => {
               ))}
         </ul>
         <ul className="flex justify-start items-center gap-4 text-white">
-          {!userLoggedIn ? (
+          {!(localStorage.getItem("loggedIn") === "yes") ? (
             <>
               <Link
                 to="/auth"
