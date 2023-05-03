@@ -8,8 +8,8 @@ const UsersList: React.FC = () => {
     // redirect_to_login()
   }
 
-  const user: any = useSelector((state) => state);
-  console.log(user.user);
+  // const user: any = useSelector((state) => state);
+  // console.log(user.user);
 
   const [users, setUsers] = useState([]);
 
