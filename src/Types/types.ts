@@ -26,3 +26,5 @@ export type Company = {
   city: string;
   state: string;
 };
+
+export type Children = { children: React.ReactNode };

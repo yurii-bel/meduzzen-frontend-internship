@@ -6,7 +6,7 @@ import About from "./Pages/About";
 import Authentication from "./Pages/Authentication";
 import Registration from "./Pages/Registration";
 import UsersList from "./Pages/UsersList";
-import UserProfile from "./Pages/UserProfiel";
+import UserProfile from "./Pages/UserProfile";
 import CompaniesList from "./Pages/CompaniesList";
 import CompanyProfile from "./Pages/CompanyProfile";
 import ErrorPage from "./Pages/ErrorPage";
