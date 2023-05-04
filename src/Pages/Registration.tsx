@@ -3,6 +3,7 @@ import api from "../Api/api";
 import Button from "../Components/Core/Button";
 import Input from "../Components/Input";
 import AuthHeader from "../Components/AuthHeader";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   user_password: string;
@@ -30,6 +31,7 @@ const Registration: React.FC = () => {
     user_lastname,
   } = formData;
 
+  const navigate = useNavigate();
   // Validation
 
   const validateName = (name: string): boolean => {
@@ -62,6 +64,7 @@ const Registration: React.FC = () => {
         user_firstname,
         user_lastname
       );
+      navigate("/auth");
       console.log("Success");
     } catch (error) {
       console.log(error);
