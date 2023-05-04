@@ -16,14 +16,14 @@ const initialState: UserState = {
 const SET_USER = "SET_USER";
 const LOGOUT = "LOGOUT";
 
-interface SetUserAction {
+type SetUserAction = {
   type: typeof SET_USER;
   payload: UserState;
-}
+};
 
-interface LogoutAction {
+type LogoutAction = {
   type: typeof LOGOUT;
-}
+};
 
 export const setUser = (user: UserState): SetUserAction => {
   return {

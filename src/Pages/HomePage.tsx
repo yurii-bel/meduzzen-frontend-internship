@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
-import api from "../Api/api";
+import api, { apiInstance } from "../Api/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Store/userReducer";
 
 interface Props {
   title: string;
@@ -11,17 +14,7 @@ interface Props {
 const HomePage: React.FC<Props> = ({ title }) => {
   const [status, setStatus] = useState("");
 
-  // const user = useSelector((state: RootState) => state.user);
-
-  // const handleClick = () => {
-  //   console.log("REDUX");
-  //   console.log(user);
-  //   const userData = localStorage.getItem("userData");
-  //   if (userData) {
-  //     console.log(JSON.parse(userData));
-  //     console.log("NE REDUX");
-  //   }
-  // };
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api
@@ -33,6 +26,32 @@ const HomePage: React.FC<Props> = ({ title }) => {
         console.log(error);
       });
   }, []);
+
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const setUserData = async () => {
+    apiInstance.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("accessToken")}`;
+    const userData = await apiInstance.get("/auth/me/");
+    dispatch(setUser(userData.data.result));
+  };
+
+  useEffect(() => {
+    const getAccessToken = async () => {
+      if (isAuthenticated) {
+        try {
+          const accessToken = await getAccessTokenSilently();
+          localStorage.setItem("accessToken", accessToken);
+          await setUserData();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    getAccessToken();
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   return (
     <>

@@ -7,7 +7,7 @@ export type User = {
 };
 
 export type UserState = {
-  is_superuser: false;
+  is_superuser: boolean;
   user_avatar: string | null;
   user_city: string | null;
   user_email: string;
