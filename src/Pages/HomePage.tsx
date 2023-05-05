@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
 import api, { apiInstance } from "../Api/api";
-import { useSelector } from "react-redux";
-import { RootState } from "../Store";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Store/userReducer";
@@ -70,9 +68,6 @@ const HomePage: React.FC<Props> = ({ title }) => {
             odio sollicitudin. Morbi non ullamcorper augue. Sed in dui at quam
             volutpat aliquam.
           </p>
-          {/* <button className="border-2 border-black p-2" onClick={handleClick}>
-            Get redux state
-          </button> */}
           <Counter />
           <div className="flex flex-col mt-2 mb-16 rounded-md bg-gray-800 text-white">
             <p className="p-4 text-sm italic text-gray-300">
