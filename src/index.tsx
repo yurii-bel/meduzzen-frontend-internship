@@ -22,7 +22,6 @@ root.render(
       clientId={clientId}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        // redirect_uri: "http://localhost:3000/auth",
         audience: audience,
       }}
     >
