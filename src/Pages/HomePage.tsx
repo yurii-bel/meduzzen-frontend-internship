@@ -1,29 +1,52 @@
 import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
-import api from "../Api/api";
+import api, { apiInstance } from "../Api/api";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Store/userReducer";
+import { setUserData } from "../Utils/setUserData";
 
 interface Props {
   title: string;
 }
 
 const HomePage: React.FC<Props> = ({ title }) => {
-  const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api
       .checkStatus()
       .then((response) => {
-        setProducts(response.data.products);
+        setStatus(response.data.status_code);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    const getAccessToken = async () => {
+      if (isAuthenticated) {
+        try {
+          const accessToken = await getAccessTokenSilently();
+          localStorage.setItem("accessToken", accessToken);
+          await setUserData(dispatch);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    getAccessToken();
+  }, [isAuthenticated, getAccessTokenSilently]);
+
   return (
     <>
       <header>
-        <main className="container mx-auto py-10">
+        <main className="container mx-auto pt-10">
           <h1 className="text-4xl font-bold mb-5">{title}</h1>
           <h2 className="text-2xl font-bold mb-5">Greetings!</h2>
           <p className="text-gray-700 leading-loose">
@@ -40,16 +63,10 @@ const HomePage: React.FC<Props> = ({ title }) => {
           <Counter />
           <div className="flex flex-col mt-2 mb-16 rounded-md bg-gray-800 text-white">
             <p className="p-4 text-sm italic text-gray-300">
-              Products fetched via <strong>axios</strong> from
-              https://dummyjson.com/products
+              Get server status from http://3.75.186.163/
             </p>
             <div className="p-4 mb-4">
-              {products &&
-                products.map((product: any) => (
-                  <div key={product.id}>
-                    <span>{product.title}</span>
-                  </div>
-                ))}
+              Status code: <strong>{JSON.stringify(status)}</strong>
             </div>
           </div>
         </main>

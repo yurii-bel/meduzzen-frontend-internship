@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import HomePage from "./Pages/HomePage";
@@ -6,12 +6,20 @@ import About from "./Pages/About";
 import Authentication from "./Pages/Authentication";
 import Registration from "./Pages/Registration";
 import UsersList from "./Pages/UsersList";
-import UserProfile from "./Pages/UserProfiel";
+import UserProfile from "./Pages/UserProfile";
 import CompaniesList from "./Pages/CompaniesList";
 import CompanyProfile from "./Pages/CompanyProfile";
 import ErrorPage from "./Pages/ErrorPage";
-
+import { setUserData } from "./Utils/setUserData";
+import { useDispatch } from "react-redux";
 const App: React.FC = () => {
+  console.log(localStorage.getItem("accessToken"));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setUserData(dispatch);
+  }, []);
+
   return (
     <Router>
       <div>
