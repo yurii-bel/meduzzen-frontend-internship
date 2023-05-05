@@ -4,6 +4,7 @@ import Button from "../Components/Core/Button";
 import Input from "../Components/Input";
 import AuthHeader from "../Components/AuthHeader";
 import { useNavigate } from "react-router-dom";
+import { validateName, validateEmail, validatePassword } from "../Utils/utils";
 
 type FormData = {
   user_password: string;
@@ -33,21 +34,6 @@ const Registration: React.FC = () => {
 
   const navigate = useNavigate();
   // Validation
-
-  const validateName = (name: string): boolean => {
-    const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-    return nameRegex.test(name);
-  };
-
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password: string): boolean => {
-    const passwordRegex = /^(?=.{6,})/;
-    return passwordRegex.test(password);
-  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

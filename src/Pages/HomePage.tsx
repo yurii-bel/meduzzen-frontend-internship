@@ -4,6 +4,7 @@ import api, { apiInstance } from "../Api/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Store/userReducer";
+import { setUserData } from "../Utils/setUserData";
 
 interface Props {
   title: string;

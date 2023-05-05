@@ -10,29 +10,14 @@ import UserProfile from "./Pages/UserProfile";
 import CompaniesList from "./Pages/CompaniesList";
 import CompanyProfile from "./Pages/CompanyProfile";
 import ErrorPage from "./Pages/ErrorPage";
+import { setUserData } from "./Utils/setUserData";
 import { useDispatch } from "react-redux";
-import { setUser } from "./Store/userReducer";
-import store from "./Store/store";
-import userReducer from "./Store/userReducer";
-import { UserState } from "./Types/types";
-import { useSelector } from "react-redux";
-import { apiInstance } from "./Api/api";
-
 const App: React.FC = () => {
+  console.log(localStorage.getItem("accessToken"));
   const dispatch = useDispatch();
 
-  console.log(localStorage.getItem("accessToken"));
-
-  const setUserData = async () => {
-    apiInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${localStorage.getItem("accessToken")}`;
-    const userData = await apiInstance.get("/auth/me/");
-    dispatch(setUser(userData.data.result));
-  };
-
   useEffect(() => {
-    setUserData();
+    setUserData(dispatch);
   }, []);
 
   return (

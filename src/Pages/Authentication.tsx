@@ -4,12 +4,18 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Components/Core/Button";
 
 import AuthHeader from "../Components/AuthHeader";
-
+import {
+  setAuthorizationHeader,
+  validateEmail,
+  validatePassword,
+} from "../Utils/utils";
 import api, { apiInstance } from "../Api/api";
 import { setUser } from "../Store/userReducer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
+
+import { setUserData } from "../Utils/setUserData";
 
 type LoginForm = {
   email: string;
@@ -22,19 +28,6 @@ interface AuthenticationProps {
 
 const Authentication: React.FC<AuthenticationProps> = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-
-  // Validation
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password: string): boolean => {
-    // Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter, and one number
-    // const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-    const passwordRegex = /^(?=.{6,})/;
-    return passwordRegex.test(password);
-  };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -49,13 +42,12 @@ const Authentication: React.FC<AuthenticationProps> = () => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
 
-  const setUserData = async () => {
-    apiInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${localStorage.getItem("accessToken")}`;
-    const userData = await apiInstance.get("/auth/me/");
-    dispatch(setUser(userData.data.result));
-  };
+  // const setUserData = async () => {
+  //   const accessToken = localStorage.getItem("accessToken");
+  //   accessToken && setAuthorizationHeader(accessToken);
+  //   const userData = await apiInstance.get("/auth/me/");
+  //   dispatch(setUser(userData.data.result));
+  // };
 
   const handleCredsLogin = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -65,7 +57,7 @@ const Authentication: React.FC<AuthenticationProps> = () => {
       const response = await api.login(formData.email, formData.password);
       const token = response.data.result.access_token;
       localStorage.setItem("accessToken", token);
-      await setUserData();
+      await setUserData(dispatch);
     } catch (error) {
       console.log(error);
     }
@@ -77,33 +69,7 @@ const Authentication: React.FC<AuthenticationProps> = () => {
   ) => {
     event.preventDefault();
     await loginWithRedirect();
-    // console.log(isAuthenticated);
-    // if (isAuthenticated) {
-    // const accessToken = await getAccessTokenSilently();
-    // localStorage.setItem("accessToken", accessToken);
-
-    // console.log(isAuthenticated);
-    // console.log(localStorage.getItem("accessToken"));
-    // await setUserData();
-    // navigate("/");
-    // }
   };
-
-  // useEffect(() => {
-  //   const fetchToken = async () => {
-  //     if (isAuthenticated) {
-  //       const accessToken = await getAccessTokenSilently();
-  //       localStorage.setItem("accessToken", accessToken);
-
-  //       // console.log(isAuthenticated);
-  //       // console.log(localStorage.getItem("accessToken"));
-  //       await setUserData();
-  //       navigate("/");
-  //     }
-  //   };
-
-  //   fetchToken();
-  // }, [isAuthenticated]);
 
   return (
     <section>
