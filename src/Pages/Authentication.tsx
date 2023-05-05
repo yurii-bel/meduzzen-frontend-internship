@@ -159,14 +159,7 @@ const Authentication: React.FC<AuthenticationProps> = () => {
             label="Login"
             onClick={handleCredsLogin}
           />
-          <Button
-            disabled={
-              !validateEmail(formData.email) ||
-              (!validatePassword(formData.password) && true)
-            }
-            label="Auth0"
-            onClick={handleAuth0Login}
-          />
+          <Button label="Auth0" onClick={handleAuth0Login} />
         </div>
       </form>
     </section>
