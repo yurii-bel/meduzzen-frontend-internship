@@ -33,7 +33,6 @@ const Registration: React.FC = () => {
   } = formData;
 
   const navigate = useNavigate();
-  // Validation
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

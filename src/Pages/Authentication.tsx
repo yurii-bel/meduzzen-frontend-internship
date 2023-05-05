@@ -4,13 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Components/Core/Button";
 
 import AuthHeader from "../Components/AuthHeader";
-import {
-  setAuthorizationHeader,
-  validateEmail,
-  validatePassword,
-} from "../Utils/utils";
-import api, { apiInstance } from "../Api/api";
-import { setUser } from "../Store/userReducer";
+import { validateEmail, validatePassword } from "../Utils/utils";
+import api from "../Api/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
@@ -41,13 +36,6 @@ const Authentication: React.FC<AuthenticationProps> = () => {
   const dispatch = useDispatch();
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
-
-  // const setUserData = async () => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   accessToken && setAuthorizationHeader(accessToken);
-  //   const userData = await apiInstance.get("/auth/me/");
-  //   dispatch(setUser(userData.data.result));
-  // };
 
   const handleCredsLogin = async (
     event: React.MouseEvent<HTMLButtonElement>

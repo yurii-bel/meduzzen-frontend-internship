@@ -12,7 +12,6 @@ interface Props {
 
 const HomePage: React.FC<Props> = ({ title }) => {
   const [status, setStatus] = useState("");
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,21 +27,13 @@ const HomePage: React.FC<Props> = ({ title }) => {
 
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-  const setUserData = async () => {
-    apiInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${localStorage.getItem("accessToken")}`;
-    const userData = await apiInstance.get("/auth/me/");
-    dispatch(setUser(userData.data.result));
-  };
-
   useEffect(() => {
     const getAccessToken = async () => {
       if (isAuthenticated) {
         try {
           const accessToken = await getAccessTokenSilently();
           localStorage.setItem("accessToken", accessToken);
-          await setUserData();
+          await setUserData(dispatch);
         } catch (error) {
           console.log(error);
         }
