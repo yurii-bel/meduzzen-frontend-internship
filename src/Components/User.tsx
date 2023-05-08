@@ -1,10 +1,22 @@
 import React from "react";
 import { UserProps } from "../Types/types";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const User: React.FC<UserProps> = ({ user }) => {
+  const navigate = useNavigate();
+
+  const handleUserClick = (userId: number) => {
+    navigate(`/user-profile/${userId}`);
+  };
+
   return (
-    <div key={user.user_id}>
-      <div className="border rounded p-4">
+    <Link to={`/user-profile/${user.user_id}`}>
+      <div
+        className="border rounded p-4 hover:bg-purple-50 hover:border-purple-600 hover:cursor-pointer duration-100"
+        key={user.user_id}
+        onClick={() => handleUserClick(user.user_id)}
+      >
         <div className="flex items-center mb-4">
           <img
             className="h-12 w-12 rounded-full mr-4"
@@ -30,7 +42,7 @@ const User: React.FC<UserProps> = ({ user }) => {
           </ul> */}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
