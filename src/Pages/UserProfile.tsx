@@ -1,30 +1,43 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../Api/api";
+import { User } from "../Types/types";
 
-interface UserProfileProps {
-  user_id: number;
-  user_email: string;
-  user_firstname: string;
-  user_lastname: string;
-  user_avatar: string;
-}
-const user: UserProfileProps = {
-  user_id: 1,
-  user_email: "john.doe@example.com",
-  user_firstname: "John",
-  user_lastname: "Doe",
-  user_avatar: "https://via.placeholder.com/150",
-};
 const UserProfile: React.FC = () => {
+  const { id } = useParams();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const userId = parseInt(id || "");
+    if (isNaN(userId)) {
+      return;
+    }
+    api
+      .getUser(userId)
+      .then((response) => {
+        const user = response;
+        setUser(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col items-center justify-center">
       <img
-        src={user.user_avatar}
-        alt={`${user.user_firstname} ${user.user_lastname}`}
+        src={user.data.result.user_avatar || ""}
+        alt={`${user.data.result.user_firstname} ${user.data.result.user_lastname}`}
         className="h-24 w-24 rounded-full mb-4"
       />
-      <h1 className="text-2xl font-bold mb-2">{`${user.user_firstname} ${user.user_lastname}`}</h1>
-      <p className="text-gray-700 mb-2">{user.user_email}</p>
-      <p className="text-gray-700 mb-4">{`User ID: ${user.user_id}`}</p>
+      <h1 className="text-2xl font-bold mb-2">{`${user.data.result.user_firstname} ${user.data.result.user_lastname}`}</h1>
+      <p className="text-gray-700 mb-2">{user.data.result.user_email}</p>
+      <p className="text-gray-700 mb-4">{`User ID: ${user.data.result.user_id}`}</p>
     </div>
   );
 };
