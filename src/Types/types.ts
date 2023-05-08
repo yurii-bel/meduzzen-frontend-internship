@@ -1,22 +1,33 @@
 export type User = {
-  user_id: number;
-  user_email: string;
-  user_firstname: string;
-  user_lastname: string;
-  user_avatar: string;
+  data: {
+    status_code: number;
+    detail: string;
+    result: {
+      user_id: number;
+      user_email: string;
+      user_firstname: string;
+      user_lastname: string;
+      user_avatar?: string | null;
+      user_status?: string | null;
+      user_city?: string | null;
+      user_phone?: string | null;
+      user_links?: string | null;
+      is_superuser: boolean;
+    };
+  };
 };
 
 export type UserState = {
   is_superuser: boolean;
-  user_avatar: string | null;
-  user_city: string | null;
+  user_avatar: string;
+  user_city: string;
   user_email: string;
   user_firstname: string;
   user_id: number;
   user_lastname: string;
-  user_links: string[] | null;
-  user_phone: string | null;
-  user_status: string | null;
+  user_links: string[];
+  user_phone: string;
+  user_status: string;
 };
 
 export type Users = {
