@@ -33,7 +33,7 @@ const App: React.FC = () => {
             <Route path="/auth" element={<Authentication />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/users-list" element={<UsersList />} />
-            <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/companies-list" element={<CompaniesList />} />
             <Route path="/company-profile" element={<CompanyProfile />} />
             <Route path="*" element={<ErrorPage />} />
