@@ -13,8 +13,8 @@ const checkStatus = () => {
   return apiInstance.get("/");
 };
 
-const getUsers = () => {
-  return apiInstance.get("/users");
+const getUsers = (page: number) => {
+  return apiInstance.get(`/users?page=${page}`);
 };
 
 const getUser = (id: number): Promise<User> => {
@@ -28,6 +28,28 @@ const getCompanies = () => {
 const getCompany = (id: number): Promise<Company> => {
   return apiInstance.get(`/company/${id}`);
 };
+
+const deleteUser = (id: number): Promise<User> => {
+  return apiInstance.delete(`/user/${id}`);
+};
+
+const putUpdateInfo = (
+  id: number,
+  user_firstname: string,
+  user_lastname: string,
+  user_city: string,
+  user_phone: string
+): Promise<User> => {
+  return apiInstance.put(`/user/${id}/update-info`, {
+    user_firstname,
+    user_lastname,
+    user_city,
+    user_phone,
+  });
+};
+
+// const putUpdatePassword = (id: number): Promise<User>  => {};
+// const putUpdateAvatar = (id: number): Promise<User>  => {};
 
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
