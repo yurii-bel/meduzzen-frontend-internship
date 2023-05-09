@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { User, Company } from "../Types/types";
+import { User, Company, UserPassword, UserAvatar } from "../Types/types";
 
 export const apiInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -33,23 +33,44 @@ const deleteUser = (id: number): Promise<User> => {
   return apiInstance.delete(`/user/${id}`);
 };
 
+const putUpdatePassword = (
+  id: number,
+  user_password: string,
+  user_password_repeat: string
+): Promise<UserPassword> => {
+  return apiInstance.put(`/user/${id}/update_password`, {
+    user_password,
+    user_password_repeat,
+  });
+};
+
 const putUpdateInfo = (
   id: number,
   user_firstname: string,
   user_lastname: string,
+  user_status: string,
   user_city: string,
   user_phone: string
 ): Promise<User> => {
-  return apiInstance.put(`/user/${id}/update-info`, {
+  return apiInstance.put(`/user/${id}/update_info`, {
     user_firstname,
     user_lastname,
+    user_status,
     user_city,
     user_phone,
   });
 };
 
-// const putUpdatePassword = (id: number): Promise<User>  => {};
-// const putUpdateAvatar = (id: number): Promise<User>  => {};
+const putUpdateAvatar = (
+  id: number,
+  user_avatar: FormData
+): Promise<UserAvatar> => {
+  return apiInstance.put(`/user/${id}/update_avatar/`, user_avatar, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
@@ -84,6 +105,10 @@ const api = {
   getUsers,
   getCompany,
   getCompanies,
+  deleteUser,
+  putUpdatePassword,
+  putUpdateInfo,
+  putUpdateAvatar,
   login,
   signUp,
   authme,
