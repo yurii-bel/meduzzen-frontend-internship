@@ -13,24 +13,26 @@ type NavItem = {
   path: string;
 };
 
-const navItemsUserLoggedIn: NavItem[] = [
-  { title: "Home", path: "/" },
-  { title: "About", path: "/about" },
-  { title: "UsersList", path: "/users-list" },
-  // { title: "Auth", path: "/auth" },
-  // { title: "Registration", path: "/registration" },
-  // { title: "UserProfile", path: "/user-profile" },
-  // { title: "CompaniesList", path: "/companies-list" },
-  // { title: "CompanyProfile", path: "/company-profile" },
-];
-
-const navItemsUserNotLoggedIn: NavItem[] = [
-  { title: "Home", path: "/" },
-  { title: "About", path: "/about" },
-];
-
 const Header: React.FC = () => {
   const userEmail = useSelector((state: RootState) => state.user.user_email);
+  const userId = useSelector((state: RootState) => state.user.user_id);
+
+  const navItemsUserLoggedIn: NavItem[] = [
+    { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+    { title: "Users", path: "/users-list" },
+    // { title: "Auth", path: "/auth" },
+    // { title: "Registration", path: "/registration" },
+    { title: "Profile", path: `/user-profile/${userId}` },
+    { title: "Companies", path: "/companies-list" },
+    // { title: "CompanyProfile", path: "/company-profile" },
+  ];
+
+  const navItemsUserNotLoggedIn: NavItem[] = [
+    { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+  ];
+
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   useEffect(() => {
     userEmail ? setUserLoggedIn(true) : setUserLoggedIn(false);
