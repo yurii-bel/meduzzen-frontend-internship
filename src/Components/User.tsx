@@ -11,7 +11,7 @@ const User: React.FC<UserProps> = ({ user }) => {
             className="h-12 w-12  mr-4 object-cover"
             src={
               user.user_avatar ||
-              "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
             }
             alt="User Avatar"
           />
