@@ -48,6 +48,7 @@ const Authentication: React.FC<AuthenticationProps> = () => {
       await setUserData(dispatch);
     } catch (error) {
       console.log(error);
+      alert("Something went wrong! :( Please, check your email and password.");
     }
     navigate("/");
   };
