@@ -3,10 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../Store";
 import Button from "./Core/Button";
-import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logout as nativeLogout } from "../Store/userReducer";
+import useLogout from "../Utils/handleLogout";
 
 type NavItem = {
   title: string;
@@ -38,16 +35,7 @@ const Header: React.FC = () => {
     userEmail ? setUserLoggedIn(true) : setUserLoggedIn(false);
   }, [userEmail]);
 
-  const { logout } = useAuth0();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    logout({ returnTo: `${window.location.origin}` } as LogoutOptions);
-    dispatch(nativeLogout());
-    navigate("/");
-  };
+  const handleLogout = useLogout();
 
   return (
     <header className="bg-gray-800 mb-4">
