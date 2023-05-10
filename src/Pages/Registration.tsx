@@ -93,7 +93,7 @@ const Registration: React.FC = () => {
           />
           {!validateName(formData.user_lastname) && (
             <p className="text-red-500 text-xs mt-1">
-              Please enter a valid user lasttname.
+              Please enter a valid user lastname.
             </p>
           )}
         </div>
@@ -143,17 +143,7 @@ const Registration: React.FC = () => {
             <p className="text-red-500 text-xs mt-1">Passwords do not match</p>
           )}
         </div>
-        <Button
-          // disabled={
-          //   !validateEmail(formData.user_firstname) ||
-          //   !validateEmail(formData.user_lastname) ||
-          //   !validateEmail(formData.user_email) ||
-          //   !validateEmail(formData.user_password) ||
-          //   (!validateEmail(formData.user_password_repeat) && true)
-          // }
-          label="SignUp"
-          onClick={handleSignUp}
-        />
+        <Button label="SignUp" onClick={handleSignUp} />
       </form>
     </>
   );

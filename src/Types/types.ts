@@ -9,7 +9,7 @@ export type User = {
   user_city: string | null;
   user_phone: string | null;
   user_links: string | null;
-  is_superuser: boolean | false;
+  is_superuser: boolean;
 };
 
 export type UserPassword = {

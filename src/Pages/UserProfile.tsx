@@ -5,8 +5,15 @@ import api from "../Api/api";
 import Button from "../Components/Core/Button";
 import CustomInput from "../Components/Core/CustomInput";
 import Modal from "../Components/Modal/Modal";
-import { User, UserAvatar } from "../Types/types";
+import { User } from "../Types/types";
 import useLogout from "../Utils/handleLogout";
+import { useSelector } from "react-redux";
+import { RootState } from "../Store";
+import {
+  validateCity,
+  validateName,
+  validatePhoneNumber,
+} from "../Utils/utils";
 
 const UserProfile: React.FC = () => {
   const { id } = useParams();
@@ -16,10 +23,12 @@ const UserProfile: React.FC = () => {
   const [passwordRe, setPasswordRe] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [passwordDisabled, setPasswordDisabled] = useState<boolean>(true);
+  const [updateDisabled, setUpdateDisabled] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
 
   const handleLogout = useLogout();
 
+  const loggedUser = useSelector((state: RootState) => state.user);
   // Modal
   const [showModal, setShowModal] = useState(false);
 
@@ -31,13 +40,33 @@ const UserProfile: React.FC = () => {
     setShowModal(true);
   };
 
+  // Validation
+  useEffect(() => {
+    if (user) {
+      if (
+        !validateName(user.user_firstname) ||
+        !validateName(user.user_lastname) ||
+        !validateCity(user.user_city || "") ||
+        !validatePhoneNumber(user.user_phone || "")
+      ) {
+        setUpdateDisabled(true);
+      } else {
+        setUpdateDisabled(false);
+      }
+    }
+  }, [
+    user?.user_firstname,
+    user?.user_lastname,
+    user?.user_city,
+    user?.user_phone,
+  ]);
+
   // Handle events
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (user) {
       setUser({ ...user, [name]: value, user_id: user.user_id });
     }
-    // dispatch(setUser(userData.data.result));
   };
 
   const handleAvatarFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +121,12 @@ const UserProfile: React.FC = () => {
     api.getUser(Number(id)).then((response) => {
       const userAvatar = response.data.result.user_avatar;
       if (user) {
-        setUser({ ...user, user_avatar: user.user_avatar });
+        setUser({ ...user, user_avatar: userAvatar });
+        api.getUser(Number(id)).then((response) => {
+          const user = response;
+          setUser(user.data.result);
+          setInitialUser(user.data.result);
+        });
       }
     });
   };
@@ -128,7 +162,7 @@ const UserProfile: React.FC = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id, user]);
+  }, [id]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -160,12 +194,10 @@ const UserProfile: React.FC = () => {
                     alt="User Avatar"
                   />
                 </div>
-                <div className="ml-6">
-                  <h2 className="text-xl font-bold text-gray-800">
-                    {user.user_firstname}
-                    {user.user_lastname}
+                <div className="text-center">
+                  <h2 className="text-xl font-bold text-purple-700">
+                    {user.user_firstname} {user.user_lastname}
                   </h2>
-                  <p className="text-gray-600">{user.user_city}</p>
                 </div>
               </div>
               <form className="mt-6 space-y-1">
@@ -179,6 +211,11 @@ const UserProfile: React.FC = () => {
                     disabled={disabled}
                     value={user.user_firstname}
                   />
+                  {!validateName(user.user_firstname) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid user firstname.
+                    </p>
+                  )}
                   <CustomInput
                     label="Last Name"
                     type="text"
@@ -188,7 +225,11 @@ const UserProfile: React.FC = () => {
                     disabled={disabled}
                     value={user.user_lastname}
                   />
-
+                  {!validateName(user.user_lastname) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid user lastname.
+                    </p>
+                  )}
                   <CustomInput
                     label="Email Address"
                     type="email"
@@ -208,7 +249,11 @@ const UserProfile: React.FC = () => {
                     disabled={disabled}
                     value={`${user.user_city || ""}`}
                   />
-
+                  {!validateCity(user.user_city || "") && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid city.
+                    </p>
+                  )}
                   <CustomInput
                     label="Is super user?"
                     type="text"
@@ -225,74 +270,107 @@ const UserProfile: React.FC = () => {
                     id="phone"
                     onChange={handleChange}
                     disabled={disabled}
-                    value={`${user.user_phone || "+380"}`}
+                    value={`${user.user_phone || ""}`}
                   />
+                  {!validatePhoneNumber(user.user_phone || "") && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid phone number.
+                    </p>
+                  )}
                 </div>
               </form>
             </div>
           </div>
           <div className="flex flex-col gap-4 mr-36 relative px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            <h3 className="text-xl text-center text-purple-900 font-bold mb-12">
-              Options
-            </h3>
-            <Button label="Delete this user" onClick={handleShowModal} />
-            {disabled ? (
-              <Button
-                label="Change user information"
-                onClick={handleEditUser}
-              />
+            {loggedUser.is_superuser || loggedUser.user_id === user?.user_id ? (
+              <>
+                <h3 className="text-xl text-center text-purple-900 font-bold mb-12">
+                  Options
+                </h3>
+                <Button label="Delete this user" onClick={handleShowModal} />
+                {disabled ? (
+                  <Button
+                    label="Change user information"
+                    onClick={handleEditUser}
+                  />
+                ) : (
+                  <div className="flex justify-center items-center gap-4">
+                    <Button
+                      label="Update user"
+                      disabled={updateDisabled}
+                      onClick={handleUpdateUser}
+                    />
+                    <Button label="Cancel" onClick={handleCancel} />
+                  </div>
+                )}
+                <Button
+                  label="Update password"
+                  disabled={passwordDisabled}
+                  onClick={handleUpdatePassword}
+                />
+
+                <form className="mt-1 space-y-1">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div className="block">
+                      <label
+                        htmlFor="password"
+                        className="text-gray-700 font-bold"
+                      >
+                        New Password
+                      </label>
+                      <input
+                        placeholder="******"
+                        type="password"
+                        name="password"
+                        value={password}
+                        id="password"
+                        onChange={handlePasswordChange}
+                        className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                    </div>
+
+                    <div className="block">
+                      <label
+                        htmlFor="passwordRe"
+                        className="text-gray-700 font-bold"
+                      >
+                        Repeat new password
+                      </label>
+                      <input
+                        placeholder="******"
+                        type="password"
+                        name="passwordRe"
+                        value={passwordRe}
+                        id="passwordRe"
+                        onChange={handleRePasswordChange}
+                        className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      />
+                    </div>
+                  </div>
+                </form>
+                <Button
+                  label="Update user avatar"
+                  onClick={handleUpdateUserAvatar}
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarFile}
+                />
+              </>
             ) : (
-              <div className="flex justify-center items-center gap-4">
-                <Button label="Update user" onClick={handleUpdateUser} />
-                <Button label="Cancel" onClick={handleCancel} />
+              <div className="flex flex-col">
+                <h3 className="text-xl text-center text-purple-900 font-bold mb-4">
+                  Options:
+                </h3>
+                <span className="text-orange-700 font-bold italic!">
+                  You are not allowed to change this profile!
+                </span>
+                <span className="text-orange-700 font-bold italic!">
+                  You must be profile owner or have superuser status!
+                </span>
               </div>
             )}
-            <Button
-              label="Update password"
-              disabled={passwordDisabled}
-              onClick={handleUpdatePassword}
-            />
-
-            <form className="mt-1 space-y-1">
-              <div className="grid grid-cols-1 gap-6">
-                <div className="block">
-                  <label htmlFor="password" className="text-gray-700 font-bold">
-                    New Password
-                  </label>
-                  <input
-                    placeholder="******"
-                    type="password"
-                    name="password"
-                    value={password}
-                    id="password"
-                    onChange={handlePasswordChange}
-                    className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-                <div className="block">
-                  <label
-                    htmlFor="passwordRe"
-                    className="text-gray-700 font-bold"
-                  >
-                    Repeat new password
-                  </label>
-                  <input
-                    placeholder="******"
-                    type="password"
-                    name="passwordRe"
-                    value={passwordRe}
-                    id="passwordRe"
-                    onChange={handleRePasswordChange}
-                    className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-              </div>
-            </form>
-            <Button
-              label="Update user avatar"
-              onClick={handleUpdateUserAvatar}
-            />
-            <input type="file" accept="image/*" onChange={handleAvatarFile} />
           </div>
         </div>
       </div>
