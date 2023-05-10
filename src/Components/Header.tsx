@@ -3,49 +3,36 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../Store";
 import Button from "./Core/Button";
-import { LogoutOptions, useAuth0 } from "@auth0/auth0-react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logout as nativeLogout } from "../Store/userReducer";
+import useLogout from "../Utils/handleLogout";
 
 type NavItem = {
   title: string;
   path: string;
 };
 
-const navItemsUserLoggedIn: NavItem[] = [
-  { title: "Home", path: "/" },
-  { title: "About", path: "/about" },
-  { title: "UsersList", path: "/users-list" },
-  // { title: "Auth", path: "/auth" },
-  // { title: "Registration", path: "/registration" },
-  // { title: "UserProfile", path: "/user-profile" },
-  // { title: "CompaniesList", path: "/companies-list" },
-  // { title: "CompanyProfile", path: "/company-profile" },
-];
-
-const navItemsUserNotLoggedIn: NavItem[] = [
-  { title: "Home", path: "/" },
-  { title: "About", path: "/about" },
-];
-
 const Header: React.FC = () => {
   const userEmail = useSelector((state: RootState) => state.user.user_email);
+  const userId = useSelector((state: RootState) => state.user.user_id);
+
+  const navItemsUserLoggedIn: NavItem[] = [
+    { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+    { title: "Users", path: "/users-list" },
+    { title: "Profile", path: `/user-profile/${userId}` },
+    { title: "Companies", path: "/companies-list" },
+  ];
+
+  const navItemsUserNotLoggedIn: NavItem[] = [
+    { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+  ];
+
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   useEffect(() => {
     userEmail ? setUserLoggedIn(true) : setUserLoggedIn(false);
   }, [userEmail]);
 
-  const { logout } = useAuth0();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    logout({ returnTo: `${window.location.origin}` } as LogoutOptions);
-    dispatch(nativeLogout());
-    navigate("/");
-  };
+  const handleLogout = useLogout();
 
   return (
     <header className="bg-gray-800 mb-4">
