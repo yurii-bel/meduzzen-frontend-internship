@@ -37,6 +37,7 @@ const UserProfile: React.FC = () => {
     if (user) {
       setUser({ ...user, [name]: value, user_id: user.user_id });
     }
+    console.log(user);
     // dispatch(setUser(userData.data.result));
   };
 
@@ -92,7 +93,12 @@ const UserProfile: React.FC = () => {
     api.getUser(Number(id)).then((response) => {
       const userAvatar = response.data.result.user_avatar;
       if (user) {
-        setUser({ ...user, user_avatar: user.user_avatar });
+        setUser({ ...user, user_avatar: userAvatar });
+        api.getUser(Number(id)).then((response) => {
+          const user = response;
+          setUser(user.data.result);
+          setInitialUser(user.data.result);
+        });
       }
     });
   };
@@ -128,7 +134,7 @@ const UserProfile: React.FC = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id, user]);
+  }, [id]);
 
   if (!user) {
     return <div>Loading...</div>;

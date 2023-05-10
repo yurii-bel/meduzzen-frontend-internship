@@ -47,7 +47,7 @@ const UsersList: React.FC = () => {
 
   return (
     <section className="flex flex-col mt-4 mb-24">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 px-12 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 px-12 mb-4">
         {users.map((user, id) => (
           <User user={user} key={id} />
         ))}
