@@ -33,11 +33,6 @@ const User: React.FC<UserProps> = ({ user }) => {
         </div>
         <div className="mb-4">
           <h3 className="text-lg font-bold">Links:</h3>
-          {/* <ul className="list-disc list-inside">
-      {user.user_links.map((link, index) => (
-        <UserLinksItem link={link} key={index} />
-      ))}
-    </ul> */}
         </div>
       </div>
     </Link>
