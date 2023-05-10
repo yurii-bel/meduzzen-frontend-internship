@@ -89,6 +89,12 @@ const UserProfile: React.FC = () => {
 
   const handleUpdateUserAvatar = () => {
     api.putUpdateAvatar(Number(id), avatarFile);
+    api.getUser(Number(id)).then((response) => {
+      const userAvatar = response.data.result.user_avatar;
+      if (user) {
+        setUser({ ...user, user_avatar: user.user_avatar });
+      }
+    });
   };
 
   const handleUpdatePassword = () => {
@@ -122,7 +128,7 @@ const UserProfile: React.FC = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, user]);
 
   if (!user) {
     return <div>Loading...</div>;
