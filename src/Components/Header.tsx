@@ -18,11 +18,8 @@ const Header: React.FC = () => {
     { title: "Home", path: "/" },
     { title: "About", path: "/about" },
     { title: "Users", path: "/users-list" },
-    // { title: "Auth", path: "/auth" },
-    // { title: "Registration", path: "/registration" },
     { title: "Profile", path: `/user-profile/${userId}` },
     { title: "Companies", path: "/companies-list" },
-    // { title: "CompanyProfile", path: "/company-profile" },
   ];
 
   const navItemsUserNotLoggedIn: NavItem[] = [
