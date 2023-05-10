@@ -18,3 +18,13 @@ export const validatePassword = (password: string): boolean => {
   const passwordRegex = /^(?=.{6,})/;
   return passwordRegex.test(password);
 };
+
+export const validateCity = (city: string): boolean => {
+  const cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  return cityRegex.test(city);
+};
+
+export const validatePhoneNumber = (phoneNumber: string): boolean => {
+  const phoneRegex = /^\+?\d{0,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+  return phoneRegex.test(phoneNumber);
+};
