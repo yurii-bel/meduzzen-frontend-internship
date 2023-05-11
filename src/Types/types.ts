@@ -34,19 +34,6 @@ export type UserState = {
   user_status: string;
 };
 
-// export type Users = {
-//   status_code: number;
-//   detail: string;
-//   result: {
-//     users: User[];
-//     pagination: {
-//       current_page: number;
-//       total_page: number;
-//       total_results: number;
-//     };
-//   };
-// };
-
 export type UserProps = {
   user: {
     user_id: number;
@@ -62,11 +49,11 @@ export type UserProps = {
 };
 
 export type Company = {
-  id: number;
-  name: string;
-  industry: string;
-  city: string;
-  state: string;
+  company_id: number;
+  company_name: string;
+  company_title: string;
+  company_avatar: string;
+  is_visible: boolean;
 };
 
 export type Children = { children: React.ReactNode };

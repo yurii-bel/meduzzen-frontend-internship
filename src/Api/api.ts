@@ -21,8 +21,8 @@ const getUser = (id: number): Promise<User> => {
   return apiInstance.get(`/user/${id}`);
 };
 
-const getCompanies = () => {
-  return apiInstance.get("/companies");
+const getCompanies = (page: number) => {
+  return apiInstance.get(`/companies?page=${page}`);
 };
 
 const getCompany = (id: number): Promise<Company> => {
