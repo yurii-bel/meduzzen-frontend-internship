@@ -33,10 +33,6 @@ const CompanyItem: React.FC<CompanyItemProps> = ({ company }) => {
               <span className=" mr-1">ID:</span>
               <span className="text-purple-800"> {company.company_id}</span>
             </p>
-            <p className="text-gray-600 font-bold">
-              <span className=" mr-1">Visibility:</span>
-              <span className="text-purple-800"> {company.is_visible}</span>
-            </p>
           </div>
         </div>
       </div>
