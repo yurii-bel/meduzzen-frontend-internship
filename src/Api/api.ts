@@ -5,6 +5,7 @@ import {
   UserPassword,
   UserAvatar,
   CompanyAvatar,
+  CompanyState,
 } from "../Types/types";
 
 export const apiInstance: AxiosInstance = axios.create({
@@ -31,7 +32,7 @@ const getCompanies = (page: number) => {
   return apiInstance.get(`/companies?page=${page}`);
 };
 
-const getCompany = (id: number): Promise<Company> => {
+const getCompany = (id: number): Promise<CompanyState> => {
   return apiInstance.get(`/company/${id}`);
 };
 
@@ -73,11 +74,11 @@ const putUpdateInfo = (
 
 const putUpdateCompanyInfo = (
   id: number,
-  company_name: "string",
-  company_title: "string",
-  company_description: "string",
-  company_city: "string",
-  company_phone: "string"
+  company_name: string,
+  company_title: string,
+  company_description: string,
+  company_city: string,
+  company_phone: string
 ): Promise<Company> => {
   return apiInstance.put(`/company/${id}/update_info`, {
     company_name,
@@ -141,7 +142,7 @@ const signUp = (
 };
 
 const postCreateCompany = (company_name: string) => {
-  return apiInstance.post("/user/", {
+  return apiInstance.post("/company/", {
     company_name: company_name,
     is_visible: true,
   });

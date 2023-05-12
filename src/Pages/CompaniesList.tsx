@@ -8,6 +8,8 @@ import api from "../Api/api";
 import { setCompanies } from "../Store/companiesListReducer";
 import Button from "../Components/Core/Button";
 import Pagination from "../Components/Pagination";
+import Modal from "../Components/Modal/Modal";
+import CustomInput from "../Components/Core/CustomInput";
 
 const CompaniesList: React.FC = () => {
   const dispath = useDispatch();
@@ -15,6 +17,31 @@ const CompaniesList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const [modalCompanyName, setModalCompanyName] = useState("");
+
+  // Modal
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  // Handle events
+  const handleCompanyNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    setModalCompanyName(value);
+  };
+
+  const handleCreateCompany = () => {
+    api.postCreateCompany(modalCompanyName);
+    handleCloseModal();
+  };
 
   useEffect(() => {
     api.getCompanies(currentPage).then((response) => {
@@ -49,6 +76,26 @@ const CompaniesList: React.FC = () => {
 
   return (
     <section className="flex flex-col mt-4 mb-24">
+      <Modal
+        title="Create company"
+        isOpen={showModal}
+        onClose={handleCloseModal}
+      >
+        <CustomInput
+          label="Company name"
+          type="text"
+          name="company_name"
+          id="companyname"
+          onChange={handleCompanyNameChange}
+          value={modalCompanyName}
+        />
+        <p className="py-4">Are you sure you want to create this company?</p>
+        <Button label="Yes" onClick={handleCreateCompany} />
+      </Modal>
+      <div className="w-36 ml-12 mb-4">
+        <Button label="Create company" onClick={handleShowModal} />
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 px-12 mb-4">
         {companies.map((company, id) => (
           <CompanyItem company={company} key={id} />

@@ -39,6 +39,7 @@ export type UserState = {
 };
 
 export type CompanyState = {
+  data?: any;
   company_id: number;
   company_name: string;
   company_title: string;
