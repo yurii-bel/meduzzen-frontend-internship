@@ -48,7 +48,7 @@ export type CompanyState = {
   company_description: string;
   company_city: string;
   company_phone: string;
-  company_links: [string];
+  company_links: string[];
   company_owner: {
     user_id: 0;
     user_email: string;

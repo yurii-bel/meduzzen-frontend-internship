@@ -20,7 +20,7 @@ const checkStatus = () => {
   return apiInstance.get("/");
 };
 
-const getUsers = (page: number) => {
+const getUsers = (page: number): Promise<User> => {
   return apiInstance.get(`/users?page=${page}`);
 };
 

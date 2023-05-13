@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../Store";
 import { Company } from "../Types/types";
 
 interface CompanyItemProps {
@@ -7,6 +9,7 @@ interface CompanyItemProps {
 
 const CompanyItem: React.FC<CompanyItemProps> = ({ company }) => {
   return (
+    // {loggedUser.user_id === company.owner}
     <Link to={`/company-profile/${company.company_id}`}>
       <div className="border border-gray-300 rounded p-4 hover:bg-purple-50 hover:border-purple-600 hover:cursor-pointer duration-100">
         <div className="flex items-center mb-4">

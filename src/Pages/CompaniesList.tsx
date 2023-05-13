@@ -1,4 +1,3 @@
-import { companies } from "../Data/companiesData";
 import CompanyItem from "../Components/CompanyItem";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";

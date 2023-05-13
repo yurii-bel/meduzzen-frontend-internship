@@ -8,24 +8,31 @@ import Modal from "../Components/Modal/Modal";
 import { Company, CompanyState } from "../Types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
+import {
+  validateCity,
+  validateName,
+  validatePhoneNumber,
+  validateTitle,
+} from "../Utils/utils";
 
 const CompanyProfile: React.FC = () => {
   const { id } = useParams();
   const [company, setCompany] = useState<CompanyState>();
-  const [initialCompany, setInitialCompany] = useState<Company>();
+  const [initialCompany, setInitialCompany] = useState<CompanyState>();
   const [disabled, setDisabled] = useState<boolean>(true);
   const [updateDisabled, setUpdateDisabled] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const navigate = useNavigate();
   // const myCompany = useSelector((state: RootState) => state.company);
   const loggedUser = useSelector((state: RootState) => state.user);
 
-  const testHandle = () => {};
+  // const testHandle = () => {};
 
-  useEffect(() => {
-    console.log(company?.company_title);
-  }, [company]);
+  // useEffect(() => {
+  //   console.log(company?.company_title);
+  // }, [company]);
 
   useEffect(() => {
     const companyId = parseInt(id || "");
@@ -37,6 +44,7 @@ const CompanyProfile: React.FC = () => {
       .then((response) => {
         const company = response;
         setCompany(company.data.result);
+        setInitialCompany(company.data.result);
       })
       .catch((error) => {
         console.log(error);
@@ -59,6 +67,18 @@ const CompanyProfile: React.FC = () => {
   };
 
   // Main info handlers
+
+  const handleVisibilityChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { checked } = event.target;
+    setIsVisible(checked);
+    if (company) {
+      setCompany({ ...company, is_visible: checked });
+      console.log(company);
+    }
+  };
+
   const handleDeleteCompany = () => {
     api.deleteCompany(Number(company?.company_id));
     alert("Company successfully deleted!");
@@ -74,9 +94,41 @@ const CompanyProfile: React.FC = () => {
       company?.company_city ?? "",
       company?.company_phone ?? ""
     );
+    setDisabled(true);
+    setInitialCompany(company);
+  };
+
+  const handleEditCompany = () => {
+    setDisabled(false);
+  };
+
+  const handleCancel = () => {
+    setCompany(initialCompany);
+    setDisabled(true);
   };
 
   // Validation
+  useEffect(() => {
+    if (company) {
+      if (
+        !validateName(company.company_name) ||
+        !validateTitle(company.company_title) ||
+        !validateTitle(company.company_description) ||
+        !validateCity(company.company_city || "") ||
+        !validatePhoneNumber(company.company_phone || "")
+      ) {
+        setUpdateDisabled(true);
+      } else {
+        setUpdateDisabled(false);
+      }
+    }
+  }, [
+    company?.company_name,
+    company?.company_title,
+    company?.company_description,
+    company?.company_city,
+    company?.company_phone,
+  ]);
 
   // Handle events
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,12 +147,20 @@ const CompanyProfile: React.FC = () => {
     }
   };
 
-  // const handleDeleteCompany = () => {
-  //   api.deleteCompany(Number(id));
-  //   if (user?.user_id === Number(id)) {
-  //     handleLogout();
-  //   }
-  // };
+  const handleUpdateCompanyAvatar = async () => {
+    await api.putUpdateAvatarCompany(Number(id), avatarFile);
+    await api.getCompany(Number(id)).then((response) => {
+      const companyAvatar = response.data.result.company_avatar;
+      if (company) {
+        setCompany({ ...company, company_avatar: companyAvatar });
+        api.getCompany(Number(id)).then((response) => {
+          const company = response;
+          setCompany(company.data.result);
+          setInitialCompany(company.data.result);
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -137,6 +197,20 @@ const CompanyProfile: React.FC = () => {
               <form className="mt-6 space-y-1">
                 <div className="grid grid-cols-1 gap-6">
                   <CustomInput
+                    label="Company name"
+                    type="text"
+                    name="company_name"
+                    id="company_name"
+                    onChange={handleChange}
+                    disabled={disabled}
+                    value={`${company?.company_name}`}
+                  />
+                  {!validateName(`${company?.company_name}`) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid company name.
+                    </p>
+                  )}
+                  <CustomInput
                     label="Company title"
                     type="text"
                     name="company_title"
@@ -145,6 +219,11 @@ const CompanyProfile: React.FC = () => {
                     disabled={disabled}
                     value={`${company?.company_title}`}
                   />
+                  {!validateTitle(`${company?.company_title}`) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid company title.
+                    </p>
+                  )}
                   <CustomInput
                     label="Company description"
                     type="text"
@@ -154,6 +233,11 @@ const CompanyProfile: React.FC = () => {
                     disabled={disabled}
                     value={`${company?.company_description}`}
                   />
+                  {!validateTitle(`${company?.company_description}`) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid company description.
+                    </p>
+                  )}
                   <CustomInput
                     label="Company city"
                     type="text"
@@ -163,6 +247,11 @@ const CompanyProfile: React.FC = () => {
                     disabled={disabled}
                     value={`${company?.company_city}`}
                   />
+                  {!validateCity(`${company?.company_city}`) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid company city.
+                    </p>
+                  )}
                   <CustomInput
                     label="Company phone"
                     type="tel"
@@ -172,6 +261,25 @@ const CompanyProfile: React.FC = () => {
                     disabled={disabled}
                     value={`${company?.company_phone}`}
                   />
+                  {!validatePhoneNumber(`${company?.company_phone}`) && (
+                    <p className="text-red-500 text-xs mt-1">
+                      Please enter a valid company phone number.
+                    </p>
+                  )}
+                  {/* <div className="flex justify-start items-center gap-4">
+                    <label className="font-bold" htmlFor="is_visible">
+                      Visibility
+                    </label>
+                    <input
+                      onChange={handleVisibilityChange}
+                      type="checkbox"
+                      id="is_visible"
+                      name="is_visible"
+                      disabled={disabled}
+                      checked={isVisible}
+                      // value={`${company?.is_visible}`}
+                    />
+                  </div> */}
                 </div>
               </form>
               <div className="flex flex-col justify-center items-center p-4 border border-purple-800 rounded-md mt-4 hover:bg-purple-50">
@@ -217,20 +325,23 @@ const CompanyProfile: React.FC = () => {
                 {disabled ? (
                   <Button
                     label="Change company information"
-                    onClick={testHandle}
+                    onClick={handleEditCompany}
                   />
                 ) : (
                   <div className="flex justify-center items-center gap-4">
                     <Button
                       label="Update company"
                       disabled={updateDisabled}
-                      onClick={testHandle}
+                      onClick={handleUpdateCompanyInfo}
                     />
-                    <Button label="Cancel" onClick={testHandle} />
+                    <Button label="Cancel" onClick={handleCancel} />
                   </div>
                 )}
 
-                <Button label="Update company avatar" onClick={testHandle} />
+                <Button
+                  label="Update company avatar"
+                  onClick={handleUpdateCompanyAvatar}
+                />
                 <input
                   type="file"
                   accept="image/*"
