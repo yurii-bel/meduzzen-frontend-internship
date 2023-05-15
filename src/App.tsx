@@ -13,8 +13,10 @@ import ErrorPage from "./Pages/ErrorPage";
 import { setUserData } from "./Utils/setUserData";
 import { useDispatch } from "react-redux";
 import UserCompaniesList from "./Pages/UserCompaniesList";
+import InvitesList from "./Pages/InvitesList";
+import RequestsList from "./Pages/RequestsList";
+import CompanyMembersList from "./Pages/CompanyMembersList";
 const App: React.FC = () => {
-  console.log(localStorage.getItem("accessToken"));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,9 +40,15 @@ const App: React.FC = () => {
             <Route path="/companies-list" element={<CompaniesList />} />
             <Route path="/company-profile/:id" element={<CompanyProfile />} />
             <Route
-              path="/my-companies-list/:id"
+              path="/company-members-list/:id"
+              element={<CompanyMembersList />}
+            />
+            <Route
+              path="/user-companies-list/:id"
               element={<UserCompaniesList />}
             />
+            <Route path="/user-invites-list/:id" element={<InvitesList />} />
+            <Route path="/user-requests-list/:id" element={<RequestsList />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>

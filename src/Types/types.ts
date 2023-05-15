@@ -1,4 +1,5 @@
 export type User = {
+  action?: string;
   data: any;
   user_id: number;
   user_email: string;

@@ -122,6 +122,18 @@ const getUserCompaniesList = (id: number) => {
   return apiInstance.get(`/user/${id}/companies_list/`);
 };
 
+const getUserInvitesList = (id: number) => {
+  return apiInstance.get(`/user/${id}/invites_list/`);
+};
+
+const getUserRequestsList = (id: number) => {
+  return apiInstance.get(`/user/${id}/requests_list/`);
+};
+
+const getCompanyMembersList = (id: number) => {
+  return apiInstance.get(`/company/${id}/members_list/`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -172,6 +184,9 @@ const api = {
   putUpdateVisibleCompany,
   postCreateCompany,
   getUserCompaniesList,
+  getUserInvitesList,
+  getUserRequestsList,
+  getCompanyMembersList,
   login,
   signUp,
   authme,

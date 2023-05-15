@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import { Company } from "../Types/types";
-import MyCompanyItem from "../Components/MyCompanyItem";
+import UserCompanyItem from "../Components/UserCompanyItem";
+import CompanyItem from "../Components/CompanyItem";
 
-const MyCompaniesList: React.FC = () => {
+const UserCompaniesList: React.FC = () => {
   const { id } = useParams();
   const [companiesList, setCompaniesList] = useState<Company[]>([]);
 
@@ -26,15 +27,15 @@ const MyCompaniesList: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center border-2 border-purple-500 gap-4">
-      <h2 className="font-bold text-2xl">My companies</h2>
-      <ul>
+    <div className="flex flex-col justify-center items-center gap-4">
+      <h2 className="font-bold text-2xl">User companies</h2>
+      <ul className="flex flex-col w-screen gap-4">
         {companiesList.map((company) => (
-          <MyCompanyItem key={company.company_id} company={company} />
+          <UserCompanyItem key={company.company_id} company={company} />
         ))}
       </ul>
     </div>
   );
 };
 
-export default MyCompaniesList;
+export default UserCompaniesList;
