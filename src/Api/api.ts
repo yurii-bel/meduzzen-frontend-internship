@@ -118,6 +118,10 @@ const putUpdateAvatar = (
   });
 };
 
+const getUserCompaniesList = (id: number) => {
+  return apiInstance.get(`/user/${id}/companies_list/`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -167,6 +171,7 @@ const api = {
   putUpdateAvatarCompany,
   putUpdateVisibleCompany,
   postCreateCompany,
+  getUserCompaniesList,
   login,
   signUp,
   authme,

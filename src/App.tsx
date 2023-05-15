@@ -12,6 +12,7 @@ import CompanyProfile from "./Pages/CompanyProfile";
 import ErrorPage from "./Pages/ErrorPage";
 import { setUserData } from "./Utils/setUserData";
 import { useDispatch } from "react-redux";
+import UserCompaniesList from "./Pages/UserCompaniesList";
 const App: React.FC = () => {
   console.log(localStorage.getItem("accessToken"));
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const App: React.FC = () => {
             <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/companies-list" element={<CompaniesList />} />
             <Route path="/company-profile/:id" element={<CompanyProfile />} />
+            <Route
+              path="/my-companies-list/:id"
+              element={<UserCompaniesList />}
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>

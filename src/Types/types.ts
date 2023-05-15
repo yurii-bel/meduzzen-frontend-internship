@@ -72,6 +72,24 @@ export type Company = {
   company_title: string;
   company_avatar: string;
   is_visible: boolean;
+  action_id?: number;
+  action?: string;
 };
+
+export type CompaniesListResponse = {
+  status_code: number;
+  detail: string;
+  result: {
+    companies: Company[];
+  };
+};
+
+// export type Company = {
+//   company_id: number;
+//   company_name: string;
+//   company_title: string;
+//   company_avatar: string;
+//   is_visible: boolean;
+// };
 
 export type Children = { children: React.ReactNode };
