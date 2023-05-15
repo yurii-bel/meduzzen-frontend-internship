@@ -49,13 +49,7 @@ export type CompanyState = {
   company_city: string;
   company_phone: string;
   company_links: string[];
-  company_owner: {
-    user_id: 0;
-    user_email: string;
-    user_firstname: string;
-    user_lastname: string;
-    user_avatar: string;
-  };
+  company_owner: UserState;
 };
 
 export type UserProps = {

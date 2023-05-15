@@ -16,6 +16,11 @@ const initialState: CompanyState = {
     user_firstname: "string",
     user_lastname: "string",
     user_avatar: "string",
+    is_superuser: false,
+    user_city: "string",
+    user_links: [],
+    user_phone: "string",
+    user_status: "string",
   },
 };
 

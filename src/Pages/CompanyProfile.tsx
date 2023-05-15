@@ -25,14 +25,7 @@ const CompanyProfile: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  // const myCompany = useSelector((state: RootState) => state.company);
   const loggedUser = useSelector((state: RootState) => state.user);
-
-  // const testHandle = () => {};
-
-  // useEffect(() => {
-  //   console.log(company?.company_title);
-  // }, [company]);
 
   useEffect(() => {
     const companyId = parseInt(id || "");
@@ -50,10 +43,6 @@ const CompanyProfile: React.FC = () => {
         console.log(error);
       });
   }, [id]);
-
-  // if (!company) {
-  //   return <div>Loading...</div>;
-  // }
 
   // Modal
   const [showModal, setShowModal] = useState(false);
@@ -174,7 +163,6 @@ const CompanyProfile: React.FC = () => {
       </Modal>
       <div className="flex justify-center min-h-1/2 py-2sm:py-12 mb-24 ">
         <div className="flex justify-center py-1 gap-4">
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div> */}
           <div className="px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
               <div className="">
@@ -266,20 +254,6 @@ const CompanyProfile: React.FC = () => {
                       Please enter a valid company phone number.
                     </p>
                   )}
-                  {/* <div className="flex justify-start items-center gap-4">
-                    <label className="font-bold" htmlFor="is_visible">
-                      Visibility
-                    </label>
-                    <input
-                      onChange={handleVisibilityChange}
-                      type="checkbox"
-                      id="is_visible"
-                      name="is_visible"
-                      disabled={disabled}
-                      checked={isVisible}
-                      // value={`${company?.is_visible}`}
-                    />
-                  </div> */}
                 </div>
               </form>
               <div className="flex flex-col justify-center items-center p-4 border border-purple-800 rounded-md mt-4 hover:bg-purple-50">
