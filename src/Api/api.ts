@@ -1,5 +1,12 @@
 import axios, { AxiosInstance } from "axios";
-import { User, Company, UserPassword, UserAvatar } from "../Types/types";
+import {
+  User,
+  Company,
+  UserPassword,
+  UserAvatar,
+  CompanyAvatar,
+  CompanyState,
+} from "../Types/types";
 
 export const apiInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -13,7 +20,7 @@ const checkStatus = () => {
   return apiInstance.get("/");
 };
 
-const getUsers = (page: number) => {
+const getUsers = (page: number): Promise<User> => {
   return apiInstance.get(`/users?page=${page}`);
 };
 
@@ -21,16 +28,20 @@ const getUser = (id: number): Promise<User> => {
   return apiInstance.get(`/user/${id}`);
 };
 
-const getCompanies = () => {
-  return apiInstance.get("/companies");
+const getCompanies = (page: number) => {
+  return apiInstance.get(`/companies?page=${page}`);
 };
 
-const getCompany = (id: number): Promise<Company> => {
+const getCompany = (id: number): Promise<CompanyState> => {
   return apiInstance.get(`/company/${id}`);
 };
 
 const deleteUser = (id: number): Promise<User> => {
   return apiInstance.delete(`/user/${id}`);
+};
+
+const deleteCompany = (id: number): Promise<Company> => {
+  return apiInstance.delete(`/company/${id}`);
 };
 
 const putUpdatePassword = (
@@ -58,6 +69,41 @@ const putUpdateInfo = (
     user_status,
     user_city,
     user_phone,
+  });
+};
+
+const putUpdateCompanyInfo = (
+  id: number,
+  company_name: string,
+  company_title: string,
+  company_description: string,
+  company_city: string,
+  company_phone: string
+): Promise<Company> => {
+  return apiInstance.put(`/company/${id}/update_info`, {
+    company_name,
+    company_title,
+    company_description,
+    company_city,
+    company_phone,
+  });
+};
+
+const putUpdateVisibleCompany = (
+  id: number,
+  is_visible: boolean
+): Promise<Company> => {
+  return apiInstance.put(`/company/${id}/update_visible`);
+};
+
+const putUpdateAvatarCompany = (
+  id: number,
+  company_avatar: FormData
+): Promise<CompanyAvatar> => {
+  return apiInstance.put(`/company/${id}/update_avatar/`, company_avatar, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
@@ -95,6 +141,13 @@ const signUp = (
   });
 };
 
+const postCreateCompany = (company_name: string) => {
+  return apiInstance.post("/company/", {
+    company_name: company_name,
+    is_visible: true,
+  });
+};
+
 const authme = () => {
   return apiInstance.get("/auth/me/");
 };
@@ -106,9 +159,14 @@ const api = {
   getCompany,
   getCompanies,
   deleteUser,
+  deleteCompany,
   putUpdatePassword,
   putUpdateInfo,
+  putUpdateCompanyInfo,
   putUpdateAvatar,
+  putUpdateAvatarCompany,
+  putUpdateVisibleCompany,
+  postCreateCompany,
   login,
   signUp,
   authme,

@@ -28,3 +28,8 @@ export const validatePhoneNumber = (phoneNumber: string): boolean => {
   const phoneRegex = /^\+?\d{0,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
   return phoneRegex.test(phoneNumber);
 };
+
+export const validateTitle = (title: string): boolean => {
+  const titleRegex = /^[\w\s\-\.,;:!'"]{1,100}$/;
+  return titleRegex.test(title);
+};

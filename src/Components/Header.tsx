@@ -13,6 +13,7 @@ type NavItem = {
 const Header: React.FC = () => {
   const userEmail = useSelector((state: RootState) => state.user.user_email);
   const userId = useSelector((state: RootState) => state.user.user_id);
+  const companyId = useSelector((state: RootState) => state.company.company_id);
 
   const navItemsUserLoggedIn: NavItem[] = [
     { title: "Home", path: "/" },
@@ -20,6 +21,7 @@ const Header: React.FC = () => {
     { title: "Users", path: "/users-list" },
     { title: "Profile", path: `/user-profile/${userId}` },
     { title: "Companies", path: "/companies-list" },
+    // { title: "CompanyProfile", path: `/company-profile/${companyId}` },
   ];
 
   const navItemsUserNotLoggedIn: NavItem[] = [

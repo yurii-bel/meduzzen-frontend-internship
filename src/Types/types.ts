@@ -18,7 +18,11 @@ export type UserPassword = {
 };
 
 export type UserAvatar = {
-  user_avatar: any;
+  user_avatar: string;
+};
+
+export type CompanyAvatar = {
+  user_avatar: string;
 };
 
 export type UserState = {
@@ -34,18 +38,19 @@ export type UserState = {
   user_status: string;
 };
 
-// export type Users = {
-//   status_code: number;
-//   detail: string;
-//   result: {
-//     users: User[];
-//     pagination: {
-//       current_page: number;
-//       total_page: number;
-//       total_results: number;
-//     };
-//   };
-// };
+export type CompanyState = {
+  data?: any;
+  company_id: number;
+  company_name: string;
+  company_title: string;
+  company_avatar: string;
+  is_visible: boolean;
+  company_description: string;
+  company_city: string;
+  company_phone: string;
+  company_links: string[];
+  company_owner: UserState;
+};
 
 export type UserProps = {
   user: {
@@ -62,11 +67,11 @@ export type UserProps = {
 };
 
 export type Company = {
-  id: number;
-  name: string;
-  industry: string;
-  city: string;
-  state: string;
+  company_id: number;
+  company_name: string;
+  company_title: string;
+  company_avatar: string;
+  is_visible: boolean;
 };
 
 export type Children = { children: React.ReactNode };
