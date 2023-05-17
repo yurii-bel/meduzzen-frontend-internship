@@ -13,9 +13,13 @@ import ErrorPage from "./Pages/ErrorPage";
 import { setUserData } from "./Utils/setUserData";
 import { useDispatch } from "react-redux";
 import UserCompaniesList from "./Pages/UserCompaniesList";
-import InvitesList from "./Pages/InvitesList";
-import RequestsList from "./Pages/RequestsList";
+import UserInvitesList from "./Pages/UserInvitesList";
 import CompanyMembersList from "./Pages/CompanyMembersList";
+import UserRequestsList from "./Pages/UserRequestsList";
+import CompanyRequestsList from "./Pages/CompanyRequestsList";
+import CompanyInvitesList from "./Pages/CompanyInvitesList";
+import UserSendRequest from "./Pages/UserSendRequest";
+import CompanySendInvite from "./Pages/CompanySendInvite";
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -47,8 +51,30 @@ const App: React.FC = () => {
               path="/user-companies-list/:id"
               element={<UserCompaniesList />}
             />
-            <Route path="/user-invites-list/:id" element={<InvitesList />} />
-            <Route path="/user-requests-list/:id" element={<RequestsList />} />
+            <Route
+              path="/user-invites-list/:id"
+              element={<UserInvitesList />}
+            />
+            <Route
+              path="/user-requests-list/:id"
+              element={<UserRequestsList />}
+            />
+            <Route
+              path="/user-send-request/:id"
+              element={<UserSendRequest />}
+            />
+            <Route
+              path="/company-requests-list/:id"
+              element={<CompanyRequestsList />}
+            />
+            <Route
+              path="/company-invites-list/:id"
+              element={<CompanyInvitesList />}
+            />
+            <Route
+              path="/company-send-invite/:id"
+              element={<CompanySendInvite />}
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>
