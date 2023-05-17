@@ -134,6 +134,43 @@ const getCompanyMembersList = (id: number) => {
   return apiInstance.get(`/company/${id}/members_list/`);
 };
 
+const getCompanyInvitesList = (id: number) => {
+  return apiInstance.get(`/company/${id}/invites_list/`);
+};
+
+const getCompanyRequestsList = (id: number) => {
+  return apiInstance.get(`/company/${id}/requests_list/`);
+};
+
+const getActionCreateFromUserToCompany = (id: number) => {
+  return apiInstance.get(`/action/create_from_user/company/${id}`);
+};
+
+const getActionCreateFromCompanyToUser = (
+  company_id: number,
+  user_id: number
+) => {
+  return apiInstance.get(
+    `/action/create_from_company/${company_id}/user/${user_id}`
+  );
+};
+
+const getActionAcceptInvite = (id: number) => {
+  return apiInstance.get(`/action/${id}/accept_invite/`);
+};
+
+const getActionAcceptRequest = (id: number) => {
+  return apiInstance.get(`/action/${id}/accept_request/`);
+};
+
+const getActionDeclineAction = (id: number) => {
+  return apiInstance.get(`/action/${id}/decline_action/`);
+};
+
+const getActionLeaveCompany = (id: number) => {
+  return apiInstance.get(`/action/${id}/leave_company/`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -187,6 +224,14 @@ const api = {
   getUserInvitesList,
   getUserRequestsList,
   getCompanyMembersList,
+  getCompanyInvitesList,
+  getCompanyRequestsList,
+  getActionAcceptInvite,
+  getActionAcceptRequest,
+  getActionDeclineAction,
+  getActionLeaveCompany,
+  getActionCreateFromUserToCompany,
+  getActionCreateFromCompanyToUser,
   login,
   signUp,
   authme,
