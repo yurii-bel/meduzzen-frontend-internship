@@ -5,11 +5,17 @@ import Button from "./Core/Button";
 
 type UserCompanyItemProps = {
   company: Company;
+  handleLeaveCompany: (actionId: number) => void;
 };
 
-const UserCompanyItem: React.FC<UserCompanyItemProps> = ({ company }) => {
-  const handleClick = (e: any) => {
-    console.log(e);
+const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
+  company,
+  handleLeaveCompany,
+}) => {
+  const { id } = useParams();
+
+  const handleLeave = () => {
+    handleLeaveCompany(company.action_id);
   };
 
   return (
@@ -37,8 +43,11 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({ company }) => {
         </div>
       </Link>
       <div>
-        {" "}
-        <Button label="Leave" onClick={handleClick} />
+        {company.action === "owner" ? (
+          ""
+        ) : (
+          <Button label="Leave" onClick={handleLeave} />
+        )}
       </div>
     </div>
   );
