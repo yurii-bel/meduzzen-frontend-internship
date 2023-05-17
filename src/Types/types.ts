@@ -1,5 +1,4 @@
-export type User = {
-  action?: string;
+export type User = UserAction & {
   data: any;
   user_id: number;
   user_email: string;
@@ -11,6 +10,11 @@ export type User = {
   user_phone: string | null;
   user_links: string | null;
   is_superuser: boolean;
+};
+
+export type UserAction = {
+  action?: string;
+  action_id: string;
 };
 
 export type UserPassword = {
@@ -67,7 +71,7 @@ export type UserProps = {
   };
 };
 
-export type Company = {
+export type Company = CompanyAction & {
   company_id: number;
   company_name: string;
   company_title: string;
@@ -75,6 +79,11 @@ export type Company = {
   is_visible: boolean;
   action_id?: number;
   action?: string;
+};
+
+export type CompanyAction = {
+  action: string;
+  action_id: string;
 };
 
 export type CompaniesListResponse = {
