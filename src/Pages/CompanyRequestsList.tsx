@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
-import UserInvitesItem from "../Components/UserInvitesItem";
-import { Company } from "../Types/types";
+import CompanyRequestsItem from "../Components/CompanyRequestsItem";
+import { User } from "../Types/types";
 
-const UserInvitesList: React.FC = () => {
-  const [userInvitesList, setUserInvitesList] = useState<Company[]>([]);
+const CompanyRequestsList: React.FC = () => {
+  const [companyRequestsList, setCompanyRequestsList] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshSignal, setRefreshSignal] = useState("");
 
   const { id } = useParams();
 
-  const fetchUserInvitesList = () => {
+  const fetchCompanyRequestsList = () => {
     setIsLoading(true);
 
     api
-      .getUserInvitesList(Number(id))
+      .getCompanyRequestsList(Number(id))
       .then((response) => {
-        setUserInvitesList(response.data.result.companies);
-        console.log(response.data.result.companies);
+        console.log(response);
+        setCompanyRequestsList(response.data.result.users);
       })
       .catch((error) => {
         console.log(error);
@@ -29,12 +29,12 @@ const UserInvitesList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUserInvitesList();
+    fetchCompanyRequestsList();
   }, [refreshSignal]);
 
-  const handleAcceptInvite = (actionId: string) => {
+  const handleAcceptRequest = (actionId: string) => {
     api
-      .getActionAcceptInvite(Number(actionId))
+      .getActionAcceptRequest(Number(actionId))
       .then(() => {
         setRefreshSignal(Date.now().toString()); // Update the refresh signal to trigger the useEffect
       })
@@ -43,7 +43,7 @@ const UserInvitesList: React.FC = () => {
       });
   };
 
-  const handleDeclineInvite = (actionId: string) => {
+  const handleDeclineRequest = (actionId: string) => {
     api
       .getActionDeclineAction(Number(actionId))
       .then(() => {
@@ -56,18 +56,20 @@ const UserInvitesList: React.FC = () => {
 
   return (
     <div className="m-6">
-      <h3 className="font-bold text-xl mb-4">Invites list from companies</h3>
+      <h3 className="font-bold text-xl mb-4">
+        Requests from users to this company
+      </h3>
       <div className="flex flex-col gap-4">
         {isLoading
           ? "Loading..."
-          : userInvitesList.length === 0
-          ? "No companies"
-          : userInvitesList.map((company) => (
-              <UserInvitesItem
-                key={company.company_id}
-                company={company}
-                onAcceptInvite={handleAcceptInvite}
-                onDeclineInvite={handleDeclineInvite}
+          : companyRequestsList.length === 0
+          ? "No users requests yet "
+          : companyRequestsList.map((user) => (
+              <CompanyRequestsItem
+                key={user.user_id}
+                user={user}
+                onAcceptRequest={handleAcceptRequest}
+                onDeclineRequest={handleDeclineRequest}
               />
             ))}
       </div>
@@ -75,4 +77,4 @@ const UserInvitesList: React.FC = () => {
   );
 };
 
-export default UserInvitesList;
+export default CompanyRequestsList;

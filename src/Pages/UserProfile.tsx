@@ -392,7 +392,10 @@ const UserProfile: React.FC = () => {
           </li>
           <hr />
           <li>
-            <Link to="/send-request" className="hover:text-purple-900">
+            <Link
+              to={`/user-send-request/${id}`}
+              className="hover:text-purple-900"
+            >
               Send request
             </Link>
           </li>

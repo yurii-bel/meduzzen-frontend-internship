@@ -340,35 +340,44 @@ const CompanyProfile: React.FC = () => {
             </Link>
           </li>
           <hr />
-          <li>
-            <Link
-              to={`/user-invites-list/${id}`}
-              className="hover:text-purple-900"
-            >
-              Requests
-            </Link>
-          </li>
-          <hr />
-          <li>
-            <Link
-              to={`/user-requests-list/${id}`}
-              className="hover:text-purple-900"
-            >
-              Invites
-            </Link>
-          </li>
-          <hr />
-          <li>
-            <Link to="/send-request" className="hover:text-purple-900">
-              Send invite
-            </Link>
-          </li>
-          <hr />
-          <li>
-            <Link to="/send-request" className="hover:text-purple-900">
-              Blocked
-            </Link>
-          </li>
+          {loggedUser.user_id === company?.company_owner.user_id ? (
+            <>
+              <li>
+                <Link
+                  to={`/company-requests-list/${id}`}
+                  className="hover:text-purple-900"
+                >
+                  Requests
+                </Link>
+              </li>
+              <hr />
+              <li>
+                <Link
+                  to={`/company-invites-list/${id}`}
+                  className="hover:text-purple-900"
+                >
+                  Invites
+                </Link>
+              </li>
+              <hr />
+              <li>
+                <Link
+                  to={`/company-send-invite/${id}`}
+                  className="hover:text-purple-900"
+                >
+                  Send invite
+                </Link>
+              </li>
+              <hr />
+              <li>
+                <Link to="/blocked" className="hover:text-purple-900">
+                  Blocked
+                </Link>
+              </li>
+            </>
+          ) : (
+            ""
+          )}
         </ul>
       </div>
     </div>

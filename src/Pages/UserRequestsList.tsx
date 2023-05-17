@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
-import UserInvitesItem from "../Components/UserInvitesItem";
+import UserRequestsItem from "../Components/UserRequestsItem";
 import { Company } from "../Types/types";
 
-const UserInvitesList: React.FC = () => {
-  const [userInvitesList, setUserInvitesList] = useState<Company[]>([]);
+const UserRequestsList: React.FC = () => {
+  const [userRequestsList, setUserRequestsList] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshSignal, setRefreshSignal] = useState("");
 
   const { id } = useParams();
 
-  const fetchUserInvitesList = () => {
+  const fetchUserRequestsList = () => {
     setIsLoading(true);
 
     api
-      .getUserInvitesList(Number(id))
+      .getUserRequestsList(Number(id))
       .then((response) => {
-        setUserInvitesList(response.data.result.companies);
+        setUserRequestsList(response.data.result.companies);
         console.log(response.data.result.companies);
       })
       .catch((error) => {
@@ -29,21 +29,10 @@ const UserInvitesList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUserInvitesList();
+    fetchUserRequestsList();
   }, [refreshSignal]);
 
-  const handleAcceptInvite = (actionId: string) => {
-    api
-      .getActionAcceptInvite(Number(actionId))
-      .then(() => {
-        setRefreshSignal(Date.now().toString()); // Update the refresh signal to trigger the useEffect
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleDeclineInvite = (actionId: string) => {
+  const handleCancelRequest = (actionId: string) => {
     api
       .getActionDeclineAction(Number(actionId))
       .then(() => {
@@ -56,18 +45,19 @@ const UserInvitesList: React.FC = () => {
 
   return (
     <div className="m-6">
-      <h3 className="font-bold text-xl mb-4">Invites list from companies</h3>
+      <h3 className="font-bold text-xl mb-4">
+        Requests list from user to companies
+      </h3>
       <div className="flex flex-col gap-4">
         {isLoading
           ? "Loading..."
-          : userInvitesList.length === 0
+          : userRequestsList.length === 0
           ? "No companies"
-          : userInvitesList.map((company) => (
-              <UserInvitesItem
+          : userRequestsList.map((company) => (
+              <UserRequestsItem
                 key={company.company_id}
                 company={company}
-                onAcceptInvite={handleAcceptInvite}
-                onDeclineInvite={handleDeclineInvite}
+                onCancelRequest={handleCancelRequest}
               />
             ))}
       </div>
@@ -75,4 +65,4 @@ const UserInvitesList: React.FC = () => {
   );
 };
 
-export default UserInvitesList;
+export default UserRequestsList;

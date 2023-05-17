@@ -1,31 +1,77 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
+import CompanyMembersItem from "../Components/CompanyMembersItem";
+import Spinner from "../Components/Core/Spinner";
+import { RootState } from "../Store";
 import { User } from "../Types/types";
 
 const CompanyMembersList: React.FC = () => {
   const { id } = useParams();
 
   const [companyMembersList, setCompanyMembersList] = useState<User[]>([]);
+  const [enableActions, setEnableActions] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Added loading state
+
+  const user = useSelector((state: RootState) => state.user);
+
+  const handleExpelUserFromCompany = async (actionId: number) => {
+    try {
+      await api.getActionLeaveCompany(actionId);
+      const updatedCompaniesList = companyMembersList.filter(
+        (company) => Number(company.action_id) !== actionId
+      );
+      setCompanyMembersList(updatedCompaniesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    api.getCompanyMembersList(Number(id)).then((response) => {
-      setCompanyMembersList(response.data.result.users);
-    });
-  }, []);
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      try {
+        const companyMembersResponse = await api.getCompanyMembersList(
+          Number(id)
+        );
+        setCompanyMembersList(companyMembersResponse.data.result.users);
+
+        const userCompaniesResponse = await api.getUserCompaniesList(
+          Number(user.user_id)
+        );
+        const companies = userCompaniesResponse.data.result.companies;
+        const isUserCompanyOwner = companies.some(
+          (company: { company_id: number; action: string }) =>
+            company.company_id === Number(id) && company.action === "owner"
+        );
+        setEnableActions(isUserCompanyOwner);
+      } catch (error) {
+        console.log(error);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [id, user.user_id]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
-    <div>
-      <h3>Company MembersList</h3>
+    <div className="m-6">
+      <h3 className="font-bold text-xl mb-4">Company MembersList</h3>
       <div className="flex flex-col gap-4">
         {companyMembersList?.map((member) => (
-          <div
-            className="flex flex-col p-2 border-2 border-purple-200"
+          <CompanyMembersItem
             key={member.user_id}
-          >
-            <div>{member.user_firstname}</div>
-            <div>{member.action}</div>
-          </div>
+            member={member}
+            enableActions={enableActions}
+            handleExpelUserFromCompany={handleExpelUserFromCompany}
+          />
         ))}
       </div>
     </div>
