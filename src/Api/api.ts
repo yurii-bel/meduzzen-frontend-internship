@@ -171,6 +171,22 @@ const getActionLeaveCompany = (id: number) => {
   return apiInstance.get(`/action/${id}/leave_company/`);
 };
 
+const getActionAddToAdmin = (id: number) => {
+  return apiInstance.get(`/action/${id}/add_to_admin/`);
+};
+
+const getActionRemoveFromAdmin = (id: number) => {
+  return apiInstance.get(`/action/${id}/remove_from_admin/`);
+};
+
+const getActionAddToBlock = (id: number) => {
+  return apiInstance.get(`/action/${id}/add_to_block/`);
+};
+
+const getActionRemoveFromBlock = (id: number) => {
+  return apiInstance.get(`/action/${id}/remove_from_block/`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -232,6 +248,10 @@ const api = {
   getActionLeaveCompany,
   getActionCreateFromUserToCompany,
   getActionCreateFromCompanyToUser,
+  getActionAddToAdmin,
+  getActionRemoveFromAdmin,
+  getActionAddToBlock,
+  getActionRemoveFromBlock,
   login,
   signUp,
   authme,

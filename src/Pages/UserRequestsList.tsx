@@ -36,7 +36,10 @@ const UserRequestsList: React.FC = () => {
     api
       .getActionDeclineAction(Number(actionId))
       .then(() => {
-        setRefreshSignal(Date.now().toString());
+        // Remove the cancelled item from the userRequestsList
+        setUserRequestsList((prevList) =>
+          prevList.filter((company) => company.action_id !== actionId)
+        );
       })
       .catch((error) => {
         console.log(error);

@@ -23,9 +23,20 @@ const CompanyProfile: React.FC = () => {
   const [updateDisabled, setUpdateDisabled] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
   const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const loggedUser = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    api.getCompanyMembersList(Number(id)).then((response) => {
+      for (let user of response.data.result.users) {
+        if (user.user_id === loggedUser.user_id && user.action === "admin") {
+          setIsUserAdmin(true);
+        }
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const companyId = parseInt(id || "");
@@ -340,7 +351,8 @@ const CompanyProfile: React.FC = () => {
             </Link>
           </li>
           <hr />
-          {loggedUser.user_id === company?.company_owner.user_id ? (
+          {loggedUser.user_id === company?.company_owner.user_id ||
+          isUserAdmin ? (
             <>
               <li>
                 <Link

@@ -10,16 +10,27 @@ type CompanyMembersItemProps = {
   member: User;
   enableActions: boolean;
   handleExpelUserFromCompany: (actionId: number) => void;
+  handleMakeUserAdminFromCompany: (actionId: number) => void;
+  handleMakeAdminUserFromCompany: (actionId: number) => void;
 };
 
 const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
   member,
   enableActions,
   handleExpelUserFromCompany,
+  handleMakeUserAdminFromCompany,
+  handleMakeAdminUserFromCompany,
 }) => {
   const { id } = useParams();
 
-  const handleMakeUserAdmin = () => {};
+  const handleMakeUserAdmin = () => {
+    handleMakeUserAdminFromCompany(Number(member.action_id));
+  };
+
+  const handleMakeAdminUser = () => {
+    handleMakeAdminUserFromCompany(Number(member.action_id));
+  };
+
   const handleBlockUser = () => {};
   const handleExpelUser = () => {
     handleExpelUserFromCompany(Number(member.action_id));
@@ -56,23 +67,45 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
         </div>
         <div
           className={`text-sm font-bold ${
-            member.action !== "owner" ? "text-green-500" : "text-red-500"
+            member.action === "owner"
+              ? "text-red-500"
+              : member.action === "admin"
+              ? "text-purple-500"
+              : "text-green-500"
           } `}
         >
           {member.action}
         </div>
       </div>
-      {enableActions && member.action !== "owner" && (
-        <div className="flex justify-center items-center gap-4">
-          <ActionButton
-            label="Make an admin"
-            onClick={handleMakeUserAdmin}
-            color="blue"
-          />
-          <ActionButton label="Block" onClick={handleBlockUser} color="gray" />
-          <ActionButton label="Expel" onClick={handleExpelUser} color="red" />
-        </div>
-      )}
+      {enableActions &&
+        (member.action === "member" || member.action === "admin") && (
+          <div className="flex justify-center items-center gap-4">
+            {member.action === "admin" ? (
+              <>
+                <ActionButton
+                  label="Make a user"
+                  onClick={handleMakeAdminUser}
+                  color="gray"
+                />
+              </>
+            ) : (
+              <>
+                <ActionButton
+                  label="Make an admin"
+                  onClick={handleMakeUserAdmin}
+                  color="blue"
+                />
+                <ActionButton
+                  label="Block"
+                  onClick={handleBlockUser}
+                  color="gray"
+                />
+              </>
+            )}
+
+            <ActionButton label="Expel" onClick={handleExpelUser} color="red" />
+          </div>
+        )}
     </div>
   );
 };
