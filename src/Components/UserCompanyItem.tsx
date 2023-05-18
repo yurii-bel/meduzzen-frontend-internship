@@ -43,9 +43,7 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
         </div>
       </Link>
       <div>
-        {company.action === "owner" ? (
-          ""
-        ) : (
+        {company.action !== "owner" && (
           <Button label="Leave" onClick={handleLeave} />
         )}
       </div>
