@@ -21,7 +21,6 @@ const Header: React.FC = () => {
     { title: "Users", path: "/users-list" },
     { title: "Profile", path: `/user-profile/${userId}` },
     { title: "Companies", path: "/companies-list" },
-    // { title: "My Companies", path: `/my-companies-list/${userId}` },
   ];
 
   const navItemsUserNotLoggedIn: NavItem[] = [
