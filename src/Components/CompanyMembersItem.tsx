@@ -62,26 +62,16 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
           {member.action}
         </div>
       </div>
-      {enableActions ? (
-        member.action !== "owner" ? (
-          <div className="flex justify-center items-center gap-4">
-            <ActionButton
-              label="Make an admin"
-              onClick={handleMakeUserAdmin}
-              color="blue"
-            />
-            <ActionButton
-              label="Block"
-              onClick={handleBlockUser}
-              color="gray"
-            />
-            <ActionButton label="Expel" onClick={handleExpelUser} color="red" />
-          </div>
-        ) : (
-          ""
-        )
-      ) : (
-        ""
+      {enableActions && member.action !== "owner" && (
+        <div className="flex justify-center items-center gap-4">
+          <ActionButton
+            label="Make an admin"
+            onClick={handleMakeUserAdmin}
+            color="blue"
+          />
+          <ActionButton label="Block" onClick={handleBlockUser} color="gray" />
+          <ActionButton label="Expel" onClick={handleExpelUser} color="red" />
+        </div>
       )}
     </div>
   );
