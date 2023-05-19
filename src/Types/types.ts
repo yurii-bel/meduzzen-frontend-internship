@@ -94,4 +94,20 @@ export type CompaniesListResponse = {
   };
 };
 
+export type Question = {
+  question_id: number;
+  question_text: string;
+  question_answers: string[];
+};
+
+export type Quiz = {
+  quiz_id: number;
+  quiz_name: string;
+  quiz_title: string;
+  quiz_description: string;
+  quiz_frequency: number;
+  created_by: User;
+  questions_list: Question[];
+};
+
 export type Children = { children: React.ReactNode };
