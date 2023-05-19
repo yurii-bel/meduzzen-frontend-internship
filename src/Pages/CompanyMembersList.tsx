@@ -16,10 +16,35 @@ const CompanyMembersList: React.FC = () => {
 
   const user = useSelector((state: RootState) => state.user);
 
+  const handleAddToBlock = async (actionId: number) => {
+    try {
+      await api.getActionAddToBlock(actionId);
+
+      const updatedCompaniesList = companyMembersList.filter(
+        (company) => Number(company.action_id) !== actionId
+      );
+      setCompanyMembersList(updatedCompaniesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveFromBlock = async (actionId: number) => {
+    try {
+      await api.getActionRemoveFromBlock(actionId);
+
+      const updatedCompaniesList = companyMembersList.filter(
+        (company) => Number(company.action_id) !== actionId
+      );
+      setCompanyMembersList(updatedCompaniesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleExpelUserFromCompany = async (actionId: number) => {
     try {
       await api.getActionLeaveCompany(actionId);
-
       const updatedCompaniesList = companyMembersList.filter(
         (company) => Number(company.action_id) !== actionId
       );
@@ -115,6 +140,7 @@ const CompanyMembersList: React.FC = () => {
             handleExpelUserFromCompany={handleExpelUserFromCompany}
             handleMakeUserAdminFromCompany={handleMakeUserAdminFromCompany}
             handleMakeAdminUserFromCompany={handleMakeAdminUserFromCompany}
+            handleAddToBlock={handleAddToBlock}
           />
         ))}
       </div>

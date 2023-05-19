@@ -20,6 +20,7 @@ import CompanyRequestsList from "./Pages/CompanyRequestsList";
 import CompanyInvitesList from "./Pages/CompanyInvitesList";
 import UserSendRequest from "./Pages/UserSendRequest";
 import CompanySendInvite from "./Pages/CompanySendInvite";
+import CompanyBlockedList from "./Pages/CompanyBlockedList";
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -74,6 +75,10 @@ const App: React.FC = () => {
             <Route
               path="/company-send-invite/:id"
               element={<CompanySendInvite />}
+            />
+            <Route
+              path="/company-blocked-list/:id"
+              element={<CompanyBlockedList />}
             />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
