@@ -215,6 +215,14 @@ const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
   });
 };
 
+const putUpdateQuestion = (question: Question, id: number) => {
+  return apiInstance.put(`/question/${id}/update_info`, question);
+};
+
+const deleteQuestion = (id: number) => {
+  return apiInstance.delete(`/question/${id}/`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
