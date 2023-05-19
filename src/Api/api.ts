@@ -6,6 +6,8 @@ import {
   UserAvatar,
   CompanyAvatar,
   CompanyState,
+  Quiz,
+  Question,
 } from "../Types/types";
 
 export const apiInstance: AxiosInstance = axios.create({
@@ -185,6 +187,32 @@ const getActionAddToBlock = (id: number) => {
 
 const getActionRemoveFromBlock = (id: number) => {
   return apiInstance.get(`/action/${id}/remove_from_block/`);
+};
+
+const getQuiz = (id: number) => {
+  return apiInstance.get(`/quiz/${id}/`);
+};
+
+const deleteQuiz = (id: number) => {
+  return apiInstance.delete(`/quiz/${id}/`);
+};
+
+const postCreateQuiz = (quiz: Quiz) => {
+  return apiInstance.post("/quiz/", quiz);
+};
+
+const putUpdateQuiz = (quiz: Quiz, id: number) => {
+  return apiInstance.put(`/quiz/${id}/update_info`, quiz);
+};
+
+const postAddQuestion = (quiz: Quiz, id: number) => {
+  return apiInstance.post(`/quiz/${id}/add_question`, quiz);
+};
+
+const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
+  return apiInstance.post(`/quiz/${id}/take_quiz`, {
+    answers: answers,
+  });
 };
 
 const login = (email: string, password: string) => {
