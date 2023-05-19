@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../Api/api";
 import Button from "../Components/Core/Button";
 import CustomInput from "../Components/Core/CustomInput";
@@ -169,7 +169,7 @@ const UserProfile: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="flex justify-center items-start gap-2 mb-32">
       <Modal
         title="Delete profile"
         isOpen={showModal}
@@ -178,203 +178,231 @@ const UserProfile: React.FC = () => {
         <p>Are you sure you want to delete this profile?</p>
         <Button label="Yes" onClick={handleDeleteUser} />
       </Modal>
-      <div className="flex justify-center min-h-1/2 py-2sm:py-12 mb-24 ">
-        <div className="flex justify-center py-1 gap-4">
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div> */}
-          <div className="px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            <div className="max-w-md mx-auto">
-              <div className="">
-                <div className="flex justify-center">
-                  <img
-                    className="h-24 w-24"
-                    src={
-                      user.user_avatar ||
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                    }
-                    alt="User Avatar"
-                  />
-                </div>
-                <div className="text-center">
-                  <h2 className="text-xl font-bold text-purple-700">
-                    {user.user_firstname} {user.user_lastname}
-                  </h2>
-                </div>
-              </div>
-              <form className="mt-6 space-y-1">
-                <div className="grid grid-cols-1 gap-6">
-                  <CustomInput
-                    label="First Name"
-                    type="text"
-                    name="user_firstname"
-                    id="firstname"
-                    onChange={handleChange}
-                    disabled={disabled}
-                    value={user.user_firstname}
-                  />
-                  {!validateName(user.user_firstname) && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Please enter a valid user firstname.
-                    </p>
-                  )}
-                  <CustomInput
-                    label="Last Name"
-                    type="text"
-                    name="user_lastname"
-                    id="lastname"
-                    onChange={handleChange}
-                    disabled={disabled}
-                    value={user.user_lastname}
-                  />
-                  {!validateName(user.user_lastname) && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Please enter a valid user lastname.
-                    </p>
-                  )}
-                  <CustomInput
-                    label="Email Address"
-                    type="email"
-                    name="user_email"
-                    id="email"
-                    onChange={handleChange}
-                    disabled={true}
-                    value={user.user_email}
-                  />
 
-                  <CustomInput
-                    label="City"
-                    type="text"
-                    name="user_city"
-                    id="city"
-                    onChange={handleChange}
-                    disabled={disabled}
-                    value={`${user.user_city || ""}`}
-                  />
-                  {!validateCity(user.user_city || "") && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Please enter a valid city.
-                    </p>
-                  )}
-                  <CustomInput
-                    label="Is super user?"
-                    type="text"
-                    name="isSuperUser"
-                    id="isSuperUser"
-                    onChange={handleChange}
-                    disabled={true}
-                    value={user.is_superuser ? "Yes" : "No"}
-                  />
-                  <CustomInput
-                    label="Phone"
-                    type="tel"
-                    name="user_phone"
-                    id="phone"
-                    onChange={handleChange}
-                    disabled={disabled}
-                    value={`${user.user_phone || ""}`}
-                  />
-                  {!validatePhoneNumber(user.user_phone || "") && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Please enter a valid phone number.
-                    </p>
-                  )}
-                </div>
-              </form>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 mr-36 relative px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            {loggedUser.is_superuser || loggedUser.user_id === user?.user_id ? (
-              <>
-                <h3 className="text-xl text-center text-purple-900 font-bold mb-12">
-                  Options
-                </h3>
-                <Button label="Delete this user" onClick={handleShowModal} />
-                {disabled ? (
-                  <Button
-                    label="Change user information"
-                    onClick={handleEditUser}
-                  />
-                ) : (
-                  <div className="flex justify-center items-center gap-4">
-                    <Button
-                      label="Update user"
-                      disabled={updateDisabled}
-                      onClick={handleUpdateUser}
-                    />
-                    <Button label="Cancel" onClick={handleCancel} />
-                  </div>
-                )}
-                <Button
-                  label="Update password"
-                  disabled={passwordDisabled}
-                  onClick={handleUpdatePassword}
-                />
+      <div className="flex flex-col items-center justify-center px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <img
+          className="h-24 w-24"
+          src={
+            user.user_avatar ||
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+          }
+          alt="User Avatar"
+        />
+        <h2 className="text-xl font-bold text-purple-700">
+          {user.user_firstname} {user.user_lastname}
+        </h2>
 
-                <form className="mt-1 space-y-1">
-                  <div className="grid grid-cols-1 gap-6">
-                    <div className="block">
-                      <label
-                        htmlFor="password"
-                        className="text-gray-700 font-bold"
-                      >
-                        New Password
-                      </label>
-                      <input
-                        placeholder="******"
-                        type="password"
-                        name="password"
-                        value={password}
-                        id="password"
-                        onChange={handlePasswordChange}
-                        className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    </div>
+        <form className="mt-6 space-y-1">
+          <div className="grid grid-cols-1 gap-6">
+            <CustomInput
+              label="First Name"
+              type="text"
+              name="user_firstname"
+              id="firstname"
+              onChange={handleChange}
+              disabled={disabled}
+              value={user.user_firstname}
+            />
+            {!validateName(user.user_firstname) && (
+              <p className="text-red-500 text-xs mt-1">
+                Please enter a valid user firstname.
+              </p>
+            )}
+            {/* Rest of the form inputs */}
 
-                    <div className="block">
-                      <label
-                        htmlFor="passwordRe"
-                        className="text-gray-700 font-bold"
-                      >
-                        Repeat new password
-                      </label>
-                      <input
-                        placeholder="******"
-                        type="password"
-                        name="passwordRe"
-                        value={passwordRe}
-                        id="passwordRe"
-                        onChange={handleRePasswordChange}
-                        className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      />
-                    </div>
-                  </div>
-                </form>
-                <Button
-                  label="Update user avatar"
-                  onClick={handleUpdateUserAvatar}
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAvatarFile}
-                />
-              </>
-            ) : (
-              <div className="flex flex-col">
-                <h3 className="text-xl text-center text-purple-900 font-bold mb-4">
-                  Options:
-                </h3>
-                <span className="text-orange-700 font-bold italic!">
-                  You are not allowed to change this profile!
-                </span>
-                <span className="text-orange-700 font-bold italic!">
-                  You must be profile owner or have superuser status!
-                </span>
-              </div>
+            <CustomInput
+              label="Last Name"
+              type="text"
+              name="user_lastname"
+              id="lastname"
+              onChange={handleChange}
+              disabled={disabled}
+              value={user.user_lastname}
+            />
+            {!validateName(user.user_lastname) && (
+              <p className="text-red-500 text-xs mt-1">
+                Please enter a valid user lastname.
+              </p>
+            )}
+            <CustomInput
+              label="Email Address"
+              type="email"
+              name="user_email"
+              id="email"
+              onChange={handleChange}
+              disabled={true}
+              value={user.user_email}
+            />
+
+            <CustomInput
+              label="City"
+              type="text"
+              name="user_city"
+              id="city"
+              onChange={handleChange}
+              disabled={disabled}
+              value={`${user.user_city || ""}`}
+            />
+            {!validateCity(user.user_city || "") && (
+              <p className="text-red-500 text-xs mt-1">
+                Please enter a valid city.
+              </p>
+            )}
+            <CustomInput
+              label="Is super user?"
+              type="text"
+              name="isSuperUser"
+              id="isSuperUser"
+              onChange={handleChange}
+              disabled={true}
+              value={user.is_superuser ? "Yes" : "No"}
+            />
+            <CustomInput
+              label="Phone"
+              type="tel"
+              name="user_phone"
+              id="phone"
+              onChange={handleChange}
+              disabled={disabled}
+              value={`${user.user_phone || ""}`}
+            />
+            {!validatePhoneNumber(user.user_phone || "") && (
+              <p className="text-red-500 text-xs mt-1">
+                Please enter a valid phone number.
+              </p>
             )}
           </div>
-        </div>
+        </form>
       </div>
-    </>
+
+      <div className="flex flex-col items-center justify-center gap-4 px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        {loggedUser.is_superuser || loggedUser.user_id === user?.user_id ? (
+          <>
+            <h3 className="text-xl text-center text-purple-900 font-bold mb-12">
+              Options
+            </h3>
+            <Button label="Delete this user" onClick={handleShowModal} />
+            {disabled ? (
+              <Button
+                label="Change user information"
+                onClick={handleEditUser}
+              />
+            ) : (
+              <div className="flex justify-center items-center gap-4">
+                <Button
+                  label="Update user"
+                  disabled={updateDisabled}
+                  onClick={handleUpdateUser}
+                />
+                <Button label="Cancel" onClick={handleCancel} />
+              </div>
+            )}
+            <Button
+              label="Update password"
+              disabled={passwordDisabled}
+              onClick={handleUpdatePassword}
+            />
+
+            <form className="mt-1 space-y-1">
+              <div className="grid grid-cols-1 gap-6">
+                <div className="block">
+                  <label htmlFor="password" className="text-gray-700 font-bold">
+                    New Password
+                  </label>
+                  <input
+                    placeholder="******"
+                    type="password"
+                    name="password"
+                    value={password}
+                    id="password"
+                    onChange={handlePasswordChange}
+                    className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                </div>
+
+                <div className="block">
+                  <label
+                    htmlFor="passwordRe"
+                    className="text-gray-700 font-bold"
+                  >
+                    Repeat new password
+                  </label>
+                  <input
+                    placeholder="******"
+                    type="password"
+                    name="passwordRe"
+                    value={passwordRe}
+                    id="passwordRe"
+                    onChange={handleRePasswordChange}
+                    className="p-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                </div>
+              </div>
+            </form>
+            <Button
+              label="Update user avatar"
+              onClick={handleUpdateUserAvatar}
+            />
+            <input type="file" accept="image/*" onChange={handleAvatarFile} />
+          </>
+        ) : (
+          <div className="flex flex-col">
+            <h3 className="text-xl text-center text-purple-900 font-bold mb-4">
+              Options:
+            </h3>
+            <span className="text-orange-700 font-bold italic!">
+              You are not allowed to change this profile!
+            </span>
+            <span className="text-orange-700 font-bold italic!">
+              You must be profile owner or have superuser status!
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col items-center justify-center px-1 py-1 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <ul className="flex flex-col justify-center gap-4 text-purple-700">
+          <h3 className="text-xl text-center text-purple-900 font-bold mb-4">
+            Operations
+          </h3>
+          <li>
+            <Link
+              to={`/user-companies-list/${id}`}
+              className="hover:text-purple-900"
+            >
+              User companies
+            </Link>
+          </li>
+          <hr />
+          <li>
+            <Link
+              to={`/user-invites-list/${id}`}
+              className="hover:text-purple-900"
+            >
+              Invites
+            </Link>
+          </li>
+          <hr />
+          <li>
+            <Link
+              to={`/user-requests-list/${id}`}
+              className="hover:text-purple-900"
+            >
+              Requests
+            </Link>
+          </li>
+          <hr />
+          <li>
+            <Link
+              to={`/user-send-request/${id}`}
+              className="hover:text-purple-900"
+            >
+              Send request
+            </Link>
+          </li>
+          <hr />
+        </ul>
+      </div>
+    </div>
   );
 };
 

@@ -12,8 +12,15 @@ import CompanyProfile from "./Pages/CompanyProfile";
 import ErrorPage from "./Pages/ErrorPage";
 import { setUserData } from "./Utils/setUserData";
 import { useDispatch } from "react-redux";
+import UserCompaniesList from "./Pages/UserCompaniesList";
+import UserInvitesList from "./Pages/UserInvitesList";
+import CompanyMembersList from "./Pages/CompanyMembersList";
+import UserRequestsList from "./Pages/UserRequestsList";
+import CompanyRequestsList from "./Pages/CompanyRequestsList";
+import CompanyInvitesList from "./Pages/CompanyInvitesList";
+import UserSendRequest from "./Pages/UserSendRequest";
+import CompanySendInvite from "./Pages/CompanySendInvite";
 const App: React.FC = () => {
-  console.log(localStorage.getItem("accessToken"));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,6 +43,38 @@ const App: React.FC = () => {
             <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/companies-list" element={<CompaniesList />} />
             <Route path="/company-profile/:id" element={<CompanyProfile />} />
+            <Route
+              path="/company-members-list/:id"
+              element={<CompanyMembersList />}
+            />
+            <Route
+              path="/user-companies-list/:id"
+              element={<UserCompaniesList />}
+            />
+            <Route
+              path="/user-invites-list/:id"
+              element={<UserInvitesList />}
+            />
+            <Route
+              path="/user-requests-list/:id"
+              element={<UserRequestsList />}
+            />
+            <Route
+              path="/user-send-request/:id"
+              element={<UserSendRequest />}
+            />
+            <Route
+              path="/company-requests-list/:id"
+              element={<CompanyRequestsList />}
+            />
+            <Route
+              path="/company-invites-list/:id"
+              element={<CompanyInvitesList />}
+            />
+            <Route
+              path="/company-send-invite/:id"
+              element={<CompanySendInvite />}
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>

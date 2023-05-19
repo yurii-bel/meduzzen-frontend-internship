@@ -1,4 +1,4 @@
-export type User = {
+export type User = UserAction & {
   data: any;
   user_id: number;
   user_email: string;
@@ -10,6 +10,11 @@ export type User = {
   user_phone: string | null;
   user_links: string | null;
   is_superuser: boolean;
+};
+
+export type UserAction = {
+  action?: string;
+  action_id: string;
 };
 
 export type UserPassword = {
@@ -66,12 +71,27 @@ export type UserProps = {
   };
 };
 
-export type Company = {
+export type Company = CompanyAction & {
   company_id: number;
   company_name: string;
   company_title: string;
   company_avatar: string;
   is_visible: boolean;
+  action_id?: number;
+  action?: string;
+};
+
+export type CompanyAction = {
+  action: string;
+  action_id: string;
+};
+
+export type CompaniesListResponse = {
+  status_code: number;
+  detail: string;
+  result: {
+    companies: Company[];
+  };
 };
 
 export type Children = { children: React.ReactNode };
