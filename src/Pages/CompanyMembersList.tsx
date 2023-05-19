@@ -16,6 +16,32 @@ const CompanyMembersList: React.FC = () => {
 
   const user = useSelector((state: RootState) => state.user);
 
+  const handleAddToBlock = async (actionId: number) => {
+    try {
+      await api.getActionAddToBlock(actionId);
+
+      const updatedCompaniesList = companyMembersList.filter(
+        (company) => Number(company.action_id) !== actionId
+      );
+      setCompanyMembersList(updatedCompaniesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveFromBlock = async (actionId: number) => {
+    try {
+      await api.getActionRemoveFromBlock(actionId);
+
+      const updatedCompaniesList = companyMembersList.filter(
+        (company) => Number(company.action_id) !== actionId
+      );
+      setCompanyMembersList(updatedCompaniesList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleExpelUserFromCompany = async (actionId: number) => {
     try {
       await api.getActionLeaveCompany(actionId);
@@ -28,32 +54,73 @@ const CompanyMembersList: React.FC = () => {
     }
   };
 
+  const handleMakeUserAdminFromCompany = async (actionId: number) => {
+    try {
+      await api.getActionAddToAdmin(actionId);
+      const updatedMembersList = companyMembersList.map((member) => {
+        if (Number(member.action_id) === actionId) {
+          return {
+            ...member,
+            action: "admin",
+          };
+        }
+        return member;
+      });
+      setCompanyMembersList(updatedMembersList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleMakeAdminUserFromCompany = async (actionId: number) => {
+    try {
+      await api.getActionRemoveFromAdmin(actionId);
+      const updatedMembersList = companyMembersList.map((member) => {
+        if (Number(member.action_id) === actionId) {
+          return {
+            ...member,
+            action: "member",
+          };
+        }
+        return member;
+      });
+      setCompanyMembersList(updatedMembersList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchData = async () => {
+    setIsLoading(true);
+
+    try {
+      const companyMembersResponse = await api.getCompanyMembersList(
+        Number(id)
+      );
+      setCompanyMembersList(companyMembersResponse.data.result.users);
+
+      const userCompaniesResponse = await api.getUserCompaniesList(
+        Number(user.user_id)
+      );
+      const companies = userCompaniesResponse.data.result.companies;
+      const isUserCompanyOwner = companies.some(
+        (company: { company_id: number; action: string }) =>
+          company.company_id === Number(id) &&
+          (company.action === "owner" || company.action === "admin")
+      );
+      setEnableActions(isUserCompanyOwner);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
+  };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [refreshSignal]);
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      try {
-        const companyMembersResponse = await api.getCompanyMembersList(
-          Number(id)
-        );
-        setCompanyMembersList(companyMembersResponse.data.result.users);
-
-        const userCompaniesResponse = await api.getUserCompaniesList(
-          Number(user.user_id)
-        );
-        const companies = userCompaniesResponse.data.result.companies;
-        const isUserCompanyOwner = companies.some(
-          (company: { company_id: number; action: string }) =>
-            company.company_id === Number(id) && company.action === "owner"
-        );
-        setEnableActions(isUserCompanyOwner);
-      } catch (error) {
-        console.log(error);
-      }
-
-      setIsLoading(false);
-    };
-
     fetchData();
   }, [id, user.user_id]);
 
@@ -71,6 +138,9 @@ const CompanyMembersList: React.FC = () => {
             member={member}
             enableActions={enableActions}
             handleExpelUserFromCompany={handleExpelUserFromCompany}
+            handleMakeUserAdminFromCompany={handleMakeUserAdminFromCompany}
+            handleMakeAdminUserFromCompany={handleMakeAdminUserFromCompany}
+            handleAddToBlock={handleAddToBlock}
           />
         ))}
       </div>

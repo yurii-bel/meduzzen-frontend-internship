@@ -142,6 +142,10 @@ const getCompanyRequestsList = (id: number) => {
   return apiInstance.get(`/company/${id}/requests_list/`);
 };
 
+const getCompanyBlockedList = (id: number) => {
+  return apiInstance.get(`/company/${id}/blocked_list/`);
+};
+
 const getActionCreateFromUserToCompany = (id: number) => {
   return apiInstance.get(`/action/create_from_user/company/${id}`);
 };
@@ -169,6 +173,22 @@ const getActionDeclineAction = (id: number) => {
 
 const getActionLeaveCompany = (id: number) => {
   return apiInstance.get(`/action/${id}/leave_company/`);
+};
+
+const getActionAddToAdmin = (id: number) => {
+  return apiInstance.get(`/action/${id}/add_to_admin/`);
+};
+
+const getActionRemoveFromAdmin = (id: number) => {
+  return apiInstance.get(`/action/${id}/remove_from_admin/`);
+};
+
+const getActionAddToBlock = (id: number) => {
+  return apiInstance.get(`/action/${id}/add_to_block/`);
+};
+
+const getActionRemoveFromBlock = (id: number) => {
+  return apiInstance.get(`/action/${id}/remove_from_block/`);
 };
 
 const login = (email: string, password: string) => {
@@ -226,12 +246,17 @@ const api = {
   getCompanyMembersList,
   getCompanyInvitesList,
   getCompanyRequestsList,
+  getCompanyBlockedList,
   getActionAcceptInvite,
   getActionAcceptRequest,
   getActionDeclineAction,
   getActionLeaveCompany,
   getActionCreateFromUserToCompany,
   getActionCreateFromCompanyToUser,
+  getActionAddToAdmin,
+  getActionRemoveFromAdmin,
+  getActionAddToBlock,
+  getActionRemoveFromBlock,
   login,
   signUp,
   authme,

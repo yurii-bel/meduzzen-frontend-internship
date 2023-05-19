@@ -33,7 +33,11 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
               Status:{" "}
               <span
                 className={`font-bold ${
-                  company.action === "owner" ? "text-red-500" : "text-green-500"
+                  company.action === "owner"
+                    ? "text-red-500"
+                    : company.action === "admin"
+                    ? "text-purple-500"
+                    : "text-green-500"
                 }`}
               >
                 {company.action}
