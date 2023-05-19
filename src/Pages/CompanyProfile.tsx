@@ -382,7 +382,10 @@ const CompanyProfile: React.FC = () => {
               </li>
               <hr />
               <li>
-                <Link to="/blocked" className="hover:text-purple-900">
+                <Link
+                  to={`/company-blocked-list/${id}`}
+                  className="hover:text-purple-900"
+                >
                   Blocked
                 </Link>
               </li>

@@ -12,6 +12,7 @@ type CompanyMembersItemProps = {
   handleExpelUserFromCompany: (actionId: number) => void;
   handleMakeUserAdminFromCompany: (actionId: number) => void;
   handleMakeAdminUserFromCompany: (actionId: number) => void;
+  handleAddToBlock: (actionId: number) => void;
 };
 
 const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
@@ -20,6 +21,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
   handleExpelUserFromCompany,
   handleMakeUserAdminFromCompany,
   handleMakeAdminUserFromCompany,
+  handleAddToBlock,
 }) => {
   const { id } = useParams();
 
@@ -31,7 +33,10 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
     handleMakeAdminUserFromCompany(Number(member.action_id));
   };
 
-  const handleBlockUser = () => {};
+  const handleBlockUser = () => {
+    handleAddToBlock(Number(member.action_id));
+  };
+
   const handleExpelUser = () => {
     handleExpelUserFromCompany(Number(member.action_id));
   };

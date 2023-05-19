@@ -144,6 +144,10 @@ const getCompanyRequestsList = (id: number) => {
   return apiInstance.get(`/company/${id}/requests_list/`);
 };
 
+const getCompanyBlockedList = (id: number) => {
+  return apiInstance.get(`/company/${id}/blocked_list/`);
+};
+
 const getActionCreateFromUserToCompany = (id: number) => {
   return apiInstance.get(`/action/create_from_user/company/${id}`);
 };
@@ -278,6 +282,7 @@ const api = {
   getCompanyMembersList,
   getCompanyInvitesList,
   getCompanyRequestsList,
+  getCompanyBlockedList,
   getActionAcceptInvite,
   getActionAcceptRequest,
   getActionDeclineAction,
