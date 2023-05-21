@@ -16,7 +16,7 @@ import {
 } from "../Utils/utils";
 
 const CompanyProfile: React.FC = () => {
-  const { id } = useParams();
+  const { id, qid } = useParams();
   const [company, setCompany] = useState<CompanyState>();
   const [initialCompany, setInitialCompany] = useState<CompanyState>();
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -24,7 +24,6 @@ const CompanyProfile: React.FC = () => {
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
-
   const navigate = useNavigate();
   const loggedUser = useSelector((state: RootState) => state.user);
 
@@ -351,6 +350,7 @@ const CompanyProfile: React.FC = () => {
             </Link>
           </li>
           <hr />
+
           {loggedUser.user_id === company?.company_owner.user_id ||
           isUserAdmin ? (
             <>
@@ -389,10 +389,19 @@ const CompanyProfile: React.FC = () => {
                   Blocked
                 </Link>
               </li>
+              <hr />
             </>
           ) : (
             ""
           )}
+          <li>
+            <Link
+              to={`/company-profile/${id}/quizzes-list/`}
+              className="hover:text-purple-900"
+            >
+              Quizzes
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

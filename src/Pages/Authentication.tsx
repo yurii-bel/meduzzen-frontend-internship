@@ -30,7 +30,6 @@ const Authentication: React.FC<AuthenticationProps> = () => {
   };
 
   const user = useSelector((state: RootState) => state.user);
-  console.log("user: " + user.user_email);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

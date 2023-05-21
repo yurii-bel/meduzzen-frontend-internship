@@ -148,6 +148,10 @@ const getCompanyBlockedList = (id: number) => {
   return apiInstance.get(`/company/${id}/blocked_list/`);
 };
 
+const getCompanyQuizzesList = (id: number) => {
+  return apiInstance.get(`/company/${id}/quizzes_list/`);
+};
+
 const getActionCreateFromUserToCompany = (id: number) => {
   return apiInstance.get(`/action/create_from_user/company/${id}`);
 };
@@ -209,8 +213,8 @@ const putUpdateQuiz = (quiz: Quiz, id: number) => {
   return apiInstance.put(`/quiz/${id}/update_info`, quiz);
 };
 
-const postAddQuestion = (quiz: Quiz, id: number) => {
-  return apiInstance.post(`/quiz/${id}/add_question`, quiz);
+const postAddQuestion = (id: number, question: Question) => {
+  return apiInstance.post(`/quiz/${id}/add_question`, question);
 };
 
 const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
@@ -283,6 +287,7 @@ const api = {
   getCompanyInvitesList,
   getCompanyRequestsList,
   getCompanyBlockedList,
+  getCompanyQuizzesList,
   getActionAcceptInvite,
   getActionAcceptRequest,
   getActionDeclineAction,
