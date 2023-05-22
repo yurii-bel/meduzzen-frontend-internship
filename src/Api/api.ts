@@ -6,6 +6,8 @@ import {
   UserAvatar,
   CompanyAvatar,
   CompanyState,
+  Quiz,
+  Question,
 } from "../Types/types";
 
 export const apiInstance: AxiosInstance = axios.create({
@@ -146,6 +148,10 @@ const getCompanyBlockedList = (id: number) => {
   return apiInstance.get(`/company/${id}/blocked_list/`);
 };
 
+const getCompanyQuizzesList = (id: number) => {
+  return apiInstance.get(`/company/${id}/quizzes_list/`);
+};
+
 const getActionCreateFromUserToCompany = (id: number) => {
   return apiInstance.get(`/action/create_from_user/company/${id}`);
 };
@@ -189,6 +195,40 @@ const getActionAddToBlock = (id: number) => {
 
 const getActionRemoveFromBlock = (id: number) => {
   return apiInstance.get(`/action/${id}/remove_from_block/`);
+};
+
+const getQuiz = (id: number) => {
+  return apiInstance.get(`/quiz/${id}/`);
+};
+
+const deleteQuiz = (id: number) => {
+  return apiInstance.delete(`/quiz/${id}/`);
+};
+
+const postCreateQuiz = (quiz: Quiz) => {
+  return apiInstance.post("/quiz/", quiz);
+};
+
+const putUpdateQuiz = (quiz: Quiz, id: number) => {
+  return apiInstance.put(`/quiz/${id}/update_info`, quiz);
+};
+
+const postAddQuestion = (id: number, question: Question) => {
+  return apiInstance.post(`/quiz/${id}/add_question`, question);
+};
+
+const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
+  return apiInstance.post(`/quiz/${id}/take_quiz`, {
+    answers: answers,
+  });
+};
+
+const putUpdateQuestion = (id: number, question: Question) => {
+  return apiInstance.put(`/question/${id}/update_info`, question);
+};
+
+const deleteQuestion = (id: number) => {
+  return apiInstance.delete(`/question/${id}/`);
 };
 
 const login = (email: string, password: string) => {
@@ -247,6 +287,7 @@ const api = {
   getCompanyInvitesList,
   getCompanyRequestsList,
   getCompanyBlockedList,
+  getCompanyQuizzesList,
   getActionAcceptInvite,
   getActionAcceptRequest,
   getActionDeclineAction,
@@ -257,6 +298,14 @@ const api = {
   getActionRemoveFromAdmin,
   getActionAddToBlock,
   getActionRemoveFromBlock,
+  getQuiz,
+  deleteQuiz,
+  postCreateQuiz,
+  putUpdateQuiz,
+  postAddQuestion,
+  postTakeQuiz,
+  putUpdateQuestion,
+  deleteQuestion,
   login,
   signUp,
   authme,

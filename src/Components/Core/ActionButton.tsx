@@ -2,7 +2,7 @@ import React from "react";
 
 type ButtonProps = {
   label: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   color?: string;
 };

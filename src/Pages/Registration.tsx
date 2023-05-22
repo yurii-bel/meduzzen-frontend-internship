@@ -50,7 +50,6 @@ const Registration: React.FC = () => {
         user_lastname
       );
       navigate("/auth");
-      console.log("Success");
     } catch (error) {
       console.log(error);
     }

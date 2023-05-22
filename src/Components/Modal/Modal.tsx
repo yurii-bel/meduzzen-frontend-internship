@@ -19,8 +19,8 @@ const Modal: FC<ModalProps> = ({
   }
 
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 flex justify-center items-center">
-      <div className="bg-white rounded-lg w-11/12 md:max-w-md">
+    <div className="fixed top-0 left-0 w-full h-full overflow-y-scroll bg-gray-900 bg-opacity-75 flex justify-center items-center">
+      <div className="bg-white rounded-lg h-2/3 overflow-scroll w-11/12 md:max-w-md">
         <div className="flex justify-between items-center border-b p-2">
           <h3 className="font-bold text-lg">{title}</h3>
           <button
