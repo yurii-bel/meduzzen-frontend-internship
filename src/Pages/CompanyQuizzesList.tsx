@@ -338,9 +338,7 @@ const CompanyQuizzesList: React.FC = () => {
         </div>
       </Modal>
       <div className="m-6">
-        <h3 className="font-bold text-xl mb-4">
-          Requests from users to this company
-        </h3>
+        <h3 className="font-bold text-xl mb-4">Quizzes list of the company</h3>
         <ActionButton
           label="Create quiz"
           color="darkblue"

@@ -20,8 +20,26 @@ const CompanyQuiz: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const [questionId, setQuestionId] = useState<Number>();
+
   const handleCloseModal = () => {
     setShowModal(false);
+    setQuestion({
+      question_text: "",
+      question_answers: ["", ""],
+      question_correct_answer: 0,
+    });
+  };
+
+  const handleShowEditModal = (question: Question) => {
+    setQuestion(question);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
     setQuestion({
       question_text: "",
       question_answers: ["", ""],
@@ -36,7 +54,7 @@ const CompanyQuiz: React.FC = () => {
   const handleCorrectAnswerChange = (answerIndex: number) => {
     setQuestion((prevQuestion) => ({
       ...prevQuestion,
-      correct_answer: answerIndex,
+      question_correct_answer: answerIndex,
     }));
   };
 
@@ -115,6 +133,26 @@ const CompanyQuiz: React.FC = () => {
     }
   };
 
+  const handleEditQuestion = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    question: Question
+  ) => {
+    event.preventDefault();
+    try {
+      if (question.question_id) {
+        await api.putUpdateQuestion(question.question_id, {
+          question_text: question.question_text,
+          question_answers: question.question_answers,
+          question_correct_answer: question.question_correct_answer,
+        });
+      }
+      handleCloseEditModal();
+      fetchQuiz();
+    } catch (error) {
+      console.error("Error editing question:", error);
+    }
+  };
+
   const handleDeleteQuestion = async (
     event: React.MouseEvent<HTMLButtonElement>,
     questionId: number
@@ -146,6 +184,72 @@ const CompanyQuiz: React.FC = () => {
 
   return (
     <>
+      <Modal
+        title="Edit question modal"
+        isOpen={showEditModal}
+        onClose={handleCloseEditModal}
+      >
+        <>
+          <form>
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor={`quizQuestion`}
+            >
+              Question
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id={`quizQuestion`}
+              type="text"
+              placeholder={`Quiz question`}
+              value={question.question_text}
+              required
+              onChange={(e) => handleQuestionTextChange(e.target.value)}
+            />
+
+            {question.question_answers.map((answer, answerIndex) => (
+              <div
+                key={answerIndex}
+                className="flex items-center space-x-2 mt-4"
+              >
+                <input
+                  type="radio"
+                  name={`correctAnswer`}
+                  value={answerIndex}
+                  onChange={() => handleCorrectAnswerChange(answerIndex)}
+                />
+                <label className="block text-gray-700 font-bold mb-2">
+                  Answer {answerIndex + 1}:
+                </label>
+                <input
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  id={`answer-${answerIndex}`}
+                  type="text"
+                  required
+                  name={`answer-${answerIndex}`}
+                  value={answer}
+                  onChange={(e) =>
+                    handleAnswerTextChange(answerIndex, e.target.value)
+                  }
+                  placeholder={`Enter Answer ${answerIndex + 1}`}
+                />
+              </div>
+            ))}
+          </form>
+          <div className="flex flex-col gap-4 mt-4">
+            <ActionButton
+              label="Add answer"
+              color="darkblue"
+              onClick={(event) => handleAddAnswer(event)}
+            />
+            <ActionButton
+              label="Edit question"
+              onClick={(e) => handleEditQuestion(e, question)}
+            />
+          </div>
+        </>
+      </Modal>
+
       <Modal
         title="Add question modal"
         isOpen={showModal}
@@ -225,7 +329,7 @@ const CompanyQuiz: React.FC = () => {
           <ActionButton
             label="Add question"
             color="purple"
-            onClick={(e) => handleShowModal()}
+            onClick={handleShowModal}
           />
           <ActionButton
             label="Delete quiz"
@@ -288,7 +392,7 @@ const CompanyQuiz: React.FC = () => {
                       <ActionButton
                         label="Edit"
                         color="darkblue"
-                        onClick={() => {}}
+                        onClick={() => handleShowEditModal(question)}
                       />
                       <ActionButton
                         label="Delete"

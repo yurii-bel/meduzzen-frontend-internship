@@ -223,7 +223,7 @@ const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
   });
 };
 
-const putUpdateQuestion = (question: Question, id: number) => {
+const putUpdateQuestion = (id: number, question: Question) => {
   return apiInstance.put(`/question/${id}/update_info`, question);
 };
 
