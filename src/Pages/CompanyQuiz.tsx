@@ -322,11 +322,6 @@ const CompanyQuiz: React.FC = () => {
         <h3 className="text-2xl font-bold mb-12">Quiz #{qid}</h3>
         <div className="flex justify-between gap-4 p-2 mb-4 rounded-md bg-gray-700">
           <ActionButton
-            label="Update"
-            color="darkblue"
-            onClick={handleUpdate}
-          />
-          <ActionButton
             label="Add question"
             color="purple"
             onClick={handleShowModal}
