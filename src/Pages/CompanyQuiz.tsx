@@ -160,7 +160,27 @@ const CompanyQuiz: React.FC = () => {
     }
   };
 
-  const handleFinishQuiz = () => {};
+  const handleFinishQuiz = () => {
+    const answers: Answers = {};
+    if (currentQuiz?.questions_list) {
+      for (let i in currentQuiz.questions_list) {
+        const question = currentQuiz.questions_list[i];
+        if (question.question_id)
+          answers[question.question_id] =
+            question.question_answers[selectedAnswers[question.question_id]];
+      }
+    }
+    api
+      .postTakeQuiz(Number(qid), { answers })
+      .then((response) => {
+        const { result_id, result_score } = response.data.result;
+        alert(`You have finished the test! Your score is ${result_score}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    navigate(`/company-profile/${id}`);
+  };
 
   const fetchQuiz = () => {
     api
