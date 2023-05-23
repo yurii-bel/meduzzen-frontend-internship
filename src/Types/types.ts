@@ -112,4 +112,25 @@ export type Quiz = {
   questions_list: Question[];
 };
 
+export type Answers = {
+  [key: string]: string;
+};
+
+export type MyAnswers = {
+  answers: Answers;
+};
+
+// export type MyAnswers = {
+//   answers: {
+//     additionalProp1: "string",
+//     additionalProp2: "string",
+//     additionalProp3: "string"
+//   }
+// };
+
+export type Member = {
+  user_id: number;
+  action: string;
+};
+
 export type Children = { children: React.ReactNode };

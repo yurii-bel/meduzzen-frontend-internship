@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../Api/api";
 import ActionButton from "../Components/Core/ActionButton";
 import Modal from "../Components/Modal/Modal";
-import { Question, Quiz } from "../Types/types";
+import { RootState } from "../Store";
+import { Answers, Member, Question, Quiz } from "../Types/types";
 
 const CompanyQuiz: React.FC = () => {
   const [currentQuiz, setCurrentQuiz] = useState<Quiz | undefined>(undefined);
+
+  const [selectedAnswers, setSelectedAnswers] = useState<
+    Record<number, number>
+  >({});
 
   const [question, setQuestion] = useState<Question>({
     question_text: "",
@@ -22,7 +28,9 @@ const CompanyQuiz: React.FC = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const [questionId, setQuestionId] = useState<Number>();
+  const [members, setMembers] = useState<Member[]>([]);
+
+  const user = useSelector((state: RootState) => state.user);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -76,16 +84,6 @@ const CompanyQuiz: React.FC = () => {
     }));
   };
 
-  const handleUpdate = async () => {
-    try {
-      if (currentQuiz) await api.putUpdateQuiz(currentQuiz, Number(qid));
-      // Perform any necessary actions after updating the quiz
-      // ...
-    } catch (error) {
-      console.error("Error updating quiz:", error);
-    }
-  };
-
   const handleDeleteQuiz = async () => {
     try {
       await api.deleteQuiz(Number(qid));
@@ -94,10 +92,6 @@ const CompanyQuiz: React.FC = () => {
       console.error("Error deleting quiz:", error);
     }
   };
-
-  // const handleAddAnswer = async (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault()
-  // }
 
   const handleAddAnswer = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -166,6 +160,28 @@ const CompanyQuiz: React.FC = () => {
     }
   };
 
+  const handleFinishQuiz = () => {
+    const answers: Answers = {};
+    if (currentQuiz?.questions_list) {
+      for (let i in currentQuiz.questions_list) {
+        const question = currentQuiz.questions_list[i];
+        if (question.question_id)
+          answers[question.question_id] =
+            question.question_answers[selectedAnswers[question.question_id]];
+      }
+    }
+    api
+      .postTakeQuiz(Number(qid), { answers })
+      .then((response) => {
+        const { result_id, result_score } = response.data.result;
+        alert(`You have finished the test! Your score is ${result_score}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    navigate(`/company-profile/${id}`);
+  };
+
   const fetchQuiz = () => {
     api
       .getQuiz(Number(qid))
@@ -176,6 +192,54 @@ const CompanyQuiz: React.FC = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const getCompany = async () => {
+    setMembers(
+      await api
+        .getCompanyMembersList(Number(id))
+        .then((response) => response.data.result.users)
+    );
+  };
+
+  useEffect(() => {
+    getCompany();
+    checkOwnerOrAdmin();
+  }, []);
+
+  useEffect(() => {
+    // const finalAnswers: Answers = {};
+    // console.log(selectedAnswers);
+    // if (currentQuiz?.questions_list) {
+    //   for (let i in currentQuiz.questions_list) {
+    //     const question = currentQuiz.questions_list[i];
+    //     if (question.question_id)
+    //       finalAnswers[question.question_id] =
+    //         question.question_answers[selectedAnswers[question.question_id]];
+    //   }
+    // }
+    // if (currentQuiz?.questions_list) {
+    //   for (let i in currentQuiz.questions_list) {
+    //     const question = currentQuiz.questions_list[i];
+    //     if (question.question_id !== undefined) {
+    //       // console.log(question.question_answers[selectedAnswers[i]]);
+    //       finalAnswers[question.question_id] =
+    //         question.question_answers[selectedAnswers[i]];
+    //     }
+    //   }
+    // }
+    // console.log(finalAnswers);
+  }, [selectedAnswers]);
+
+  const checkOwnerOrAdmin = () => {
+    for (let member of members) {
+      if (
+        (user.user_id === member.user_id && member.action === "owner") ||
+        member.action === "admin"
+      ) {
+        return true;
+      }
+    }
   };
 
   useEffect(() => {
@@ -320,18 +384,22 @@ const CompanyQuiz: React.FC = () => {
 
       <div className="flex flex-col justify-center items-center">
         <h3 className="text-2xl font-bold mb-12">Quiz #{qid}</h3>
-        <div className="flex justify-between gap-4 p-2 mb-4 rounded-md bg-gray-700">
-          <ActionButton
-            label="Add question"
-            color="purple"
-            onClick={handleShowModal}
-          />
-          <ActionButton
-            label="Delete quiz"
-            color="darkred"
-            onClick={handleDeleteQuiz}
-          />
-        </div>
+
+        {checkOwnerOrAdmin() && (
+          <div className="flex justify-between gap-4 p-2 mb-4 rounded-md bg-gray-700">
+            <ActionButton
+              label="Add question"
+              color="purple"
+              onClick={handleShowModal}
+            />
+            <ActionButton
+              label="Delete quiz"
+              color="darkred"
+              onClick={handleDeleteQuiz}
+            />
+          </div>
+        )}
+
         {currentQuiz && (
           <div className="flex flex-col px-32 min-w-full ">
             <div className="mt-4  pl-4">
@@ -355,51 +423,69 @@ const CompanyQuiz: React.FC = () => {
             >
               {currentQuiz.questions_list.map((question, index) => {
                 return (
-                  <div className="flex justify-between border-2 p-2 rounded-md bg-slate-50">
-                    <div key={question.question_id} className="text-gray-700">
+                  <div
+                    key={question.question_id}
+                    className="flex justify-between border-2 p-2 rounded-md bg-slate-50"
+                  >
+                    <div className="text-gray-700">
                       <div className="bg-white p-1 font-semibold border-l-4 border-purple-300">
                         <span>{index + 1}. </span>
                         {question.question_text}
                       </div>
                       <div>
-                        {question.question_answers.map((answer) => {
-                          return (
-                            <>
-                              <div className="flex pl-2 my-2 items-center space-x-4">
-                                <label className="flex items-center space-x-2">
-                                  <input
-                                    type="radio"
-                                    className="form-radio text-blue-500"
-                                    name={`option-${question.question_id}`}
-                                    value="option"
-                                  />
-                                  <span className="text-gray-700">
-                                    {answer}
-                                  </span>
-                                </label>
-                              </div>
-                            </>
-                          );
-                        })}
+                        {question.question_answers.map(
+                          (answer, answerIndex) => {
+                            return (
+                              <>
+                                <div className="flex pl-2 my-2 items-center space-x-4">
+                                  <label className="flex items-center space-x-2">
+                                    <input
+                                      type="radio"
+                                      className="form-radio text-blue-500"
+                                      name={`option-${question.question_id}`}
+                                      value={answerIndex}
+                                      onChange={() => {
+                                        setSelectedAnswers(
+                                          (prevSelectedAnswers) => ({
+                                            ...prevSelectedAnswers,
+                                            [Number(question.question_id)]:
+                                              answerIndex,
+                                          })
+                                        );
+                                      }}
+                                    />
+
+                                    <span className="text-gray-700">
+                                      {answer}
+                                    </span>
+                                  </label>
+                                </div>
+                              </>
+                            );
+                          }
+                        )}
                       </div>
                     </div>
-                    <div className="flex gap-4 h-9">
-                      <ActionButton
-                        label="Edit"
-                        color="darkblue"
-                        onClick={() => handleShowEditModal(question)}
-                      />
-                      <ActionButton
-                        label="Delete"
-                        color="darkred"
-                        onClick={(event) =>
-                          handleDeleteQuestion(
-                            event,
-                            Number(question.question_id)
-                          )
-                        }
-                      />
-                    </div>
+
+                    {checkOwnerOrAdmin() && (
+                      <div className="flex gap-4 h-9">
+                        <ActionButton
+                          label="Edit"
+                          color="darkblue"
+                          onClick={() => handleShowEditModal(question)}
+                        />
+                        <ActionButton
+                          label="Delete"
+                          color="darkred"
+                          onClick={(event) =>
+                            handleDeleteQuestion(
+                              event,
+                              Number(question.question_id)
+                            )
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -409,7 +495,9 @@ const CompanyQuiz: React.FC = () => {
               <ActionButton
                 label="Finish Quiz"
                 color="darkgreen"
-                onClick={() => {}}
+                onClick={() => {
+                  handleFinishQuiz();
+                }}
               />
             </div>
           </div>

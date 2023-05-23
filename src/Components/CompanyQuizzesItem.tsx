@@ -43,7 +43,6 @@ const CompanyQuizzesItem: React.FC<CompanyQuizzesItemProps> = ({
           </div>
         </div>
 
-        {/* Add condition in future if needed... */}
         {checkOwnerOrAdmin() && (
           <div className="flex justify-center items-center gap-4">
             <ActionButton label="Delete" onClick={handleDeleteQuiz} />
