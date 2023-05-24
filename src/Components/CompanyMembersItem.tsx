@@ -23,7 +23,30 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
   handleMakeAdminUserFromCompany,
   handleAddToBlock,
 }) => {
+  const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
+
   const { id } = useParams();
+
+  const fetchUserLastQuizPass = async () => {
+    try {
+      const response = await api.getCompanyQuizzesLastPass(Number(id));
+      const users = response.data.result.users;
+      for (let user of users) {
+        if (user.user_id === member.user_id) {
+          const quizLastPass =
+            user.quizzes.length > 0 &&
+            user.quizzes[user.quizzes.length - 1].last_quiz_pass_at;
+          setQuizLastPassTime(quizLastPass);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserLastQuizPass();
+  }, []);
 
   const handleMakeUserAdmin = () => {
     handleMakeUserAdminFromCompany(Number(member.action_id));
@@ -57,7 +80,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
                   member.user_avatar ||
                   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                 }
-                alt="Company Avatar"
+                alt="User Avatar"
               />
             </div>
             <div>
@@ -66,6 +89,11 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
               </div>
               <div className="text-sm font-bold text-gray-500">
                 {member.user_email}
+              </div>
+              <div className="text-xs text-gray-500">
+                {quizLastPassTime
+                  ? `Last quiz: ${quizLastPassTime}`
+                  : "0 quizzes passed"}
               </div>
             </div>
           </div>

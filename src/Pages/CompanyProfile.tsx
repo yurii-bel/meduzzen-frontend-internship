@@ -390,6 +390,15 @@ const CompanyProfile: React.FC = () => {
                 </Link>
               </li>
               <hr />
+              <li>
+                <Link
+                  to={`/company-analytics/${id}`}
+                  className="hover:text-purple-900"
+                >
+                  Analytics
+                </Link>
+              </li>
+              <hr />
             </>
           ) : (
             ""

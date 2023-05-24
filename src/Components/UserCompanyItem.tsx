@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import api from "../Api/api";
 import { Company } from "../Types/types";
 import Button from "./Core/Button";
 
@@ -13,6 +14,25 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
   handleLeaveCompany,
 }) => {
   const { id } = useParams();
+
+  const [companyAvgRating, setCompanyAvgRating] = useState<number>();
+
+  const fetchUserAvgRating = async () => {
+    try {
+      const response = await api.getUserRatingInCompany(
+        Number(id),
+        company.company_id
+      );
+      const avgRating = response.data.result.rating;
+      setCompanyAvgRating(avgRating / 10);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserAvgRating();
+  }, []);
 
   const handleLeave = () => {
     handleLeaveCompany(company.action_id);
@@ -42,6 +62,10 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
               >
                 {company.action}
               </span>
+            </p>
+            <p className="text-sm text-gray-700">
+              Average rating:
+              <span className="pl-1 font-bold">{companyAvgRating}</span>
             </p>
           </div>
         </div>

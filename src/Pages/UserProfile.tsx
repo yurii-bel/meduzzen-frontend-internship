@@ -1,4 +1,5 @@
 import React from "react";
+import Rating from "../Components/Core/Rating";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../Api/api";
@@ -31,6 +32,52 @@ const UserProfile: React.FC = () => {
   const loggedUser = useSelector((state: RootState) => state.user);
   // Modal
   const [showModal, setShowModal] = useState(false);
+
+  const [userAvgRating, setUserAvgRating] = useState<number>();
+
+  const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
+  const [lastQuizId, setLastQuizId] = useState<number>();
+
+  const fetchUserAvgRating = async () => {
+    try {
+      const response = await api.getUserGlobalRating(Number(id));
+      const globalRating = response.data.result.rating;
+      setUserAvgRating(globalRating / 10);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchUserLastQuizPass = async () => {
+    try {
+      const response = await api.getUserQuizzesLastPass(Number(id));
+      const quizzes = response.data.result.quizzes;
+
+      // const tquiz = quizzes.map((quiz: any[]) => console.log(quiz));
+      const lastQuiz = quizzes.reduce((latest: any, current: any) => {
+        const currentDateTime = new Date(current.last_quiz_pass_at);
+        const latestDateTime = latest
+          ? new Date(latest.last_quiz_pass_at)
+          : null;
+
+        if (!latestDateTime || currentDateTime > latestDateTime) {
+          return current;
+        }
+
+        return latest;
+      }, null);
+
+      setLastQuizId(lastQuiz.quiz_id);
+      setQuizLastPassTime(lastQuiz.last_quiz_pass_at);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserAvgRating();
+    fetchUserLastQuizPass();
+  }, []);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -191,6 +238,19 @@ const UserProfile: React.FC = () => {
         <h2 className="text-xl font-bold text-purple-700">
           {user.user_firstname} {user.user_lastname}
         </h2>
+        <div className="mt-2 flex flex-col justify-center items-center bg-purple-50 p-1 border border-gray-500 hover:bg-purple-100 rounded-md">
+          <div className="text-sm text-gray-700">
+            <span className="font-bold">Rating:</span> {Number(userAvgRating)}/
+            {10}
+          </div>
+          <Rating rating={Math.round(Number(userAvgRating))} maxRating={10} />
+          <div className="flex flex-col justify-center items-center text-sm text-gray-700">
+            <p className="font-bold">Last passed quiz id:</p>
+            <span> {lastQuizId}</span>
+            <p className="font-bold">Last pass at: </p>
+            <span>{quizLastPassTime.replace("T", " ")}</span>
+          </div>
+        </div>
 
         <form className="mt-6 space-y-1">
           <div className="grid grid-cols-1 gap-6">

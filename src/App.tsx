@@ -23,6 +23,7 @@ import CompanySendInvite from "./Pages/CompanySendInvite";
 import CompanyBlockedList from "./Pages/CompanyBlockedList";
 import CompanyQuizzesList from "./Pages/CompanyQuizzesList";
 import CompanyQuiz from "./Pages/CompanyQuiz";
+import CompanyAnalytics from "./Pages/CompanyAnalytics";
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -90,6 +91,11 @@ const App: React.FC = () => {
               path="/company-profile/:id/quizzes-list/:qid"
               element={<CompanyQuiz />}
             />
+            <Route
+              path="/company-analytics/:id"
+              element={<CompanyAnalytics />}
+            />
+
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>
