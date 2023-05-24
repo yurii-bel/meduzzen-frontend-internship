@@ -120,14 +120,6 @@ export type MyAnswers = {
   answers: Answers;
 };
 
-// export type MyAnswers = {
-//   answers: {
-//     additionalProp1: "string",
-//     additionalProp2: "string",
-//     additionalProp3: "string"
-//   }
-// };
-
 export type Member = {
   user_id: number;
   action: string;
