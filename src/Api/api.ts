@@ -279,6 +279,19 @@ const getCompanyLastAnswersCsvForQuiz = (companyId: number, quizId: number) => {
   );
 };
 
+const getUserNotificationsList = (id: number) => {
+  return apiInstance.get(`user/${id}/notifications_list`);
+};
+
+const getUserMarkNotificationsAsRead = (
+  userId: number,
+  notificationId: number
+) => {
+  return apiInstance.get(
+    `user/${userId}/mark_notification_as_read/${notificationId}`
+  );
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -365,6 +378,8 @@ const api = {
   getCompanyLastAnswersCSV,
   getCompanyLastAnswersCsvForUser,
   getCompanyLastAnswersCsvForQuiz,
+  getUserNotificationsList,
+  getUserMarkNotificationsAsRead,
   login,
   signUp,
   authme,
