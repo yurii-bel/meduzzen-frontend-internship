@@ -217,10 +217,8 @@ const postAddQuestion = (id: number, question: Question) => {
   return apiInstance.post(`/quiz/${id}/add_question`, question);
 };
 
-const postTakeQuiz = (answers: { [key: string]: string }, id: number) => {
-  return apiInstance.post(`/quiz/${id}/take_quiz`, {
-    answers: answers,
-  });
+const postTakeQuiz = (id: number, answers: any) => {
+  return apiInstance.post(`/quiz/${id}/take_quiz`, answers);
 };
 
 const putUpdateQuestion = (id: number, question: Question) => {

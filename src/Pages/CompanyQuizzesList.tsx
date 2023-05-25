@@ -8,12 +8,8 @@ import Button from "../Components/Core/Button";
 import Spinner from "../Components/Core/Spinner";
 import Modal from "../Components/Modal/Modal";
 import { RootState } from "../Store";
-import { Question, Quiz, User } from "../Types/types";
-interface Member {
-  user_id: number;
-  action: string; // Adjust the type of 'action' according to your needs
-  // Other properties of the member object
-}
+import { Question, Quiz, Member } from "../Types/types";
+
 const CompanyQuizzesList: React.FC = () => {
   const [quizzesList, setQuizzesList] = useState<Quiz[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -339,11 +335,14 @@ const CompanyQuizzesList: React.FC = () => {
       </Modal>
       <div className="m-6">
         <h3 className="font-bold text-xl mb-4">Quizzes list of the company</h3>
-        <ActionButton
-          label="Create quiz"
-          color="darkblue"
-          onClick={handleShowModal}
-        />
+        {checkOwnerOrAdmin() && (
+          <ActionButton
+            label="Create quiz"
+            color="darkblue"
+            onClick={handleShowModal}
+          />
+        )}
+
         <div className="grid grid-cols-1 mt-4 gap-4 md:grid-cols-2">
           {isLoading ? (
             <Spinner />
