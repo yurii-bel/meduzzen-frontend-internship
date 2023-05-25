@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import ActionButton from "../Components/Core/ActionButton";
 import { UsersTotal } from "../Types/types";
+import generateChartDataUser from "../Utils/generateChartDataUser";
+import generateChartData from "../Utils/generateChartData";
 
 Chart.register(CategoryScale);
 
@@ -39,42 +41,9 @@ const CompanyAnalytics: React.FC = () => {
         Number(selectedUser)
       );
       const ratingA = response.data.result.rating;
-      const userTotal: UsersTotal[] = [];
-      for (let r of ratingA) {
-        if (r.rating.length !== 0) {
-          r.rating.map((rdata: any) => {
-            userTotal.push({
-              id: r.quiz_id,
-              avg_rating: rdata.average_rating,
-              current_rating: rdata.current_rating,
-              data_time: rdata.pass_at,
-            });
-          });
-        }
-      }
 
-      setChartDataUser({
-        labels: userTotal.map((data) => [
-          `Date: ${data.data_time}`,
-          `Quiz id: ${data.id}`,
-        ]),
-        datasets: [
-          {
-            label: "User Average Rating",
-            data: userTotal.map((data) => data.avg_rating),
-            backgroundColor: "darkblue",
-            borderColor: "darkblue",
-            borderWidth: 1,
-          },
-          {
-            label: "User Current Rating",
-            data: userTotal.map((data) => data.current_rating),
-            backgroundColor: "darkred",
-            borderColor: "darkred",
-            borderWidth: 1,
-          },
-        ],
-      });
+      const chartDataUser = generateChartDataUser(ratingA);
+      setChartDataUser(chartDataUser);
     } catch (error) {
       console.error(error);
     }
@@ -85,48 +54,10 @@ const CompanyAnalytics: React.FC = () => {
       const response = await api.getCompanySummaryRatingForUsersA(Number(id));
       const ratingA = response.data.result.rating;
 
-      const usersIds: number[] = [];
-      const usersTotal: UsersTotal[] = [];
-
-      for (let r of ratingA) {
-        if (r.rating.length !== 0) {
-          r.rating.map((rdata: any) => {
-            usersTotal.push({
-              id: r.user_id,
-              avg_rating: rdata.average_rating,
-              current_rating: rdata.current_rating,
-              data_time: rdata.pass_at,
-            });
-          });
-
-          usersIds.push(r.user_id);
-        }
-      }
+      const { usersIds, chartData } = generateChartData(ratingA);
 
       setUsersIdsList(usersIds);
-
-      setChartData({
-        labels: usersTotal.map((data) => [
-          `Date: ${data.data_time}`,
-          `User id: ${data.id}`,
-        ]),
-        datasets: [
-          {
-            label: "User Average Rating",
-            data: usersTotal.map((data) => data.avg_rating),
-            backgroundColor: "darkblue",
-            borderColor: "darkblue",
-            borderWidth: 1,
-          },
-          {
-            label: "User Current Rating",
-            data: usersTotal.map((data) => data.current_rating),
-            backgroundColor: "darkred",
-            borderColor: "darkred",
-            borderWidth: 1,
-          },
-        ],
-      });
+      setChartData(chartData);
     } catch (error) {
       setError("Error occurred while fetching data");
     } finally {
@@ -204,3 +135,9 @@ const CompanyAnalytics: React.FC = () => {
 };
 
 export default CompanyAnalytics;
+function generateUsersChartData(ratingA: any): {
+  usersIds: any;
+  chartData: any;
+} {
+  throw new Error("Function not implemented.");
+}
