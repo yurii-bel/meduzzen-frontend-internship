@@ -259,6 +259,10 @@ const getUserGlobalRating = (id: number) => {
   return apiInstance.get(`user/${id}/global_rating`);
 };
 
+const getUserLastAnswersCSV = (id: number) => {
+  return apiInstance.get(`user/${id}/last_answers_csv`);
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -341,6 +345,7 @@ const api = {
   getCompanyQuizzesLastPass,
   getUserRatingInCompany,
   getUserGlobalRating,
+  getUserLastAnswersCSV,
   login,
   signUp,
   authme,

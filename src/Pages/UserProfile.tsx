@@ -15,6 +15,7 @@ import {
   validateName,
   validatePhoneNumber,
 } from "../Utils/utils";
+import ActionButton from "../Components/Core/ActionButton";
 
 const UserProfile: React.FC = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ const UserProfile: React.FC = () => {
   const [passwordDisabled, setPasswordDisabled] = useState<boolean>(true);
   const [updateDisabled, setUpdateDisabled] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
+  const [userDataCsv, setUserDataCsv] = useState("");
 
   const handleLogout = useLogout();
 
@@ -37,6 +39,24 @@ const UserProfile: React.FC = () => {
 
   const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
   const [lastQuizId, setLastQuizId] = useState<number>();
+
+  const handleDownloadCSV = () => {
+    const csvData =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(userDataCsv);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvData);
+    link.setAttribute("download", `user_${id}_quiz_data.csv`);
+    link.click();
+  };
+
+  const fetchUserQuizData = async () => {
+    try {
+      const response = await api.getUserLastAnswersCSV(Number(id));
+      setUserDataCsv(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchUserAvgRating = async () => {
     try {
@@ -77,6 +97,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     fetchUserAvgRating();
     fetchUserLastQuizPass();
+    fetchUserQuizData();
   }, []);
 
   const handleCloseModal = () => {
@@ -461,6 +482,11 @@ const UserProfile: React.FC = () => {
           </li>
           <hr />
         </ul>
+        <ActionButton
+          label="Export quiz results"
+          color="darkblue"
+          onClick={handleDownloadCSV}
+        />
       </div>
     </div>
   );
