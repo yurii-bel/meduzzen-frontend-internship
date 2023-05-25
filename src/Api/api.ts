@@ -263,6 +263,22 @@ const getUserLastAnswersCSV = (id: number) => {
   return apiInstance.get(`user/${id}/last_answers_csv`);
 };
 
+const getCompanyLastAnswersCSV = (id: number) => {
+  return apiInstance.get(`company/${id}/last_answers_csv`);
+};
+
+const getCompanyLastAnswersCsvForUser = (companyId: number, userId: number) => {
+  return apiInstance.get(
+    `company/${companyId}/last_answers_csv_for_user/${userId}`
+  );
+};
+
+const getCompanyLastAnswersCsvForQuiz = (companyId: number, quizId: number) => {
+  return apiInstance.get(
+    `company/${companyId}/last_answers_csv_for_quiz/${quizId}`
+  );
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -346,6 +362,9 @@ const api = {
   getUserRatingInCompany,
   getUserGlobalRating,
   getUserLastAnswersCSV,
+  getCompanyLastAnswersCSV,
+  getCompanyLastAnswersCsvForUser,
+  getCompanyLastAnswersCsvForQuiz,
   login,
   signUp,
   authme,

@@ -16,7 +16,7 @@ import {
 } from "../Utils/utils";
 
 const CompanyProfile: React.FC = () => {
-  const { id, qid } = useParams();
+  const { id } = useParams();
   const [company, setCompany] = useState<CompanyState>();
   const [initialCompany, setInitialCompany] = useState<CompanyState>();
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -27,6 +27,26 @@ const CompanyProfile: React.FC = () => {
   const navigate = useNavigate();
   const loggedUser = useSelector((state: RootState) => state.user);
 
+  const [usersDataCsv, setUsersDataCsv] = useState("");
+
+  const handleDownloadCSV = () => {
+    const csvData =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(usersDataCsv);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvData);
+    link.setAttribute("download", `company_${id}_users_quiz_data.csv`);
+    link.click();
+  };
+
+  const fetchUserQuizData = async () => {
+    try {
+      const response = await api.getCompanyLastAnswersCSV(Number(id));
+      setUsersDataCsv(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     api.getCompanyMembersList(Number(id)).then((response) => {
       for (let user of response.data.result.users) {
@@ -35,6 +55,7 @@ const CompanyProfile: React.FC = () => {
         }
       }
     });
+    fetchUserQuizData();
   }, []);
 
   useEffect(() => {
@@ -397,6 +418,10 @@ const CompanyProfile: React.FC = () => {
                 >
                   Analytics
                 </Link>
+              </li>
+              <hr />
+              <li className="hover: cursor-pointer" onClick={handleDownloadCSV}>
+                Export quiz
               </li>
               <hr />
             </>

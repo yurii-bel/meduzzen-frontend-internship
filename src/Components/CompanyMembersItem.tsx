@@ -25,7 +25,33 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
 }) => {
   const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
 
+  const [userDataCsv, setUserDataCsv] = useState("");
+
   const { id } = useParams();
+
+  const handleDownloadCSV = () => {
+    const csvData =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(userDataCsv);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvData);
+    link.setAttribute(
+      "download",
+      `company_${id}_user_${member.user_id}_quiz_data.csv`
+    );
+    link.click();
+  };
+
+  const fetchUserQuizData = async () => {
+    try {
+      const response = await api.getCompanyLastAnswersCsvForUser(
+        Number(id),
+        member.user_id
+      );
+      setUserDataCsv(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchUserLastQuizPass = async () => {
     try {
@@ -46,6 +72,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
 
   useEffect(() => {
     fetchUserLastQuizPass();
+    fetchUserQuizData();
   }, []);
 
   const handleMakeUserAdmin = () => {
@@ -95,6 +122,16 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
                   ? `Last quiz: ${quizLastPassTime}`
                   : "0 quizzes passed"}
               </div>
+              {member && (
+                <div className="h-0">
+                  <span
+                    className="text-xs font-bold tracking-wide text-white px-2 py-0.5 bg-gray-700 border hover:cursor-pointer hover:bg-blue-700 active:bg-blue-700 duration-200 select-none rounded-md"
+                    onClick={() => handleDownloadCSV()}
+                  >
+                    Export quiz data
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -110,6 +147,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
           {member.action}
         </div>
       </div>
+
       {enableActions &&
         (member.action === "member" || member.action === "admin") && (
           <div className="flex justify-center items-center gap-4">
