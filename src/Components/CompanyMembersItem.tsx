@@ -23,7 +23,57 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
   handleMakeAdminUserFromCompany,
   handleAddToBlock,
 }) => {
+  const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
+
+  const [userDataCsv, setUserDataCsv] = useState("");
+
   const { id } = useParams();
+
+  const handleDownloadCSV = () => {
+    const csvData =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(userDataCsv);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvData);
+    link.setAttribute(
+      "download",
+      `company_${id}_user_${member.user_id}_quiz_data.csv`
+    );
+    link.click();
+  };
+
+  const fetchUserQuizData = async () => {
+    try {
+      const response = await api.getCompanyLastAnswersCsvForUser(
+        Number(id),
+        member.user_id
+      );
+      setUserDataCsv(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchUserLastQuizPass = async () => {
+    try {
+      const response = await api.getCompanyQuizzesLastPass(Number(id));
+      const users = response.data.result.users;
+      for (let user of users) {
+        if (user.user_id === member.user_id) {
+          const quizLastPass =
+            user.quizzes.length > 0 &&
+            user.quizzes[user.quizzes.length - 1].last_quiz_pass_at;
+          setQuizLastPassTime(quizLastPass);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserLastQuizPass();
+    fetchUserQuizData();
+  }, []);
 
   const handleMakeUserAdmin = () => {
     handleMakeUserAdminFromCompany(Number(member.action_id));
@@ -57,7 +107,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
                   member.user_avatar ||
                   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
                 }
-                alt="Company Avatar"
+                alt="User Avatar"
               />
             </div>
             <div>
@@ -67,6 +117,21 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
               <div className="text-sm font-bold text-gray-500">
                 {member.user_email}
               </div>
+              <div className="text-xs text-gray-500">
+                {quizLastPassTime
+                  ? `Last quiz: ${quizLastPassTime}`
+                  : "0 quizzes passed"}
+              </div>
+              {member && (
+                <div className="h-0">
+                  <span
+                    className="text-xs font-bold tracking-wide text-white px-2 py-0.5 bg-gray-700 border hover:cursor-pointer hover:bg-blue-700 active:bg-blue-700 duration-200 select-none rounded-md"
+                    onClick={() => handleDownloadCSV()}
+                  >
+                    Export quiz data
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -82,6 +147,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
           {member.action}
         </div>
       </div>
+
       {enableActions &&
         (member.action === "member" || member.action === "admin") && (
           <div className="flex justify-center items-center gap-4">

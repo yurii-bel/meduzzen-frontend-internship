@@ -9,20 +9,45 @@ interface CompanyQuizzesItemProps {
   quiz: Quiz;
   onDeleteQuiz: (actionId: number | undefined) => void;
   checkOwnerOrAdmin: () => boolean | undefined;
-  //   onDeclineRequest: (actionId: string) => void;
 }
 
 const CompanyQuizzesItem: React.FC<CompanyQuizzesItemProps> = ({
   quiz,
   onDeleteQuiz,
   checkOwnerOrAdmin,
-  //   onDeclineRequest,
 }) => {
   const { id } = useParams();
+
+  const [quizDataCsv, setQuizDataCsv] = useState("");
 
   const handleDeleteQuiz = () => {
     onDeleteQuiz(quiz.quiz_id);
   };
+
+  const handleDownloadCSV = () => {
+    const csvData =
+      "data:text/csv;charset=utf-8," + encodeURIComponent(quizDataCsv);
+    const link = document.createElement("a");
+    link.setAttribute("href", csvData);
+    link.setAttribute("download", `company_${id}_quiz${quiz.quiz_id}_data.csv`);
+    link.click();
+  };
+
+  const fetchUserQuizData = async () => {
+    try {
+      const response = await api.getCompanyLastAnswersCsvForQuiz(
+        Number(id),
+        Number(quiz.quiz_id)
+      );
+      setQuizDataCsv(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserQuizData();
+  }, []);
 
   return (
     <div className="flex justify-between p-2 border-2 bg-gray-50 rounded-md">
@@ -46,6 +71,11 @@ const CompanyQuizzesItem: React.FC<CompanyQuizzesItemProps> = ({
         {checkOwnerOrAdmin() && (
           <div className="flex justify-center items-center gap-4">
             <ActionButton label="Delete" onClick={handleDeleteQuiz} />
+            <ActionButton
+              label="Export"
+              color="darkblue"
+              onClick={handleDownloadCSV}
+            />
           </div>
         )}
       </div>

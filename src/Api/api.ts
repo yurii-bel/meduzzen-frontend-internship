@@ -229,6 +229,56 @@ const deleteQuestion = (id: number) => {
   return apiInstance.delete(`/question/${id}/`);
 };
 
+const getCompanySummaryRatingForUsers = (id: number) => {
+  return apiInstance.get(`/company/${id}/summary_rating_for_users/`);
+};
+
+const getCompanySummaryRatingForUsersA = (id: number) => {
+  return apiInstance.get(`/company/${id}/summary_rating_analytic_for_users/`);
+};
+
+const getCompanySummaryRatingForUserA = (companyId: number, userId: number) => {
+  return apiInstance.get(
+    `/company/${companyId}/summary_rating_analytic_for_user/${userId}`
+  );
+};
+
+const getUserQuizzesLastPass = (id: number) => {
+  return apiInstance.get(`/user/${id}/quizzes_last_pass`);
+};
+
+const getCompanyQuizzesLastPass = (id: number) => {
+  return apiInstance.get(`/company/${id}/quizzes_last_pass`);
+};
+
+const getUserRatingInCompany = (userId: number, companyId: number) => {
+  return apiInstance.get(`user/${userId}/rating_in_company/${companyId}`);
+};
+
+const getUserGlobalRating = (id: number) => {
+  return apiInstance.get(`user/${id}/global_rating`);
+};
+
+const getUserLastAnswersCSV = (id: number) => {
+  return apiInstance.get(`user/${id}/last_answers_csv`);
+};
+
+const getCompanyLastAnswersCSV = (id: number) => {
+  return apiInstance.get(`company/${id}/last_answers_csv`);
+};
+
+const getCompanyLastAnswersCsvForUser = (companyId: number, userId: number) => {
+  return apiInstance.get(
+    `company/${companyId}/last_answers_csv_for_user/${userId}`
+  );
+};
+
+const getCompanyLastAnswersCsvForQuiz = (companyId: number, quizId: number) => {
+  return apiInstance.get(
+    `company/${companyId}/last_answers_csv_for_quiz/${quizId}`
+  );
+};
+
 const login = (email: string, password: string) => {
   return apiInstance.post("/auth/login", {
     user_email: email,
@@ -304,6 +354,17 @@ const api = {
   postTakeQuiz,
   putUpdateQuestion,
   deleteQuestion,
+  getCompanySummaryRatingForUsers,
+  getCompanySummaryRatingForUsersA,
+  getCompanySummaryRatingForUserA,
+  getUserQuizzesLastPass,
+  getCompanyQuizzesLastPass,
+  getUserRatingInCompany,
+  getUserGlobalRating,
+  getUserLastAnswersCSV,
+  getCompanyLastAnswersCSV,
+  getCompanyLastAnswersCsvForUser,
+  getCompanyLastAnswersCsvForQuiz,
   login,
   signUp,
   authme,

@@ -120,9 +120,27 @@ export type MyAnswers = {
   answers: Answers;
 };
 
+export type SummaryRatingForUsersType = {
+  rating: number;
+  user_id: number;
+};
+
+export type SummaryRatingForUsersAType = {
+  current_rating: number;
+  average_rating: number;
+  pass_at: string;
+};
+
 export type Member = {
   user_id: number;
   action: string;
+};
+
+export type UsersTotal = {
+  id: number;
+  avg_rating: number;
+  current_rating: number;
+  data_time: string;
 };
 
 export type Children = { children: React.ReactNode };
