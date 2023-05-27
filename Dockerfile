@@ -4,12 +4,12 @@ RUN mkdir -p /app
 WORKDIR /app
 ADD . /app/
 
-COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
-RUN npm install --prefix /app/
+# COPY ./package.json /app/package.json
+# COPY ./package-lock.json /app/package-lock.json
+RUN npm install
 
 
-COPY . /app
+# COPY . /app
 
 ENV HOST 0.0.0.0
 EXPOSE 3000
