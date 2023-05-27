@@ -43,11 +43,20 @@ const NotificationBell: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getNotificationData();
-      setNotificationsData(data);
+      // Sort the data array to show unread messages first
+      const sortedData = data.sort((a: Notification, b: Notification) => {
+        if (a.is_read && !b.is_read) {
+          return 1;
+        } else if (!a.is_read && b.is_read) {
+          return -1;
+        }
+        return 0;
+      });
+      setNotificationsData(sortedData);
     };
 
     fetchData();
-  }, [notificationsData]);
+  }, []);
 
   return (
     <div className="relative">
@@ -60,14 +69,17 @@ const NotificationBell: React.FC = () => {
             checkUnreadMesssages() > 0 ? "animate-bounce" : ""
           }`}
         >
-          <span className="bg-purple-700 -mr-1 -mt-4 rounded-full p-0.5 text-white text-xs font-bold">
-            {checkUnreadMesssages()}
-          </span>
+          {checkUnreadMesssages() > 0 && (
+            <span className="bg-purple-700 -mr-1 -mt-4 rounded-full p-0.5 text-white text-xs font-bold">
+              {checkUnreadMesssages()}
+            </span>
+          )}
+
           <AiOutlineBell />
         </div>
       </div>
       {showNotifications && (
-        <div className="flex flex-col gap-2 overflow-y-scroll h-64 absolute top-0 right-0 mt-8 w-80 bg-white text-black shadow-lg rounded-md p-4">
+        <div className="z-10 flex flex-col gap-2 overflow-y-scroll h-64 absolute top-0 right-0 mt-8 w-80 bg-white text-black shadow-lg rounded-md p-4">
           {/* Render notification content from state */}
           {notificationsData.map((notification, index) => (
             <div
