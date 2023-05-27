@@ -1,19 +1,19 @@
 FROM node:latest
 
-# WORKDIR ./
+RUN mkdir -p /app
+WORKDIR /app
+ADD . /app/
 
-COPY ./package.json ./package.json
-COPY ./package-lock.json ./package-lock.json
-RUN npm install
+COPY ./package.json /app/package.json
+COPY ./package-lock.json /app/package-lock.json
+RUN npm install --prefix /app/
 
-COPY . .
 
-# COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm install
-# COPY . .do
+COPY . /app
 
+ENV HOST 0.0.0.0
 EXPOSE 3000
 
 CMD ["npm", "start"]
 # CMD ["npm", "start", "--prefix", "/app/"]
+# CMD ["npm", "run", "build"]
