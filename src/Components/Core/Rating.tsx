@@ -6,16 +6,16 @@ interface RatingProps {
 }
 
 const Rating: React.FC<RatingProps> = ({ rating }) => {
-  const starIcons = [];
-
-  for (let i = 1; i <= rating; i++) {
-    const starClassName = i <= rating ? "star-filled" : "star-empty";
-    starIcons.push(
-      <span key={i} className={`star-icon ${starClassName}`}>
-        &#9733;
-      </span>
-    );
-  }
+  const starIcons = Array(rating)
+    .fill(null)
+    .map((_, index) => {
+      const starClassName = index < rating ? "star-filled" : "star-empty";
+      return (
+        <span key={index} className={`star-icon ${starClassName}`}>
+          &#9733;
+        </span>
+      );
+    });
 
   return <div className="rating">{starIcons}</div>;
 };
