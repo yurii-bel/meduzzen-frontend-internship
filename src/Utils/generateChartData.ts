@@ -4,6 +4,15 @@ const generateChartData = (ratingA: UserRating[]) => {
   const usersIds: number[] = [];
   const usersTotal: UsersTotal[] = [];
 
+  const generateRandomColor = (): string => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   ratingA.forEach((r) => {
     if (r.rating.length !== 0) {
       r.rating.forEach((rdata) => {
@@ -19,27 +28,37 @@ const generateChartData = (ratingA: UserRating[]) => {
     }
   });
 
+  const separatedUsers: { [id: number]: UsersTotal[] } = usersTotal.reduce(
+    (result, obj) => {
+      const { id } = obj;
+      if (!result[id]) {
+        result[id] = [];
+      }
+      result[id].push(obj);
+      return result;
+    },
+    {} as { [id: number]: UsersTotal[] }
+  );
+
+  const usersData = Object.values(separatedUsers);
+
   const chartData = {
-    labels: usersTotal.map((data) => [
-      `Date: ${data.data_time}`,
-      `User id: ${data.id}`,
-    ]),
-    datasets: [
-      {
-        label: "User Average Rating",
-        data: usersTotal.map((data) => data.avg_rating),
-        backgroundColor: "darkblue",
-        borderColor: "darkblue",
-        borderWidth: 1,
-      },
-      {
-        label: "User Current Rating",
-        data: usersTotal.map((data) => data.current_rating),
-        backgroundColor: "darkred",
-        borderColor: "darkred",
-        borderWidth: 1,
-      },
-    ],
+    labels: usersTotal.map((data) => [`${data.data_time}`]),
+    datasets: usersData.map((array, index) => {
+      const color = generateRandomColor();
+      return {
+        label: `User ${array[0].id}`,
+        data: array.map((data) => data.avg_rating),
+        backgroundColor: "transparent",
+        borderColor: color,
+        borderWidth: 2,
+        pointBackgroundColor: color,
+        pointBorderColor: "#fff",
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        tension: 0.1,
+      };
+    }),
   };
 
   return {

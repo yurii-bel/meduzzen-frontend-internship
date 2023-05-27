@@ -17,27 +17,46 @@ const generateChartDataUser = (ratingA: UserRating[]): ChartData => {
     }
   });
 
+  const separatedArrays: { [id: number]: UsersTotal[] } = userTotal.reduce(
+    (result, obj) => {
+      const { id } = obj;
+      if (!result[id]) {
+        result[id] = [];
+      }
+      result[id].push(obj);
+      return result;
+    },
+    {} as { [id: number]: UsersTotal[] }
+  );
+
+  const arrays = Object.values(separatedArrays);
+
+  const generateRandomColor = (): string => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   const chartDataUser: ChartData = {
-    labels: userTotal.map((data) => [
-      `Date: ${data.data_time}`,
-      `Quiz id: ${data.id}`,
-    ]),
-    datasets: [
-      {
-        label: "User Average Rating",
-        data: userTotal.map((data) => data.avg_rating),
-        backgroundColor: "darkblue",
-        borderColor: "darkblue",
-        borderWidth: 1,
-      },
-      {
-        label: "User Current Rating",
-        data: userTotal.map((data) => data.current_rating),
-        backgroundColor: "darkred",
-        borderColor: "darkred",
-        borderWidth: 1,
-      },
-    ],
+    labels: userTotal.map((data) => [`${data.data_time}`]),
+    datasets: arrays.map((array, index) => {
+      const color = generateRandomColor();
+      return {
+        label: `Quiz ${array[0].id}`,
+        data: array.map((data) => data.avg_rating),
+        backgroundColor: "transparent",
+        borderColor: color,
+        borderWidth: 2,
+        pointBackgroundColor: color,
+        pointBorderColor: "#fff",
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        tension: 0.1,
+      };
+    }),
   };
 
   return chartDataUser;
