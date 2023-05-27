@@ -153,4 +153,27 @@ export type Notification = {
   created_at: string;
 };
 
+export type RatingData = {
+  current_rating: number;
+  average_rating: number;
+  pass_at: string;
+};
+
+export type UserRating = {
+  rating: RatingData[];
+  user_id: number;
+  quiz_id?: number;
+};
+
+export type ChartData = {
+  labels: string[][];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+  }[];
+};
+
 export type Children = { children: React.ReactNode };

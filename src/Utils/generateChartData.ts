@@ -1,12 +1,12 @@
-import { UsersTotal } from "../Types/types";
+import { UsersTotal, UserRating } from "../Types/types";
 
-const generateChartData = (ratingA: any[]) => {
+const generateChartData = (ratingA: UserRating[]) => {
   const usersIds: number[] = [];
   const usersTotal: UsersTotal[] = [];
 
-  for (let r of ratingA) {
+  ratingA.forEach((r) => {
     if (r.rating.length !== 0) {
-      r.rating.forEach((rdata: any) => {
+      r.rating.forEach((rdata) => {
         usersTotal.push({
           id: r.user_id,
           avg_rating: rdata.average_rating,
@@ -17,7 +17,7 @@ const generateChartData = (ratingA: any[]) => {
 
       usersIds.push(r.user_id);
     }
-  }
+  });
 
   const chartData = {
     labels: usersTotal.map((data) => [

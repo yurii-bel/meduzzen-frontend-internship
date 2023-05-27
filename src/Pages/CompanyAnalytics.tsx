@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
+import { CategoryScale, ChartData } from "chart.js";
 import { BarChart } from "../Components/BarChart";
 import api from "../Api/api";
 import { useParams } from "react-router-dom";
@@ -13,8 +13,18 @@ import generateChartData from "../Utils/generateChartData";
 Chart.register(CategoryScale);
 
 const CompanyAnalytics: React.FC = () => {
-  const [chartData, setChartData] = useState<any>({});
-  const [chartDataUser, setChartDataUser] = useState<any>({});
+  const [chartData, setChartData] = useState<
+    ChartData<"line", number[], string[]>
+  >({
+    labels: [],
+    datasets: [],
+  });
+  const [chartDataUser, setChartDataUser] = useState<
+    ChartData<"line", number[], string[]>
+  >({
+    labels: [],
+    datasets: [],
+  });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [showUsersChart, setShowUsersChart] = useState<boolean>(false);
@@ -135,9 +145,3 @@ const CompanyAnalytics: React.FC = () => {
 };
 
 export default CompanyAnalytics;
-function generateUsersChartData(ratingA: any): {
-  usersIds: any;
-  chartData: any;
-} {
-  throw new Error("Function not implemented.");
-}

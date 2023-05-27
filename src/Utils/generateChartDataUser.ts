@@ -1,21 +1,23 @@
-import { UsersTotal } from "../Types/types";
+import { UsersTotal, RatingData, UserRating, ChartData } from "../Types/types";
 
-const generateChartDataUser = (ratingA: any[]): any => {
+const generateChartDataUser = (ratingA: UserRating[]): ChartData => {
   const userTotal: UsersTotal[] = [];
-  for (let r of ratingA) {
+  ratingA.forEach((r) => {
     if (r.rating.length !== 0) {
-      r.rating.map((rdata: any) => {
-        userTotal.push({
-          id: r.quiz_id,
-          avg_rating: rdata.average_rating,
-          current_rating: rdata.current_rating,
-          data_time: rdata.pass_at,
-        });
+      r.rating.forEach((rdata) => {
+        if (r.quiz_id) {
+          userTotal.push({
+            id: r.quiz_id,
+            avg_rating: rdata.average_rating,
+            current_rating: rdata.current_rating,
+            data_time: rdata.pass_at,
+          });
+        }
       });
     }
-  }
+  });
 
-  const chartDataUser = {
+  const chartDataUser: ChartData = {
     labels: userTotal.map((data) => [
       `Date: ${data.data_time}`,
       `Quiz id: ${data.id}`,
