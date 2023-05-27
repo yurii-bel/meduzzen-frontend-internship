@@ -40,6 +40,9 @@ const UserProfile: React.FC = () => {
   const [quizLastPassTime, setQuizLastPassTime] = useState<string>("");
   const [lastQuizId, setLastQuizId] = useState<number>();
 
+  const roundedRating = Math.round(Number(userAvgRating));
+  const validatedRating =
+    Number.isInteger(roundedRating) && roundedRating >= 0 ? roundedRating : 0;
   const handleDownloadCSV = () => {
     const csvData =
       "data:text/csv;charset=utf-8," + encodeURIComponent(userDataCsv);
@@ -264,7 +267,7 @@ const UserProfile: React.FC = () => {
             <span className="font-bold">Rating:</span> {Number(userAvgRating)}/
             {10}
           </div>
-          <Rating rating={Math.round(Number(userAvgRating))} maxRating={10} />
+          <Rating rating={validatedRating} maxRating={10} />
           <div className="flex flex-col justify-center items-center text-sm text-gray-700">
             <p className="font-bold">Last passed quiz id:</p>
             <span> {lastQuizId}</span>
