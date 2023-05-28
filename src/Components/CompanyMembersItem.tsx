@@ -71,7 +71,7 @@ const CompanyMembersItem: React.FC<CompanyMembersItemProps> = ({
   useEffect(() => {
     fetchUserLastQuizPass();
     fetchUserQuizData();
-  }, []);
+  }, [fetchUserLastQuizPass, fetchUserQuizData]);
 
   const handleMakeUserAdmin = () => {
     handleMakeUserAdminFromCompany(Number(member.action_id));

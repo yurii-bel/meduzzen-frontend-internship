@@ -22,7 +22,6 @@ const CompanyProfile: React.FC = () => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [updateDisabled, setUpdateDisabled] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<FormData>(new FormData());
-  const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
   const navigate = useNavigate();
   const loggedUser = useSelector((state: RootState) => state.user);
@@ -56,7 +55,7 @@ const CompanyProfile: React.FC = () => {
       }
     });
     fetchUserQuizData();
-  }, []);
+  }, [fetchUserQuizData, id, loggedUser.user_id]);
 
   useEffect(() => {
     const companyId = parseInt(id || "");
@@ -73,7 +72,7 @@ const CompanyProfile: React.FC = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [id, company]);
 
   // Modal
   const [showModal, setShowModal] = useState(false);

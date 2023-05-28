@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Company } from "../Types/types";
 import Button from "./Core/Button";
 import Spinner from "./Core/Spinner";

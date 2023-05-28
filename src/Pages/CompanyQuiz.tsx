@@ -176,7 +176,7 @@ const CompanyQuiz: React.FC = () => {
     api
       .postTakeQuiz(Number(qid), { answers })
       .then((response) => {
-        const { result_id, result_score } = response.data.result;
+        const { result_score } = response.data.result;
         alert(`You have finished the test! Your score is ${result_score}`);
       })
       .catch((error) => {
@@ -205,11 +205,6 @@ const CompanyQuiz: React.FC = () => {
     );
   };
 
-  useEffect(() => {
-    getCompany();
-    checkOwnerOrAdmin();
-  }, []);
-
   const checkOwnerOrAdmin = () => {
     for (let member of members) {
       if (
@@ -220,6 +215,11 @@ const CompanyQuiz: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    getCompany();
+    checkOwnerOrAdmin();
+  }, [getCompany, checkOwnerOrAdmin]);
 
   useEffect(() => {
     fetchQuiz();

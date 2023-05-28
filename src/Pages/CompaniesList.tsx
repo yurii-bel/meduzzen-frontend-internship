@@ -51,7 +51,7 @@ const CompaniesList: React.FC = () => {
       setTotalPages(pagination.total_page);
       setTotalResults(pagination.total_results);
     });
-  }, [currentPage]);
+  }, [currentPage, dispath]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {

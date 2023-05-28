@@ -30,6 +30,6 @@ export const validatePhoneNumber = (phoneNumber: string): boolean => {
 };
 
 export const validateTitle = (title: string): boolean => {
-  const titleRegex = /^[\w\s\-\.,;:!'"]{1,100}$/;
+  const titleRegex = /^[\w\s-.;,:'"]{1,100}$/;
   return titleRegex.test(title);
 };

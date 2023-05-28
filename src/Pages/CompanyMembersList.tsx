@@ -105,7 +105,7 @@ const CompanyMembersList: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, [id, user.user_id]);
+  }, [id, user.user_id, fetchData]);
 
   if (isLoading) {
     return <Spinner />;

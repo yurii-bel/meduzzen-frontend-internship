@@ -65,11 +65,11 @@ const CompanyAnalytics: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   useEffect(() => {
     fetchUserData();
-  }, [selectedUser]);
+  }, [selectedUser, fetchUserData]);
 
   if (loading) {
     return <div>Loading...</div>;

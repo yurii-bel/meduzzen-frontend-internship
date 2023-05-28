@@ -47,7 +47,7 @@ const NotificationBell: React.FC = () => {
     };
 
     fetchData();
-  }, [notificationsData]);
+  }, [notificationsData, getNotificationData]);
 
   return (
     <div className="relative">

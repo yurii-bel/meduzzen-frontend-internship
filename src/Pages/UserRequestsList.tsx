@@ -7,7 +7,7 @@ import { Company } from "../Types/types";
 const UserRequestsList: React.FC = () => {
   const [userRequestsList, setUserRequestsList] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [refreshSignal, setRefreshSignal] = useState("");
+  const [refreshSignal] = useState("");
 
   const { id } = useParams();
 
@@ -30,7 +30,7 @@ const UserRequestsList: React.FC = () => {
 
   useEffect(() => {
     fetchUserRequestsList();
-  }, [refreshSignal]);
+  }, [refreshSignal, fetchUserRequestsList]);
 
   const handleCancelRequest = (actionId: string) => {
     api

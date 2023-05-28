@@ -46,7 +46,7 @@ const CompanyQuizzesItem: React.FC<CompanyQuizzesItemProps> = ({
 
   useEffect(() => {
     fetchUserQuizData();
-  }, []);
+  }, [fetchUserQuizData]);
 
   return (
     <div className="flex justify-between p-2 border-2 bg-gray-50 rounded-md">

@@ -30,7 +30,7 @@ const CompanyInvitesList: React.FC = () => {
 
   useEffect(() => {
     fetchCompanyInvitesList();
-  }, [refreshSignal]);
+  }, [refreshSignal, fetchCompanyInvitesList]);
 
   const handleCancelInvite = (actionId: string) => {
     api

@@ -32,7 +32,7 @@ const UserCompanyItem: React.FC<UserCompanyItemProps> = ({
 
   useEffect(() => {
     fetchUserAvgRating();
-  }, []);
+  }, [fetchUserAvgRating]);
 
   const handleLeave = () => {
     handleLeaveCompany(company.action_id);

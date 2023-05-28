@@ -7,7 +7,7 @@ import { User } from "../Types/types";
 const CompanyBlockedList: React.FC = () => {
   const [companyBlockedList, setCompanyBlockedList] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [refreshSignal, setRefreshSignal] = useState("");
+  const [refreshSignal] = useState("");
 
   const { id } = useParams();
 
@@ -30,7 +30,7 @@ const CompanyBlockedList: React.FC = () => {
 
   useEffect(() => {
     fetchCompanyBlockedList();
-  }, [refreshSignal]);
+  }, [refreshSignal, fetchCompanyBlockedList]);
 
   const handleUnblock = async (actionId: string) => {
     try {

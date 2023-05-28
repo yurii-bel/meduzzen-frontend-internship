@@ -98,7 +98,7 @@ const UserProfile: React.FC = () => {
     fetchUserAvgRating();
     fetchUserLastQuizPass();
     fetchUserQuizData();
-  }, []);
+  }, [fetchUserAvgRating, fetchUserLastQuizPass, fetchUserQuizData]);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -127,6 +127,7 @@ const UserProfile: React.FC = () => {
     user?.user_lastname,
     user?.user_city,
     user?.user_phone,
+    user,
   ]);
 
   // Handle events

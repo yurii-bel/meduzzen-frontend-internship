@@ -11,6 +11,7 @@ const generateChartDataUser = (ratingA: any[]): any => {
           current_rating: rdata.current_rating,
           data_time: rdata.pass_at,
         });
+        return;
       });
     }
   }

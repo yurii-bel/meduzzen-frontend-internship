@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import CompanyQuizzesItem from "../Components/CompanyQuizzesItem";
 import ActionButton from "../Components/Core/ActionButton";
@@ -42,11 +42,6 @@ const CompanyQuizzesList: React.FC = () => {
     );
   };
 
-  useEffect(() => {
-    getCompany();
-    checkOwnerOrAdmin();
-  }, []);
-
   const checkOwnerOrAdmin = () => {
     for (let member of members) {
       if (
@@ -57,6 +52,11 @@ const CompanyQuizzesList: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    getCompany();
+    checkOwnerOrAdmin();
+  }, [getCompany, checkOwnerOrAdmin]);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -196,11 +196,11 @@ const CompanyQuizzesList: React.FC = () => {
 
   useEffect(() => {
     fetchCompanyQuizzesList();
-  }, []);
+  }, [fetchCompanyQuizzesList]);
 
   useEffect(() => {
     checkOwnerOrAdmin();
-  }, [members]);
+  }, [members, checkOwnerOrAdmin]);
 
   return (
     <>

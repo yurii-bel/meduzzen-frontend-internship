@@ -30,7 +30,7 @@ const CompanyRequestsList: React.FC = () => {
 
   useEffect(() => {
     fetchCompanyRequestsList();
-  }, [refreshSignal]);
+  }, [refreshSignal, fetchCompanyRequestsList]);
 
   const handleAcceptRequest = (actionId: string) => {
     api
