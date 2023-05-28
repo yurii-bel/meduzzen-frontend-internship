@@ -54,7 +54,7 @@ const HomePage: React.FC<Props> = ({ title }) => {
             <div className="p-4 mb-4">
               Status code: <strong>{JSON.stringify(status)}</strong>
             </div>
-            <button onClick={checkHealth}></button>
+            <button onClick={checkHealth}>CLick me</button>
           </div>
         </main>
       </header>
