@@ -17,6 +17,10 @@ jobs:
         node-version: [15.x]
     
     steps:
+      - name: Create env file
+        run: |
+          echo "${{ secrets.DOT_ENV }}" > .env
+          cat .env
       - uses: actions/checkout@v1
       - run: npm install
       - run: npm run build
