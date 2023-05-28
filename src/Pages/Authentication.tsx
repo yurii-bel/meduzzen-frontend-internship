@@ -6,7 +6,6 @@ import Button from "../Components/Core/Button";
 import AuthHeader from "../Components/AuthHeader";
 import { validateEmail, validatePassword } from "../Utils/utils";
 import api from "../Api/api";
-// import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
 
@@ -51,13 +50,6 @@ const Authentication: React.FC<AuthenticationProps> = () => {
     }
     navigate("/");
   };
-
-  // const handleAuth0Login = async (
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ) => {
-  //   event.preventDefault();
-  //   await loginWithRedirect();
-  // };
 
   return (
     <section>

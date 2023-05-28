@@ -24,24 +24,6 @@ const HomePage: React.FC<Props> = ({ title }) => {
       });
   }, []);
 
-  // const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  // useEffect(() => {
-  //   const getAccessToken = async () => {
-  //     if (isAuthenticated) {
-  //       try {
-  //         const accessToken = await getAccessTokenSilently();
-  //         localStorage.setItem("accessToken", accessToken);
-  //         await setUserData(dispatch);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     }
-  //   };
-
-  //   getAccessToken();
-  // }, [isAuthenticated, getAccessTokenSilently]);
-
   return (
     <>
       <header>

@@ -3,7 +3,7 @@ name: React CI
 on:
   push:
     branches:
-      - "FE-22-deploy"
+      - "main"
 
 jobs:
   build:
