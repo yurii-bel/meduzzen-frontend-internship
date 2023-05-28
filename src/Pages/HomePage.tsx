@@ -31,7 +31,7 @@ const HomePage: React.FC<Props> = ({ title }) => {
           <h1 className="text-4xl font-bold mb-5">{title}</h1>
           <h2 className="text-2xl font-bold mb-5">Greetings!</h2>
           <p className="text-gray-700 leading-loose">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+            Liorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
             eu nisi vel sapien euismod molestie ac vel dolor. Sed eu elit et
             eros efficitur auctor. Morbi lobortis velit ut ex pellentesque, vel
             pulvinar magna commodo. Praesent commodo ornare justo, id dapibus
