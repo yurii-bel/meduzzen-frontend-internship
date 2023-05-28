@@ -4,16 +4,11 @@ RUN mkdir -p /app
 WORKDIR /app
 ADD . /app/
 
-# COPY ./package.json /app/package.json
-# COPY ./package-lock.json /app/package-lock.json
+RUN rm yarn.lock || true
 RUN npm install
-
-
-# COPY . /app
+RUN npm run build
 
 ENV HOST 0.0.0.0
 EXPOSE 3000
 
-CMD ["npm", "start"]
-# CMD ["npm", "start", "--prefix", "/app/"]
-# CMD ["npm", "run", "build"]
+CMD [ "npm", "run", "start"]
