@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
-import api, { apiInstance } from "../Api/api";
-import { useDispatch } from "react-redux";
-import { setUser } from "../Store/userReducer";
-import { setUserData } from "../Utils/setUserData";
+import api from "../Api/api";
 
 interface Props {
   title: string;
@@ -11,7 +8,6 @@ interface Props {
 
 const HomePage: React.FC<Props> = ({ title }) => {
   const [status, setStatus] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     api

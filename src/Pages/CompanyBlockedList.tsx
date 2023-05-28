@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import CompanyBlockedItem from "../Components/CompanyBlockedItem";
-// import CompanyInvitesItem from "../Components/CompanyInvitesItem";
 import { User } from "../Types/types";
 
 const CompanyBlockedList: React.FC = () => {

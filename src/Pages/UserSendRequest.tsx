@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import { Company } from "../Types/types";
 import UserCompanyItemRequest from "../Components/UserCompanyItemRequest";

@@ -10,7 +10,7 @@ const Pagination: React.FC<PaginationProps> = ({
   setCurrentPage,
 }) => {
   const pageNumbers = [];
-  const maxPages = 11; // Maximum number of page numbers to display
+  const maxPages = 11;
 
   let startPage = 1;
   let endPage = totalPages;

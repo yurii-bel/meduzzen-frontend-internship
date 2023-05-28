@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/Core/Button";
@@ -6,8 +6,6 @@ import Button from "../Components/Core/Button";
 import AuthHeader from "../Components/AuthHeader";
 import { validateEmail, validatePassword } from "../Utils/utils";
 import api from "../Api/api";
-import { useSelector } from "react-redux";
-import { RootState } from "../Store";
 
 import { setUserData } from "../Utils/setUserData";
 
@@ -28,12 +26,8 @@ const Authentication: React.FC<AuthenticationProps> = () => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const user = useSelector((state: RootState) => state.user);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-  //   useAuth0();
 
   const handleCredsLogin = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -91,8 +85,6 @@ const Authentication: React.FC<AuthenticationProps> = () => {
           {!validatePassword(formData.password) && (
             <p className="text-red-500 text-xs mt-1">
               Password must be at least 6 characters
-              {/* and contain at least one
-              lowercase letter, one uppercase letter, and one number. */}
             </p>
           )}
         </div>
@@ -105,7 +97,6 @@ const Authentication: React.FC<AuthenticationProps> = () => {
             label="Login"
             onClick={handleCredsLogin}
           />
-          {/* <Button label="Auth0" onClick={(handleAuth0Login)} /> */}
         </div>
       </form>
     </section>

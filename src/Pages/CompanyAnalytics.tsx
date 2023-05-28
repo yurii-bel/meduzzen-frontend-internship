@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { BarChart } from "../Components/BarChart";
 import api from "../Api/api";
 import { useParams } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import ActionButton from "../Components/Core/ActionButton";
-import { UsersTotal } from "../Types/types";
 import generateChartDataUser from "../Utils/generateChartDataUser";
 import generateChartData from "../Utils/generateChartData";
 
@@ -135,9 +133,3 @@ const CompanyAnalytics: React.FC = () => {
 };
 
 export default CompanyAnalytics;
-function generateUsersChartData(ratingA: any): {
-  usersIds: any;
-  chartData: any;
-} {
-  throw new Error("Function not implemented.");
-}

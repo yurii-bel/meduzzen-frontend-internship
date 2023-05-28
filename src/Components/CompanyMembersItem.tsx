@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
-import { RootState } from "../Store";
 import { User } from "../Types/types";
 import ActionButton from "./Core/ActionButton";
 

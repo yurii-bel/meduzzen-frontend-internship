@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Company } from "../Types/types";
 import ActionButton from "./Core/ActionButton";
-import Spinner from "./Core/Spinner";
 
 interface UserRequestsItemProps {
   company: Company;
@@ -50,7 +48,6 @@ const UserRequestsItem: React.FC<UserRequestsItemProps> = ({
           {company.action}
         </div>
       </div>
-      {/* Add condition in future if needed... */}
       {true && (
         <div className="flex justify-center items-center gap-4">
           <ActionButton

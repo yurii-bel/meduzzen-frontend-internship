@@ -5,7 +5,7 @@ import api from "../Api/api";
 import Button from "../Components/Core/Button";
 import CustomInput from "../Components/Core/CustomInput";
 import Modal from "../Components/Modal/Modal";
-import { Company, CompanyState } from "../Types/types";
+import { CompanyState } from "../Types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../Store";
 import {
@@ -86,19 +86,6 @@ const CompanyProfile: React.FC = () => {
     setShowModal(true);
   };
 
-  // Main info handlers
-
-  const handleVisibilityChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { checked } = event.target;
-    setIsVisible(checked);
-    if (company) {
-      setCompany({ ...company, is_visible: checked });
-      console.log(company);
-    }
-  };
-
   const handleDeleteCompany = () => {
     api.deleteCompany(Number(company?.company_id));
     alert("Company successfully deleted!");
@@ -127,7 +114,6 @@ const CompanyProfile: React.FC = () => {
     setDisabled(true);
   };
 
-  // Validation
   useEffect(() => {
     if (company) {
       if (
@@ -150,7 +136,6 @@ const CompanyProfile: React.FC = () => {
     company?.company_phone,
   ]);
 
-  // Handle events
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (company) {

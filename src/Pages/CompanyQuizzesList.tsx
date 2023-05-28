@@ -15,7 +15,7 @@ const CompanyQuizzesList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [frequency, setFrequency] = useState("");
-  // const [quiz, setQuiz] = useState<Quiz[]>([]);
+
   const [members, setMembers] = useState<Member[]>([]);
   const [questions, setQuestions] = useState<Question[]>([
     {
@@ -58,8 +58,6 @@ const CompanyQuizzesList: React.FC = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -83,7 +81,7 @@ const CompanyQuizzesList: React.FC = () => {
   };
 
   const handleAddQuestion = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevents the page from refreshing
+    event.preventDefault();
     setQuestions([
       ...questions,
       {
@@ -107,7 +105,7 @@ const CompanyQuizzesList: React.FC = () => {
     index: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault(); // Prevents the page from refreshing
+    event.preventDefault();
     const updatedQuestions = [...questions];
     updatedQuestions.splice(index, 1);
     setQuestions(updatedQuestions);
@@ -117,17 +115,11 @@ const CompanyQuizzesList: React.FC = () => {
     questionIndex: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault(); // Prevents the page from refreshing
+    event.preventDefault();
     const updatedQuestions = [...questions];
     updatedQuestions[questionIndex].question_answers.push("");
     setQuestions(updatedQuestions);
   };
-
-  // const handleRemoveAnswer = (questionIndex: number, answerIndex: number) => {
-  //   const updatedQuestions = [...questions];
-  //   updatedQuestions[questionIndex].question_answers.splice(answerIndex, 1);
-  //   setQuestions(updatedQuestions);
-  // };
 
   const handleQuestionTextChange = (index: number, text: string) => {
     const updatedQuestions = [...questions];
@@ -148,13 +140,11 @@ const CompanyQuizzesList: React.FC = () => {
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form fields
     if (name.trim() === "" || frequency.trim() === "") {
       console.log("Please fill in all fields");
       return;
     }
 
-    // Validate questions and answers
     const hasValidQuestions =
       questions.length >= 2 &&
       questions.every(
@@ -181,7 +171,7 @@ const CompanyQuizzesList: React.FC = () => {
       })
       .then(() => {
         handleCloseModal();
-        fetchCompanyQuizzesList(); // Fetch the updated quizzes list
+        fetchCompanyQuizzesList();
       })
       .catch((error) => {
         console.error("Error creating quiz:", error);
@@ -355,7 +345,6 @@ const CompanyQuizzesList: React.FC = () => {
                 quiz={quiz}
                 onDeleteQuiz={handleDeleteQuiz}
                 checkOwnerOrAdmin={checkOwnerOrAdmin}
-                // onDeclineRequest={handleDeclineRequest}
               />
             ))
           )}

@@ -1,6 +1,5 @@
-import { Company, User } from "../Types/types";
+import { User } from "../Types/types";
 import ActionButton from "./Core/ActionButton";
-import Button from "./Core/Button";
 
 interface CompanyInvitesItemProps {
   user: User;
@@ -49,11 +48,9 @@ const CompanyInvitesItem: React.FC<CompanyInvitesItemProps> = ({
           {user.action}
         </div>
       </div>
-      {/* Add condition in future if needed... */}
+
       {true && (
         <div className="flex justify-center items-center gap-4">
-          {/* <Button label="Accept" onClick={handleAcceptInvite} />
-          <Button label="Decline" onClick={handleDeclineInvite} /> */}
           <ActionButton
             label="Cancel"
             onClick={handleAcceptInvite}

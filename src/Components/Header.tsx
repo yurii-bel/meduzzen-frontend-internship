@@ -14,7 +14,6 @@ type NavItem = {
 const Header: React.FC = () => {
   const userEmail = useSelector((state: RootState) => state.user.user_email);
   const userId = useSelector((state: RootState) => state.user.user_id);
-  const companyId = useSelector((state: RootState) => state.company.company_id);
 
   const navItemsUserLoggedIn: NavItem[] = [
     { title: "Home", path: "/" },

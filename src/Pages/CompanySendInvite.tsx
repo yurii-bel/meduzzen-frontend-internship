@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
-import { Company, User } from "../Types/types";
+import { User } from "../Types/types";
 import Button from "../Components/Core/Button";
 import Pagination from "../Components/Pagination";
 import CompanyUserItemInvite from "../Components/CompanyUserItemInvite";

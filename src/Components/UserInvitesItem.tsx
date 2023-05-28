@@ -1,6 +1,5 @@
 import { Company } from "../Types/types";
 import ActionButton from "./Core/ActionButton";
-import Button from "./Core/Button";
 
 interface UserInvitesItemProps {
   company: Company;

@@ -12,26 +12,13 @@ const CompanyMembersList: React.FC = () => {
 
   const [companyMembersList, setCompanyMembersList] = useState<User[]>([]);
   const [enableActions, setEnableActions] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   const user = useSelector((state: RootState) => state.user);
 
   const handleAddToBlock = async (actionId: number) => {
     try {
       await api.getActionAddToBlock(actionId);
-
-      const updatedCompaniesList = companyMembersList.filter(
-        (company) => Number(company.action_id) !== actionId
-      );
-      setCompanyMembersList(updatedCompaniesList);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleRemoveFromBlock = async (actionId: number) => {
-    try {
-      await api.getActionRemoveFromBlock(actionId);
 
       const updatedCompaniesList = companyMembersList.filter(
         (company) => Number(company.action_id) !== actionId
@@ -115,10 +102,6 @@ const CompanyMembersList: React.FC = () => {
 
     setIsLoading(false);
   };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [refreshSignal]);
 
   useEffect(() => {
     fetchData();

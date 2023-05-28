@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../Api/api";
-import { Company, Quiz, User } from "../Types/types";
+import { Quiz } from "../Types/types";
 import ActionButton from "./Core/ActionButton";
-import Button from "./Core/Button";
 
 interface CompanyQuizzesItemProps {
   quiz: Quiz;
