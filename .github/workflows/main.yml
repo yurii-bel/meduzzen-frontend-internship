@@ -7,6 +7,12 @@ on:
 
 env:
   CI: false
+  REACT_APP_API_URL: http://3.75.186.163
+  REACT_APP_ACCESS_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE2ODI2OTY5NTh9.mi10oKfwBgc74lB12URzNTTHLlObvOiq9I41Q2SC7Z4
+  REACT_APP_AUTH0_DOMAIN: dev-j5yx0w-e.us.auth0.com
+  REACT_APP_AUTH0_CLIENT_ID: tMBIoDwuV0rP5JmdInvqrcZEs2Tu5Glt
+  REACT_APP_AUTH0_AUDIENCE: https://internship-example.com
+  REACT_APP_SERVER_URI: http://localhost:3000
 
 jobs:
   build:
@@ -19,7 +25,13 @@ jobs:
     steps:
       - name: Create env file
         run: |
-          echo "${{ secrets.DOT_ENV }}" > .env
+          echo "REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}" > .env
+          echo "REACT_APP_ACCESS_TOKEN=${{ env.REACT_APP_ACCESS_TOKEN }}" >> .env
+          echo "REACT_APP_API_URL_TEST=${{ env.REACT_APP_API_URL_TEST }}" >> .env
+          echo "REACT_APP_AUTH0_DOMAIN=${{ env.REACT_APP_AUTH0_DOMAIN }}" >> .env
+          echo "REACT_APP_AUTH0_CLIENT_ID=${{ env.REACT_APP_AUTH0_CLIENT_ID }}" >> .env
+          echo "REACT_APP_AUTH0_AUDIENCE=${{ env.REACT_APP_AUTH0_AUDIENCE }}" >> .env
+          echo "REACT_APP_SERVER_URI=${{ env.REACT_APP_SERVER_URI }}" >> .env
           cat .env
       - uses: actions/checkout@v1
       - run: npm install
