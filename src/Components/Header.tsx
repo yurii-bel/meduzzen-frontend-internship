@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { RootState } from "../Store";
 import Button from "./Core/Button";
 import useLogout from "../Utils/handleLogout";
+import NotificationBell from "./NotificationBell";
 
 type NavItem = {
   title: string;
@@ -73,6 +74,7 @@ const Header: React.FC = () => {
             </>
           ) : (
             <div className="flex justify-center items-center  gap-4">
+              <NotificationBell />
               <p className="border border-purple-600 rounded-md p-1.5 font">
                 {userEmail}
               </p>
