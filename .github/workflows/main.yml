@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v1
       - run: npm install
       - run: npm run build
-      - uses: meduzzenbucket/s3-sync-action@master
+      - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
