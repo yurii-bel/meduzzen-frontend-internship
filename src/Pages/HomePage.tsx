@@ -4,6 +4,7 @@ import api, { apiInstance } from "../Api/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Store/userReducer";
 import { setUserData } from "../Utils/setUserData";
+import axios from "axios";
 
 interface Props {
   title: string;
@@ -14,7 +15,10 @@ const HomePage: React.FC<Props> = ({ title }) => {
   const dispatch = useDispatch();
 
   const checkHealth = async () => {
-    const response = await api.checkStatus();
+    // const response = await api.checkStatus();
+    const response = await axios.get("http://3.75.186.163");
+    console.log(response);
+    console.log(response.data);
     console.log(response.data.status_code);
   };
 
