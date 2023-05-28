@@ -13,6 +13,11 @@ const HomePage: React.FC<Props> = ({ title }) => {
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
 
+  const checkHealth = async () => {
+    const response = await api.checkStatus();
+    console.log(response.data.status_code);
+  };
+
   useEffect(() => {
     api
       .checkStatus()
@@ -49,6 +54,7 @@ const HomePage: React.FC<Props> = ({ title }) => {
             <div className="p-4 mb-4">
               Status code: <strong>{JSON.stringify(status)}</strong>
             </div>
+            <button onClick={checkHealth}></button>
           </div>
         </main>
       </header>
