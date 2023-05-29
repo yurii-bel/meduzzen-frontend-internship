@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Counter from "../Components/Counter";
 import api, { apiInstance } from "../Api/api";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Store/userReducer";
 import { setUserData } from "../Utils/setUserData";
@@ -25,23 +25,23 @@ const HomePage: React.FC<Props> = ({ title }) => {
       });
   }, []);
 
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  // const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-  useEffect(() => {
-    const getAccessToken = async () => {
-      if (isAuthenticated) {
-        try {
-          const accessToken = await getAccessTokenSilently();
-          localStorage.setItem("accessToken", accessToken);
-          await setUserData(dispatch);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const getAccessToken = async () => {
+  //     if (isAuthenticated) {
+  //       try {
+  //         const accessToken = await getAccessTokenSilently();
+  //         localStorage.setItem("accessToken", accessToken);
+  //         await setUserData(dispatch);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
+  //   };
 
-    getAccessToken();
-  }, [isAuthenticated, getAccessTokenSilently]);
+  //   getAccessToken();
+  // }, [isAuthenticated, getAccessTokenSilently]);
 
   return (
     <>

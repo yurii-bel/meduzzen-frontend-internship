@@ -6,18 +6,25 @@ interface RatingProps {
 }
 
 const Rating: React.FC<RatingProps> = ({ rating }) => {
-  const starIcons = [];
-
-  for (let i = 1; i <= rating; i++) {
-    const starClassName = i <= rating ? "star-filled" : "star-empty";
-    starIcons.push(
-      <span key={i} className={`star-icon ${starClassName}`}>
-        &#9733;
-      </span>
+  if (!Number.isInteger(rating) || rating < 0) {
+    throw new Error(
+      "Invalid rating value. Rating should be a non-negative integer."
     );
   }
 
-  return <div className="rating">{starIcons}</div>;
+  const starIcons = Array(rating)
+    .fill(null)
+    .map((_, index) => {
+      const starClassName =
+        index < rating ? "text-yellow-500" : "text-gray-400";
+      return (
+        <span key={index} className={`text-2xl ${starClassName}`}>
+          &#9733;
+        </span>
+      );
+    });
+
+  return <div className="flex">{starIcons}</div>;
 };
 
 export default Rating;
